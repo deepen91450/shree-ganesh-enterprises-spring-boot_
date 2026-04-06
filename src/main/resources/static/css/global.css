@@ -1,0 +1,53 @@
+/* =========================================
+   GLOBAL DESIGN SYSTEM (BLUE THEME)
+========================================= */
+
+:root {
+    /* BRAND COLORS */
+    --primary: #0066ff;
+    --primary-dark: #004bcc;
+    --secondary: #ff9800;
+
+    /* TEXT COLORS */
+    --text-dark: #222;
+    --text-light: #555;
+    --text-white: #fff;
+
+    /* BACKGROUNDS */
+    --bg-light: #f7f7f7;
+    --bg-white: #fff;
+    --bg-dark: #111;
+
+    /* RADIUS & SHADOWS */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+    --shadow-lg: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* GLOBAL TYPOGRAPHY */
+h1, h2, h3 {
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+p {
+    color: var(--text-light);
+}

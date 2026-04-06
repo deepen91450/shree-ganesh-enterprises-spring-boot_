@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reply To Enquiry</title>
+</head>
+<body>
+
+<h2>Reply To Enquiry #<span th:text="${enquiry.id}"></span></h2>
+
+<p><strong>User Message:</strong> <span th:text="${enquiry.message}"></span></p>
+
+<form th:action="@{'/admin/enquiries/products/reply/' + ${enquiry.id}}"
+      method="post">
+
+
+    <!-- IMPORTANT: Name must match @RequestParam replyMessage -->
+    <textarea name="replyMessage"
+              placeholder="Type reply..."
+              style="width:100%; height:120px;" required></textarea>
+
+    <button type="submit">Send Reply</button>
+</form>
+
+</body>
+</html>

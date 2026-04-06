@@ -1,0 +1,153 @@
+/* =====================================================
+   CONTACT PAGE — FIXED SPACING & BETTER VISIBILITY
+===================================================== */
+
+/* ================= HEADER ================= */
+
+.contact-header {
+    text-align: center;
+    padding: 48px 20px 36px; /* ⬅ reduced height */
+    background: linear-gradient(135deg, #0b1220, #1e293b);
+    color: #ffffff;
+}
+
+.contact-header h2 {
+    font-size: 38px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #ffffff; /* ⬅ force bright text */
+    letter-spacing: 0.5px;
+}
+
+.contact-header p {
+    font-size: 16px;
+    color: #dbeafe; /* ⬅ better contrast */
+    max-width: 620px;
+    margin: auto;
+}
+
+/* ================= MAIN SECTION ================= */
+
+.contact-section {
+    max-width: 1300px;
+    margin: -40px auto 0; /* ⬅ pull section UP */
+    padding: 50px 20px 60px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+}
+
+/* ================= ENQUIRY FORM ================= */
+
+.contact-form-wrapper {
+    background: #ffffff;
+    padding: 34px;
+    border-radius: 16px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+.contact-form-wrapper h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: #0f172a;
+    border-bottom: 2px solid #eef2ff;
+    padding-bottom: 10px;
+}
+
+/* Center the enquiry form title */
+.contact-form-wrapper h3 {
+    text-align: center;
+}
+
+
+/* ================= CONTACT INFO ================= */
+
+.contact-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+}
+
+/* ================= CARDS ================= */
+
+.contact-card {
+    background: #ffffff;
+    padding: 26px 28px;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.12);
+}
+
+.contact-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1e293b;
+}
+
+.contact-card p {
+    font-size: 15px;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+/* ================= LINKS ================= */
+
+.contact-card a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.contact-card a:hover {
+    text-decoration: underline;
+}
+
+/* ================= WHATSAPP BUTTON ================= */
+
+.whatsapp-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: #ffffff !important;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whatsapp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(34, 197, 94, 0.35);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 992px) {
+    .contact-section {
+        grid-template-columns: 1fr;
+        margin-top: -30px;
+    }
+
+    .contact-header h2 {
+        font-size: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-header {
+        padding: 40px 16px 30px;
+    }
+
+    .contact-form-wrapper,
+    .contact-card {
+        padding: 22px;
+    }
+}

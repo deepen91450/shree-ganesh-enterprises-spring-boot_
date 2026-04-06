@@ -1,0 +1,104 @@
+/* ================================
+   ADMIN DASHBOARD
+================================ */
+
+/* Page title */
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #1f2937;
+}
+
+/* Dashboard cards grid */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Card title */
+.card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Card value */
+.card-value {
+    font-size: 30px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* Highlight card */
+.card.highlight {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+}
+
+.card.highlight .card-title {
+    color: #dbeafe;
+}
+
+.card.highlight .card-value {
+    color: white;
+}
+
+/* Quick actions */
+.quick-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.quick-actions .btn {
+    padding: 12px 18px;
+    border-radius: 8px;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.quick-actions .btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Secondary button */
+.quick-actions .btn.secondary {
+    background: #10b981;
+}
+
+.quick-actions .btn.secondary:hover {
+    background: #059669;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .card-value {
+        font-size: 24px;
+    }
+}

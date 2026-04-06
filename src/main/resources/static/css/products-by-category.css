@@ -1,0 +1,178 @@
+/* =====================================================
+   PRODUCTS BY CATEGORY — GLOBAL DESIGN SYSTEM (BLUE)
+===================================================== */
+
+/* =============== WRAPPER =============== */
+.main-wrapper {
+    max-width: 1300px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* =============== PAGE TITLE =============== */
+.category-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.category-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* =============== SUBCATEGORY CHIPS =============== */
+.subcat-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 10px 0 25px 0;
+}
+
+.subcat-box {
+    background: #e8f1ff;
+    padding: 10px 15px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid #c9dbff;
+    color: var(--primary);
+    transition: 0.25s ease;
+}
+
+.subcat-box:hover {
+    background: #dce8ff;
+    border-color: #bcd0ff;
+}
+
+/* =============== PRODUCT GRID =============== */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* =============== PRODUCT CARD =============== */
+.product-card {
+    background: var(--bg-white);
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: 0.25s ease;
+}
+
+.product-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+/* IMAGE */
+.image-wrapper img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+}
+
+/* PRODUCT INFO */
+.product-info h3 {
+    font-size: 18px;
+    margin: 14px 0 6px;
+    color: var(--text-dark);
+}
+
+.desc {
+    font-size: 14px;
+    color: var(--text-light);
+    height: 45px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 8px 0 14px;
+}
+
+/* =============== QTY + CART ROW =============== */
+.qty-cart-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+/* QTY BOX */
+.qty-box {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.qty-input {
+    width: 50px;
+    padding: 6px;
+    text-align: center;
+    border-radius: var(--radius-sm);
+    border: 1px solid #ccc;
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #eee;
+    border-radius: var(--radius-sm);
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.qty-btn:hover {
+    background: #ddd;
+}
+
+/* ADD TO CART BUTTON — uses global button style */
+.add-cart-btn {
+    background: var(--primary);
+    color: var(--text-white);
+    padding: 9px 14px;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.25s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.add-cart-btn:hover {
+    background: var(--primary-dark);
+}
+
+/* VIEW DETAILS BUTTON — use global light button */
+.view-btn {
+    display: block;
+    text-align: center;
+    background: #f2f2f2;
+    padding: 10px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.view-btn:hover {
+    background: #e4e4e4;
+}
+
+/* =============== MOBILE =============== */
+@media (max-width: 600px) {
+    .image-wrapper img {
+        height: 160px;
+    }
+}

@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="/css/admin/admin-users.css">
+
+<div class="admin-users-container" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="admin-users-title">Users</h2>
+
+    <table class="admin-users-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Provider</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <!-- Empty state -->
+        <tr th:if="${#lists.isEmpty(users)}">
+            <td colspan="6" class="empty-state">
+                No users found
+            </td>
+        </tr>
+
+        <!-- Users -->
+        <tr th:each="u : ${users}">
+            <td th:text="${u.id}"></td>
+            <td th:text="${u.name}"></td>
+            <td th:text="${u.email}"></td>
+            <td th:text="${u.provider != null ? u.provider : 'LOCAL'}"></td>
+
+            <td>
+                <span th:text="${u.enabled ? 'Active' : 'Blocked'}"
+                      th:classappend="${u.enabled ? 'status-active' : 'status-blocked'}">
+                </span>
+            </td>
+
+            <td>
+                <a th:if="${u.enabled}"
+                   th:href="@{/admin/users/block/{id}(id=${u.id})}"
+                   class="btn-danger"
+                   onclick="return confirm('Block this user?')">
+                    Block
+                </a>
+
+                <a th:if="${!u.enabled}"
+                   th:href="@{/admin/users/unblock/{id}(id=${u.id})}"
+                   class="btn-success"
+                   onclick="return confirm('Unblock this user?')">
+                    Unblock
+                </a>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>

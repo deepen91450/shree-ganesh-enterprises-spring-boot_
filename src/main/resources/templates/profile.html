@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+
+    <!-- REQUIRED for mobile responsiveness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/profile.css">
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <div class="profile-box">
+        <h2>Profile</h2>
+
+        <form th:action="@{/user/profile}" method="post" th:object="${user}">
+            <input type="hidden" th:field="*{id}" />
+
+            <input th:field="*{name}" placeholder="Full name" />
+            <input th:field="*{email}" placeholder="Email" readonly />
+            <input th:field="*{phone}" placeholder="Phone" pattern="[6-9][0-9]{9}"
+                   title="Enter a valid 10-digit Indian mobile number" />
+            <textarea th:field="*{address}" placeholder="Address"></textarea>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/js/script.js"> </script>
+
+<script> // Update cart count from backend
+function updateCartCount() {
+const desk = document.getElementById("cart-count");
+const mob = document.getElementById("cart-count-mobile");
+const mobMenu = document.getElementById("cart-count-mobile-menu");
+
+fetch("/cart/count")
+.then(res => res.json())
+.then(data => {
+if (desk) desk.innerText = data.count;
+if (mob) mob.innerText = data.count;
+if (mobMenu) mobMenu.innerText = data.count;
+})
+.catch(err => console.error("Cart count error", err));
+} </script>
+
+</body>
+</html>

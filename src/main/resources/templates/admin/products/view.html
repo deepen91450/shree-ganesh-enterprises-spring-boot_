@@ -1,0 +1,54 @@
+<!-- VIEW PRODUCT (ADMIN) -->
+<link rel="stylesheet" href="/css/admin/admin-view-product.css" >
+
+<div class="product-view-container" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="product-view-title">Product Details</h2>
+
+    <div class="product-view-box">
+
+        <div class="view-row">
+            <span class="view-label">Product Name</span>
+            <span class="view-value" th:text="${product.name}"></span>
+        </div>
+
+        <div class="view-row">
+            <span class="view-label">Category</span>
+            <span class="view-value" th:text="${product.category.name}"></span>
+        </div>
+
+        <div class="view-row">
+            <span class="view-label">Price</span>
+            <span class="view-value">
+                ₹ <span th:text="${product.price}"></span>
+            </span>
+        </div>
+
+        <div class="view-row">
+            <span class="view-label">Short Description</span>
+            <span class="view-value" th:text="${product.description}"></span>
+        </div>
+
+        <div class="view-row">
+            <span class="view-label">Product Image</span>
+            <img th:src="${product.imagePath}"
+                 alt="Product Image"
+                 class="view-image">
+        </div>
+
+        <div class="view-row">
+            <span class="view-label">Full Details</span>
+            <div class="view-long-desc"
+                 th:utext="${product.longDescription}">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="view-actions">
+        <a href="/admin/products" class="view-back">← Back to Products</a>
+        <a th:href="@{/admin/edit/{id}(id=${product.id})}"
+           class="view-edit">Edit Product</a>
+    </div>
+
+</div>

@@ -1,0 +1,60 @@
+<div th:fragment="content"  xmlns:th="http://www.thymeleaf.org">
+
+    <div th:if="${param.success != null and param.success[0] == 'productReply'}"
+         class="toast success">
+        Product enquiry replied successfully
+    </div>
+
+    <h1 class="page-title">Product Enquiries</h1>
+
+
+
+
+    <table class="product-enquiry-table">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Products</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="e : ${requests}">
+            <td th:text="${e.id}"></td>
+            <td th:text="${e.userName}"></td>
+            <td th:text="${e.userEmail}"></td>
+            <td th:text="${e.userPhone}"></td>
+            <td th:text="${e.message}"></td>
+            <td th:text="${#temporals.format(e.createdAt,'dd-MM-yyyy HH:mm')}"></td>
+
+            <td>
+                <ul class="product-items">
+
+                <li th:each="p : ${e.items}"
+                        th:text="${p.productName + ' (Qty: ' + p.quantity + ')'}"></li>
+                </ul>
+            </td>
+
+            <td>
+                <span th:if="${e.adminReply == null}" class="badge pending">Pending</span>
+                <span th:if="${e.adminReply != null}" class="badge replied">Replied</span>
+            </td>
+
+            <td>
+                <a th:href="@{'/admin/enquiries/products/reply/' + ${e.id}}"
+                   class="btn small">Reply</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

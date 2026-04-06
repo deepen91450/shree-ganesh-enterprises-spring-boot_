@@ -1,0 +1,125 @@
+/* ================================
+   ADMIN PRODUCTS PAGE
+================================ */
+
+/* Page title */
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+/* Search bar */
+.search-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    flex: 1;
+    min-width: 220px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background: #1d4ed8;
+}
+
+.search-bar .btn {
+    padding: 10px 16px;
+    background: #16a34a;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.search-bar .btn:hover {
+    background: #15803d;
+}
+
+/* Table */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.admin-table th {
+    background: #f3f4f6;
+    color: #374151;
+    text-align: left;
+    padding: 12px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+    color: #374151;
+}
+
+.admin-table tr:hover {
+    background: #f9fafb;
+}
+
+.admin-table img {
+    border-radius: 6px;
+}
+
+/* Action links */
+.admin-table a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.admin-table a:hover {
+    text-decoration: underline;
+}
+
+.admin-table a:nth-child(3) {
+    color: #dc2626;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.pagination a {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #e5e7eb;
+    text-decoration: none;
+    color: #111827;
+}
+
+.pagination a:hover {
+    background: #d1d5db;
+}

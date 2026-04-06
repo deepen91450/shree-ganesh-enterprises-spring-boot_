@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us - Shree Ganesh Enterprises</title>
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- Layout CSS -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="/css/contact.css">
+    <link rel="stylesheet" href="/css/enquiry.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+
+    <!-- Page Header -->
+    <section class="contact-header">
+        <h2>Contact Us</h2>
+        <p>We’re here to assist you with any enquiries.</p>
+    </section>
+
+    <!-- Main Section -->
+    <section class="contact-section">
+
+        <!-- Enquiry Form -->
+        <div class="contact-form-wrapper">
+            <h3>Get in Touch</h3>
+            <div th:replace="~{fragments/enquiry-form :: enquiry-form}"></div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="contact-info">
+
+            <!-- Email -->
+            <div class="contact-card" th:if="${contact != null and contact.email != null}">
+                <h4>Email</h4>
+                <p>
+                    <a th:href="'mailto:' + ${contact.email}"
+                       th:text="${contact.email}">
+                    </a>
+                </p>
+            </div>
+
+            <!-- Phone Numbers -->
+            <div class="contact-card"
+                 th:if="${contact != null and (contact.phone1 != null or contact.phone2 != null)}">
+                <h4>Phone</h4>
+
+                <p th:if="${contact.phone1 != null}">
+                    <a th:href="'tel:' + ${contact.phone1}"
+                       th:text="${contact.phone1}">
+                    </a>
+                </p>
+
+                <p th:if="${contact.phone2 != null}">
+                    <a th:href="'tel:' + ${contact.phone2}"
+                       th:text="${contact.phone2}">
+                    </a>
+                </p>
+            </div>
+
+            <!-- Address -->
+            <div class="contact-card" th:if="${contact != null and contact.address != null}">
+                <h4>Address</h4>
+                <p th:text="${contact.address}"></p>
+            </div>
+
+            <!-- WhatsApp & Social -->
+            <div class="contact-card">
+
+                <!-- WhatsApp -->
+                <div th:if="${contact != null and contact.whatsapp != null}">
+                    <h4>WhatsApp</h4>
+                    <p>
+                        <a th:href="'https://wa.me/' + ${contact.whatsapp}"
+                           class="whatsapp-btn"
+                           target="_blank">
+                            Chat on WhatsApp
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Social Links -->
+                <div th:if="${contact != null}">
+                    <h4>Follow Us</h4>
+
+                    <p th:if="${contact.instagram != null}">
+                        <a th:href="${contact.instagram}" target="_blank">
+                            Instagram
+                        </a>
+                    </p>
+
+                    <p th:if="${contact.facebook != null}">
+                        <a th:href="${contact.facebook}" target="_blank">
+                            Facebook
+                        </a>
+                    </p>
+
+                    <p th:if="${contact.linkedin != null}">
+                        <a th:href="${contact.linkedin}" target="_blank">
+                            LinkedIn
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Cart Count Script -->
+<script>
+    function updateCartCount() {
+        const desk = document.getElementById("cart-count");
+        const mob = document.getElementById("cart-count-mobile");
+        const mobMenu = document.getElementById("cart-count-mobile-menu");
+
+        fetch("/cart/count")
+            .then(res => res.json())
+            .then(data => {
+                if (desk) desk.innerText = data.count;
+                if (mob) mob.innerText = data.count;
+                if (mobMenu) mobMenu.innerText = data.count;
+            })
+            .catch(err => console.error("Cart count error", err));
+    }
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

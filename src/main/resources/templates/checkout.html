@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+
+    <!-- Mobile Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/checkout.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="checkout-container">
+
+    <h2>Checkout</h2>
+
+    <!-- CART TABLE -->
+    <table class="checkout-table">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="item : ${cart}">
+            <td th:text="${item.name}"></td>
+            <td>₹<span th:text="${item.price}"></span></td>
+            <td th:text="${item.quantity}"></td>
+            <td>₹<span th:text="${item.price * item.quantity}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Total -->
+    <div class="total-box">
+        Total Amount: ₹ <span th:text="${total}"></span>
+    </div>
+
+    <!-- PAYMENT METHOD FORM -->
+    <form action="/order/place" method="post" class="payment-box">
+
+        <label>Select Payment Method:</label>
+        <br><br>
+
+        <input type="radio" name="paymentMethod" value="COD" checked>
+        Cash on Delivery (COD)
+        <br><br>
+
+        <input type="radio" name="paymentMethod" value="ONLINE">
+        Online Payment
+        <br><br>
+
+        <button type="submit" class="place-order-btn">Place Order</button>
+    </form>
+
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

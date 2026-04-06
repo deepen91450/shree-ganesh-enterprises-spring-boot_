@@ -1,0 +1,217 @@
+/* =====================================================
+   HOME PAGE — USING GLOBAL DESIGN SYSTEM (BLUE THEME)
+===================================================== */
+
+/* ================= HERO SECTION ================= */
+
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    background: var(--bg-light);
+}
+
+.hero-slider {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease;
+}
+
+.hero-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+
+/* HERO TEXT */
+.hero-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--text-white);
+}
+
+.hero-content h1 {
+    font-size: 40px;
+    font-weight: 700;
+    text-shadow: 0px 0px 10px rgba(0,0,0,0.4);
+    margin-bottom: 8px;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+/* Slider Dots */
+#sliderDots {
+    display: flex;
+    justify-content: center;
+    margin-top: -25px;
+    gap: 8px;
+    position: relative;
+}
+
+#sliderDots div {
+    width: 11px;
+    height: 11px;
+    background: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+#sliderDots .active {
+    background: var(--secondary);
+    transform: scale(1.25);
+}
+
+/* ================= PRODUCT CATEGORIES ================= */
+
+.category-section {
+    width: 90%;
+    max-width: 1200px;
+    margin: 35px auto;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* CATEGORY GRID — replaced with global grid system */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+}
+
+/* CATEGORY CARD */
+.category-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 16px;
+    transition: 0.25s ease;
+    cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.category-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}
+
+.category-card h3 {
+    font-size: 20px;
+    margin-top: 12px;
+    color: var(--text-dark);
+}
+
+/* View Button (now uses global button system) */
+.view-btn {
+    margin-top: 12px;
+    display: inline-block;
+    width: fit-content;
+}
+
+/* ================= WHY CHOOSE US ================= */
+
+.why-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.why-card {
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow-md);
+    transition: 0.25s ease;
+}
+
+.why-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.why-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+.why-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.why-card p {
+    font-size: 15px;
+    color: var(--text-light);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+    .hero-content h1 {
+        font-size: 30px;
+    }
+    .hero-content p {
+        font-size: 15px;
+    }
+    .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .hero-section {
+        height: 260px;
+    }
+    .hero-content h1 {
+        font-size: 22px;
+    }
+    .hero-content p {
+        font-size: 14px;
+    }
+    #sliderDots div {
+        width: 10px;
+        height: 10px;
+    }
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+    .why-card img {
+        width: 90px;
+        height: 90px;
+    }
+}

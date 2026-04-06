@@ -1,0 +1,119 @@
+<!-- ADMIN SEARCH RESULTS : FRAGMENT -->
+<div th:fragment="content" class="search-wrapper"   xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <div class="search-title">
+        Search results for:
+        <strong th:text="${keyword}">keyword</strong>
+    </div>
+
+    <!-- ================= PRODUCTS ================= -->
+    <div class="section">
+        <h3>Products</h3>
+
+        <table th:if="${#lists.size(products) > 0}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${products}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.name}"></td>
+                <td th:text="${p.price}"></td>
+                <td th:text="${p.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty" th:if="${#lists.isEmpty(products)}">
+            No products found
+        </div>
+    </div>
+
+    <!-- ================= CATEGORIES ================= -->
+    <div class="section">
+        <h3>Categories</h3>
+
+        <table th:if="${#lists.size(categories) > 0}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Parent</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${categories}">
+                <td th:text="${c.id}"></td>
+                <td th:text="${c.name}"></td>
+                <td th:text="${c.parent != null ? c.parent.name : 'ROOT'}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty" th:if="${#lists.isEmpty(categories)}">
+            No categories found
+        </div>
+    </div>
+
+    <!-- ================= PRODUCT ENQUIRIES ================= -->
+    <div class="section">
+        <h3>Product Enquiries</h3>
+
+        <table th:if="${#lists.size(productEnquiries) > 0}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${productEnquiries}">
+                <td th:text="${e.id}"></td>
+                <td th:text="${e.userName}"></td>
+                <td th:text="${e.userEmail}"></td>
+                <td th:text="${e.userPhone}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty" th:if="${#lists.isEmpty(productEnquiries)}">
+            No product enquiries found
+        </div>
+    </div>
+
+    <!-- ================= CUSTOMER ENQUIRIES ================= -->
+    <div class="section">
+        <h3>Customer Enquiries</h3>
+
+        <table th:if="${#lists.size(customerEnquiries) > 0}">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Message</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${customerEnquiries}">
+                <td th:text="${e.id}"></td>
+                <td th:text="${e.name}"></td>
+                <td th:text="${e.email}"></td>
+                <td th:text="${e.message}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="empty" th:if="${#lists.isEmpty(customerEnquiries)}">
+            No customer enquiries found
+        </div>
+    </div>
+
+</div>

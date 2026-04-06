@@ -1,0 +1,64 @@
+<div th:fragment="content" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <h1 class="page-title">Products</h1>
+
+    <!-- SEARCH BAR -->
+    <form method="get" action="/admin/products" class="search-bar">
+        <input type="text"
+               name="keyword"
+               placeholder="Search product..."
+               th:value="${keyword}">
+        <button type="submit">Search</button>
+
+        <a href="/admin/add" class="btn">+ Add Product</a>
+    </form>
+
+    <!-- TABLE -->
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="p : ${products}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.name}"></td>
+            <td>₹ <span th:text="${p.price}"></span></td>
+            <td>
+                <img th:src="${p.imagePath}" width="50">
+            </td>
+            <td>
+                <a th:href="@{/admin/products/{id}(id=${p.id})}">View</a> |
+                <a th:href="@{/admin/edit/{id}(id=${p.id})}">Edit</a> |
+                <a th:href="@{/admin/delete/{id}(id=${p.id})}"
+                   onclick="return confirm('Delete product?')">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+        <a th:if="${currentPage > 0}"
+           th:href="@{/admin/products(page=${currentPage - 1}, keyword=${keyword})}">
+            Prev
+        </a>
+
+        <span>
+            Page <b th:text="${currentPage + 1}"></b>
+            of <b th:text="${totalPages}"></b>
+        </span>
+
+        <a th:if="${currentPage + 1 < totalPages}"
+           th:href="@{/admin/products(page=${currentPage + 1}, keyword=${keyword})}">
+            Next
+        </a>
+    </div>
+
+</div>

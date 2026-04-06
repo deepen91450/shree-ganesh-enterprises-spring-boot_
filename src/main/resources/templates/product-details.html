@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${product.name}">Product Details</title>
+
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- PAGE SPECIFIC -->
+    <link rel="stylesheet" href="/css/product-details.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="details-wrapper">
+
+    <div class="details-container">
+
+        <!-- LEFT IMAGE -->
+        <div class="left-box">
+            <img th:src="${product.imagePath}" alt="Product Image">
+        </div>
+
+        <!-- RIGHT SIDE DETAILS -->
+        <div class="right-box">
+
+            <h1 th:text="${product.name}"></h1>
+
+            <p class="price">₹ <span th:text="${product.price}"></span></p>
+
+            <p class="short-desc" th:text="${product.description}"></p>
+
+            <!-- QTY -->
+            <div class="qty-box">
+                <button class="minus">-</button>
+                <input type="number" id="qty" value="1" min="1">
+                <button class="plus">+</button>
+            </div>
+
+            <!-- ADD TO CART -->
+            <button class="add-cart" id="addToCartBtn">
+                Add to Cart
+            </button>
+
+        </div>
+    </div>
+
+    <!-- FULL DETAILS FROM CKEDITOR -->
+    <div class="full-details">
+        <h2>Product Details</h2>
+        <div th:utext="${product.longDescription}"></div>
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- JS -->
+<script>
+    // QTY BUTTONS
+    document.querySelector(".plus").onclick = () => {
+        document.querySelector("#qty").value++;
+    };
+
+    document.querySelector(".minus").onclick = () => {
+        let q = document.querySelector("#qty").value;
+        if (q > 1) document.querySelector("#qty").value--;
+    };
+
+    // ⭐ DYNAMIC ADD TO CART (FIXED)
+    document.querySelector("#addToCartBtn").onclick = () => {
+        let qty = document.querySelector("#qty").value;
+        let productId = [[${product.id}]];
+        window.location.href = "/cart/add/" + productId + "?qty=" + qty;
+    };
+
+
+      // Update cart count from backend
+   function updateCartCount() {
+        const desk = document.getElementById("cart-count");
+        const mob = document.getElementById("cart-count-mobile");
+        const mobMenu = document.getElementById("cart-count-mobile-menu");
+
+        fetch("/cart/count")
+            .then(res => res.json())
+            .then(data => {
+                if (desk) desk.innerText = data.count;
+                if (mob) mob.innerText = data.count;
+                if (mobMenu) mobMenu.innerText = data.count;
+            })
+            .catch(err => console.error("Cart count error", err));
+    }
+
+
+
+     // Add to Cart AJAX with login redirect
+document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const productId = btn.getAttribute("data-product-id");
+        const qty = btn.closest(".product-card").querySelector(".qty-input").value;
+
+        fetch(window.location.origin + "/cart/ajax/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-Requested-With": "XMLHttpRequest"   // ⭐ Important
+            },
+            body: "id=" + productId + "&qty=" + qty
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            console.log("AJAX Response:", data);
+
+            if (data.error === "not_logged_in") {
+                window.location.href = data.redirect;
+                return;
+            }
+
+            showToast("Added to cart!");
+            updateCartCount();
+        })
+        .catch(err => console.error("Add cart error", err));
+    });
+});
+
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

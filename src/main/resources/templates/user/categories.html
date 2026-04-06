@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Categories</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Include global styles -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <link rel="stylesheet" href="/css/products.css">
+
+</head>
+
+<body class="categories-page">
+
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<section class="product-section">
+
+    <h2>Products</h2>
+
+    <div class="product-grid">
+
+        <div class="product-card"
+             th:each="p : ${products}"
+             th:attr="data-url=@{'/product/' + ${p.id}}"
+             onclick="openProductCard(event, this)">
+
+            <img th:src="${p.imagePath}" alt="Product">
+
+            <h3 th:text="${p.name}"></h3>
+
+            <p th:text="${#strings.abbreviate(p.description, 80)}"></p>
+
+            <p>₹ <span th:text="${p.price}"></span></p>
+
+            <div class="qty-box">
+                <button type="button" class="qty-btn minus">-</button>
+                <input type="number" class="qty-input" value="1" min="1">
+                <button type="button" class="qty-btn plus">+</button>
+            </div>
+
+            <button type="button"
+                    class="add-to-cart-btn"
+                    th:attr="data-product-id=${p.id}">
+                Add to Cart
+            </button>
+
+            <a class="view-details-btn"
+               th:href="@{'/product/' + ${p.id}}">
+                View Details →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

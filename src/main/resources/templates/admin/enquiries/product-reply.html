@@ -1,0 +1,22 @@
+<div class="admin-card" xmlns:th="http://www.thymeleaf.org">
+    <h2>Reply To Enquiry #<span th:text="${enquiry.id}"></span></h2>
+
+    <p>
+        <strong>User Message:</strong>
+        <span th:text="${enquiry.message}"></span>
+    </p>
+
+    <form th:action="@{/admin/enquiries/products/reply/{id}(id=${enquiry.id})}"
+          method="post">
+
+        <textarea name="replyMessage"
+                  rows="6"
+                  placeholder="Type reply..."
+                  required
+                  class="admin-textarea"></textarea>
+
+        <button type="submit" class="btn-primary">
+            Send Reply
+        </button>
+    </form>
+</div>

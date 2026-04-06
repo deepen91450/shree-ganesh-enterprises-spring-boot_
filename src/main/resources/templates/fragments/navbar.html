@@ -1,0 +1,12 @@
+<header th:fragment="header"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <nav th:fragment="navbar" class="header-nav">
+        <a th:href="@{/}" class="nav-link">Home</a>
+        <a th:href="@{/products}" class="nav-link">Products</a>
+        <a th:href="@{/about}" class="nav-link">About</a>
+        <a th:href="@{/contact}" class="nav-link ">Contact</a>
+    </nav>
+
+</header>

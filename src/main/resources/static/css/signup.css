@@ -1,0 +1,109 @@
+/* =====================================================
+   SIGNUP PAGE — GLOBAL BLUE THEME DESIGN SYSTEM (FIXED)
+===================================================== */
+
+/* =============== SIGNUP CARD =============== */
+.signup-container {
+    max-width: 450px;
+    width: 100%;
+    margin: 30px auto; /* FIXED (was 50px) */
+    background: var(--bg-white);
+    padding: 26px 22px; /* FIXED (was 30px) */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.35s ease-out;
+}
+
+/* TITLE */
+.signup-container h2 {
+    text-align: center;
+    font-size: 26px; /* FIXED (was 28px) */
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--text-dark);
+}
+
+/* =============== INPUT FIELDS =============== */
+.signup-container input {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid #ccc;
+    font-size: 15px;
+    margin-bottom: 14px;
+    background: var(--bg-white);
+    transition: 0.25s ease;
+}
+
+.signup-container input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0,102,255,0.18);
+}
+
+/* =============== SUBMIT BUTTON =============== */
+.signup-container button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: var(--text-white);
+    border-radius: var(--radius-md);
+    border: none;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.signup-container button:hover {
+    background: var(--primary-dark);
+}
+
+/* =============== LOGIN LINK =============== */
+.signup-container a {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    color: var(--primary);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.signup-container a:hover {
+    text-decoration: underline;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============== MOBILE RESPONSIVE FIXES =============== */
+@media (max-width: 600px) {
+
+    .signup-container {
+        margin: 16px auto;      /* FIXED (was 30px 16px) */
+        padding: 20px 18px;     /* FIXED */
+    }
+
+    .signup-container h2 {
+        font-size: 22px;        /* FIXED */
+        margin-bottom: 14px;
+    }
+
+    .signup-container input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .signup-container button {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .signup-container a {
+        font-size: 14px;
+    }
+}

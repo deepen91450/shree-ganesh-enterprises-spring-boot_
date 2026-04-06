@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Order Successful</title>
+
+    <!-- Mobile Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/order-success.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="fragments/header :: header"></div>
+
+<main>
+    <div class="success-box">
+
+        <h2>🎉 Order Placed Successfully!</h2>
+
+        <p>Your order has been placed and is being processed.</p>
+        <p>We have also notified the admin with your order details.</p>
+
+        <a href="/" class="success-btn">Go to Home</a>
+        <a href="/products" class="success-btn">Continue Shopping</a>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- JS -->
+<script src="/js/script.js"></script>
+
+</body>
+</html>

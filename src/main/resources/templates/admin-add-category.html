@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Category</title>
+    <link rel="stylesheet" href="/css/admin-add-category.css">
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+
+</head>
+<body>
+<div class="admin-container">
+
+    <h2 class="admin-title">Admin Dashboard</h2>
+
+    <!-- Admin Action Buttons -->
+    <div class="admin-actions">
+
+        <a href="/admin/add" class="action-btn add">+ Add New Product</a>
+        <a href="/admin/categories" class="action-btn category">+ Add Category</a>
+
+        <a href="/admin/customer-enquiries" class="action-btn enquiry">Customer Enquiries</a>
+        <a href="/admin/product-enquiries" class="action-btn enquiry">Product Enquiries</a>
+
+        <!-- ⭐ New Section Added -->
+        <a href="/admin/hero" class="action-btn banner">🎨 Manage Hero Banners</a>
+
+    </div>
+
+</div>
+
+<h2>Add Category</h2>
+
+<form th:action="@{/admin/categories/add}" method="post" enctype="multipart/form-data">
+
+    <input type="text" name="name" placeholder="Category Name" required>
+
+    <!-- Parent category dropdown -->
+    <select name="parentId">
+        <option value="">None (Root Category)</option>
+        <option th:each="c : ${categories}"
+                th:value="${c.id}"
+                th:text="${c.name}">
+        </option>
+    </select>
+
+    <!-- Category Image Upload -->
+    <input type="file" name="image" required>
+
+    <button type="submit">Save</button>
+
+</form>
+
+</body>
+</html>

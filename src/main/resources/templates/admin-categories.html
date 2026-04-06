@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Categories</title>
+    <link rel="stylesheet" href="/css/admin-add-category.css">
+    <link rel="stylesheet" href="/css/admin-categories.css">
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+
+
+
+</head>
+<body>
+
+<div class="admin-container">
+
+    <h2 class="admin-title">Admin Dashboard</h2>
+
+    <!-- Admin Action Buttons -->
+    <div class="admin-actions">
+
+        <a href="/admin/add" class="action-btn add">+ Add New Product</a>
+        <a href="/admin/categories" class="action-btn category">+ Add Category</a>
+
+        <a href="/admin/customer-enquiries" class="action-btn enquiry">Customer Enquiries</a>
+        <a href="/admin/product-enquiries" class="action-btn enquiry">Product Enquiries</a>
+
+        <!-- ⭐ New Section Added -->
+        <a href="/admin/hero" class="action-btn banner">🎨 Manage Hero Banners</a>
+
+    </div>
+
+</div>
+
+<h2>Categories</h2>
+
+<a class="add-btn" href="/admin/categories/add">+ Add Category</a>
+
+<table class="cat-table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Parent</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="c : ${categories}">
+        <td th:text="${c.name}"></td>
+
+        <td th:text="${c.parent != null ? c.parent.name : 'ROOT'}"></td>
+
+        <td class="actions">
+            <a class="edit-btn" th:href="@{'/admin/categories/edit/' + ${c.id}}">Edit</a>
+
+            <a class="delete-btn"
+               th:href="@{'/admin/categories/delete/' + ${c.id}}"
+               onclick="return confirm('Are you sure you want to delete this category?')">
+                Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<form th:action="@{/admin/enquiries/customers/reply/{id}(id=${enquiry.id})}"
+      method="post"  xmlns:th="http://www.thymeleaf.org">
+
+    <h3>Reply to Enquiry</h3>
+
+    <p>
+        <strong>User Message:</strong><br>
+        <span th:text="${enquiry.message}"></span>
+    </p>
+
+    <textarea name="replyMessage"
+              rows="6"
+              placeholder="Type reply here..."
+              required></textarea>
+
+    <br><br>
+
+    <button type="submit">Send Reply</button>
+</form>

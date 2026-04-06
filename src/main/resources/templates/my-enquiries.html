@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Enquiries</title>
+
+    <link rel="stylesheet" href="/css/my-enquiries.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/enquiry.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2 class="my-enquiry-title">My Enquiries</h2>
+
+<!-- If no enquiries -->
+<p th:if="${#lists.isEmpty(productEnquiries) and #lists.isEmpty(customerEnquiries)}"
+   class="no-enquiry">
+    🚫 You have not made any enquiries yet.
+</p>
+
+
+<!-- ================= PRODUCT ENQUIRIES ================= -->
+
+<div th:if="${!#lists.isEmpty(productEnquiries)}">
+    <h3 style="margin-top:25px;">🛒 Product Enquiries</h3>
+
+    <div th:each="e : ${productEnquiries}" class="enquiry-card">
+
+        <h3>Enquiry #<span th:text="${e.id}"></span></h3>
+
+        <p>
+            <strong>Date:</strong>
+            <span th:text="${#temporals.format(e.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
+        </p>
+
+        <p>
+            <strong>Message:</strong>
+            <span th:text="${e.message}"></span>
+        </p>
+
+        <p>
+            <strong>Admin Reply:</strong>
+            <span th:if="${e.adminReply == null}">⏳ No reply yet</span>
+            <span th:if="${e.adminReply != null}" th:text="${e.adminReply}"></span>
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            <span th:if="${e.adminReply == null}" style="color: orange;">Pending</span>
+            <span th:if="${e.adminReply != null}" style="color: green;">Replied</span>
+        </p>
+
+        <!-- Product list -->
+        <ul>
+            <li th:each="item : ${e.items}">
+                <img th:src="@{${item.productImage}}" alt="Product">
+
+                <div class="enquiry-product-meta">
+                    <strong th:text="${item.productName}"></strong>
+                    <span>Qty: <span th:text="${item.quantity}"></span></span>
+                    <span>₹ <span th:text="${item.productPrice}"></span></span>
+                </div>
+            </li>
+        </ul>
+
+
+        <hr>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/js/script.js"></script>
+
+<script>
+    function updateCartCount() {
+        const desk = document.getElementById("cart-count");
+        const mob = document.getElementById("cart-count-mobile");
+        const mobMenu = document.getElementById("cart-count-mobile-menu");
+
+        fetch("/cart/count")
+            .then(res => res.json())
+            .then(data => {
+                if (desk) desk.innerText = data.count;
+                if (mob) mob.innerText = data.count;
+                if (mobMenu) mobMenu.innerText = data.count;
+            })
+            .catch(err => console.error("Cart count error", err));
+    }
+</script>
+
+</body>
+</html>

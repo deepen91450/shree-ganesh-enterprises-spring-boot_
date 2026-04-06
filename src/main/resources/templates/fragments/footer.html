@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<footer class="footer">
+
+    <!-- TOP SECTION -->
+    <div class="footer-content">
+
+        <!-- Company Info -->
+        <div class="footer-section about">
+
+            <h2 class="footer-title"
+                th:text="${siteSettings != null && siteSettings.footerCompanyName != null
+                          ? siteSettings.footerCompanyName
+                          : 'Shree Ganesh Enterprises'}">
+            </h2>
+            <p class="footer-founder-line">Established by Hiral Mandve</p>
+            <p class="footer-desc"
+               th:text="${siteSettings != null && siteSettings.footerDescription != null
+                         ? siteSettings.footerDescription
+                         : 'Providing high-quality products with excellence and commitment.'}">
+            </p>
+
+
+            <div class="footer-contact">
+
+                <p>
+                    <strong>Address:</strong>
+                    <span th:text="${siteSettings.footerAddress}">
+                        Parnali, Boisar–Tarapur Road, Maharashtra – 401504
+                    </span>
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    <a th:if="${siteSettings.footerPhone != null}"
+                       th:href="'tel:' + ${siteSettings.footerPhone}"
+                       th:text="${siteSettings.footerPhone}">
+                    </a>
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    <a th:if="${siteSettings.footerEmail != null}"
+                       th:href="'mailto:' + ${siteSettings.footerEmail}"
+                       th:text="${siteSettings.footerEmail}">
+                    </a>
+                </p>
+
+            </div>
+        </div>
+
+        <!-- Quick Links (STATIC – GOOD PRACTICE) -->
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/contact">Enquiry</a></li>
+            </ul>
+        </div>
+
+        <!-- Social Links -->
+        <div class="footer-section social">
+            <h3>Connect</h3>
+
+            <!-- WhatsApp -->
+            <a th:if="${siteSettings.whatsappUrl != null}"
+               th:href="${siteSettings.whatsappUrl}"
+               class="social-icon whatsapp"
+               target="_blank">
+                <img src="/images/icons/whatsapp.svg" alt="WhatsApp">
+                WhatsApp
+            </a>
+
+            <!-- Instagram -->
+            <a th:if="${siteSettings.instagramUrl != null}"
+               th:href="${siteSettings.instagramUrl}"
+               class="social-icon instagram"
+               target="_blank">
+                <img src="/images/icons/instagram.svg" alt="Instagram">
+                Instagram
+            </a>
+
+            <!-- Facebook -->
+            <a th:if="${siteSettings.facebookUrl != null}"
+               th:href="${siteSettings.facebookUrl}"
+               class="social-icon facebook"
+               target="_blank">
+                <img src="/images/icons/facebook.svg" alt="Facebook">
+                Facebook
+            </a>
+
+            <!-- LinkedIn -->
+            <a th:if="${siteSettings.linkedinUrl != null}"
+               th:href="${siteSettings.linkedinUrl}"
+               class="social-icon linkedin"
+               target="_blank">
+                <img src="/images/icons/linkedin.svg" alt="LinkedIn">
+                LinkedIn
+            </a>
+        </div>
+
+    </div>
+
+    <!-- COPYRIGHT SECTION -->
+    <div class="footer-bottom">
+        <p th:text="${siteSettings.footerCopyright != null
+                     ? siteSettings.footerCopyright
+                     : '© 2025 Shree Ganesh Enterprises. All Rights Reserved.'}">
+        </p>
+
+
+        <p class="developer">
+            Developed by <strong>Deepen Mandve</strong>
+        </p>
+    </div>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+/* =====================================================
+   PROFILE PAGE — GLOBAL BLUE THEME DESIGN SYSTEM
+===================================================== */
+
+/* =============== PROFILE CARD =============== */
+.profile-box {
+    max-width: 480px;
+    margin: 40px auto;
+    background: var(--bg-white);
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    animation: fadeIn 0.35s ease-out;
+}
+
+/* TITLE */
+.profile-box h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--text-dark);
+}
+
+/* =============== INPUT FIELDS (GLOBAL INPUT STYLE) =============== */
+.profile-box input,
+.profile-box textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid #ccc;
+    background: var(--bg-white);
+    font-size: 15px;
+    margin-bottom: 14px;
+    transition: 0.25s ease;
+}
+
+/* Focus */
+.profile-box input:focus,
+.profile-box textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0,102,255,0.18);
+}
+
+/* Read-only */
+.profile-box input[readonly] {
+    background: #f2f2f2;
+    color: #777;
+    cursor: not-allowed;
+}
+
+/* Textarea */
+.profile-box textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* =============== SAVE BUTTON — GLOBAL BUTTON STYLE =============== */
+.profile-box button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: var(--text-white);
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.profile-box button:hover {
+    background: var(--primary-dark);
+}
+
+/* =============== ANIMATION =============== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =============== MOBILE RESPONSIVE =============== */
+@media (max-width: 600px) {
+    .profile-box {
+        margin: 24px;
+        padding: 22px;
+    }
+
+    .profile-box h2 {
+        font-size: 24px;
+    }
+}

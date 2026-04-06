@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Shree Ganesh Enterprises</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/enquiry.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+
+    <!-- ================= HERO SLIDER ================= -->
+    <section class="hero-section">
+
+        <div id="heroSlider" class="hero-slider">
+            <div th:each="b : ${banners}" class="hero-slide">
+                <img th:src="${b.imageUrl}" alt="Banner">
+                <div class="hero-content">
+                    <h1 th:text="${b.title}"></h1>
+                    <p th:text="${b.subtitle}"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Dots -->
+        <div id="sliderDots"></div>
+
+    </section>
+
+    <!-- ================= PRODUCT CATEGORIES ================= -->
+    <section class="category-section">
+        <h2 class="section-title">Product Categories</h2>
+
+        <div class="category-grid">
+
+            <div th:each="cat : ${categories}" class="category-card">
+                <img th:src="${cat.imagePath}" alt="category-image">
+
+                <h3 th:text="${cat.name}"></h3>
+
+                <a th:href="@{'/categories/' + ${cat.id}}" class="view-btn">
+                    View Products →
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================= WHY CHOOSE US ================= -->
+    <section class="why-section">
+        <h2 class="section-title">Why Choose Us</h2>
+
+        <div class="why-grid">
+            <div class="why-card" th:each="w : ${whyList}">
+                <img th:src="${w.iconPath}" alt="icon">
+                <h3 th:text="${w.title}"></h3>
+                <p th:text="${w.description}"></p>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/js/script.js"></script>
+
+<script>
+    let index = 0;
+    const slider = document.getElementById("heroSlider");
+    const slides = document.querySelectorAll(".hero-slide");
+
+    const dotsContainer = document.getElementById("sliderDots");
+    slides.forEach((_, i) => {
+        const dot = document.createElement("div");
+        dot.addEventListener("click", () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll("#sliderDots div");
+    updateDots();
+
+    function updateDots() {
+        dots.forEach(dot => dot.classList.remove("active"));
+        dots[index].classList.add("active");
+    }
+
+    function goToSlide(i) {
+        index = i;
+        slider.style.transform = `translateX(-${index * 100}%)`;
+        updateDots();
+    }
+
+    function autoSlide() {
+        index = (index + 1) % slides.length;
+        goToSlide(index);
+    }
+
+    setInterval(autoSlide, 4000);
+
+    // Update cart count from backend
+    function updateCartCount() {
+        const desk = document.getElementById("cart-count");
+        const mob = document.getElementById("cart-count-mobile");
+        const mobMenu = document.getElementById("cart-count-mobile-menu");
+
+        fetch("/cart/count")
+            .then(res => res.json())
+            .then(data => {
+                if (desk) desk.innerText = data.count;
+                if (mob) mob.innerText = data.count;
+                if (mobMenu) mobMenu.innerText = data.count;
+            })
+            .catch(err => console.error("Cart count error", err));
+    }
+</script>
+
+</body>
+</html>

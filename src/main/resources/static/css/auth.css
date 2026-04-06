@@ -1,0 +1,257 @@
+/* auth.css
+   Modern, responsive auth styles for Shree Ganesh
+   Drop into src/main/resources/static/css/auth.css
+*/
+
+/* --- Variables --- */
+:root{
+  --bg: #f6f7fb;
+  --card: rgba(255,255,255,0.85);
+  --muted: #6b7280;
+  --accent: #0b66ff;
+  --accent-2: #0b9eff;
+  --success: #16a34a;
+  --danger: #ef4444;
+  --glass-border: rgba(13, 26, 60, 0.06);
+  --shadow: 0 6px 20px rgba(20, 30, 60, 0.08);
+  --radius: 12px;
+  --max-width: 520px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+               Roboto, "Helvetica Neue", Arial;
+}
+
+/* Dark mode variables (apply by toggling `body.dark`) */
+body.dark {
+  --bg: #0b1220;
+  --card: rgba(10, 14, 21, 0.6);
+  --muted: #9aa4bf;
+  --accent: #4da3ff;
+  --accent-2: #67b8ff;
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --shadow: 0 8px 30px rgba(1, 4, 12, 0.6);
+}
+
+/* --- Page base --- */
+html,body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, var(--bg), #eef2ff 120px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #07102b;
+}
+
+/* Keep text readable in dark mode */
+body.dark { color: #e6eefc; background: linear-gradient(180deg,#04070a,#071028 160px); }
+
+/* Simple container to center auth card */
+.auth-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 16px;
+  box-sizing: border-box;
+}
+
+/* Auth card */
+.auth-box {
+  width: 100%;
+  max-width: var(--max-width);
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+  padding: 28px 28px;
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  box-sizing: border-box;
+}
+
+/* Header inside card */
+.auth-box h2 {
+  margin: 0 0 10px 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+}
+
+/* description / small hints */
+.auth-box p.hint {
+  margin: 0 0 18px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Inputs & textarea */
+.auth-box input[type="text"],
+.auth-box input[type="password"],
+.auth-box input[type="email"],
+.auth-box input[type="tel"],
+.auth-box textarea {
+  width: 100%;
+  display: block;
+  padding: 12px 14px;
+  margin: 10px 0;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(20,30,60,0.08);
+  background: rgba(255,255,255,0.6);
+  outline: none;
+  box-sizing: border-box;
+  transition: box-shadow .14s ease, border-color .12s ease, transform .08s ease;
+}
+
+/* Dark tweaks for inputs */
+body.dark .auth-box input,
+body.dark .auth-box textarea {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Focus states */
+.auth-box input:focus,
+.auth-box textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(11, 102, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+/* Buttons */
+.auth-box .btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: white;
+  letter-spacing: 0.2px;
+  box-shadow: 0 8px 24px rgba(11,102,255,0.12);
+  transition: filter .12s ease, transform .08s ease;
+  margin-top: 8px;
+}
+
+.auth-box .btn:active { transform: translateY(1px); }
+.auth-box .btn.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(11,102,255,0.12);
+  box-shadow: none;
+}
+
+/* Inline links */
+.auth-box .small-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Social login */
+.social-login {
+  margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.social-login a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  border: 1px solid rgba(20,30,60,0.06);
+  background: rgba(255,255,255,0.5);
+  color: inherit;
+  font-weight: 600;
+}
+body.dark .social-login a { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+
+/* utility */
+.center { text-align: center; }
+.mt-12 { margin-top: 12px; }
+.mb-8 { margin-bottom: 8px; }
+.note { font-size: 13px; color: var(--muted); }
+
+/* error / success */
+.msg {
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+.msg.error { background: rgba(239,68,68,0.08); color: var(--danger); border: 1px solid rgba(239,68,68,0.12);}
+.msg.success { background: rgba(16,185,129,0.06); color: var(--success); border: 1px solid rgba(16,185,129,0.08);}
+
+/* responsive: small screens */
+@media (max-width: 480px) {
+  .auth-box { padding: 20px; border-radius: 10px; }
+  :root { --max-width: 420px; }
+  .auth-box h2 { font-size: 20px; }
+}
+
+/* Layout helper for header + footer integration if you add fragments/header.html */
+.app-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(20,30,60,0.04);
+  background: transparent;
+}
+.app-header .brand { font-weight: 700; font-size: 18px; color: var(--accent); letter-spacing: -0.2px; }
+.app-header nav a { margin-left: 12px; text-decoration: none; color: var(--muted); font-weight: 600;}
+.app-header nav a:hover { color: var(--accent); }
+
+/* Small utility for form rows */
+.form-row { display:flex; gap:10px; }
+.form-row .half { flex: 1; }
+
+/* Accessibility: focus outlines */
+.auth-box input:focus-visible, .auth-box button:focus-visible, .social-login a:focus {
+  outline: 3px solid rgba(11,102,255,0.12);
+  outline-offset: 2px;
+}
+
+/* Tiny animation for buttons on hover */
+.auth-box .btn:hover { filter: brightness(1.03); transform: translateY(-2px); }
+
+/* Dark-mode toggle button (if you add one) */
+.toggle-dark {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid rgba(20,30,60,0.06);
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Footer note when needed */
+.auth-footer { margin-top: 18px; font-size: 13px; color: var(--muted); text-align:center; }
+
+/* Fine-grain tweaks for textarea */
+.auth-box textarea { min-height: 90px; resize: vertical; }
+
+/* When inputs are invalid (server-side) */
+.auth-box input.invalid {
+  border-color: rgba(239,68,68,0.5);
+  box-shadow: 0 6px 20px rgba(239,68,68,0.06);
+}
+
+/* Make sure the layout remains consistent with fragments/header usage */
+.container-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px;
+}
+
+/* small helper for links area */
+.links-row { display:flex; gap:12px; align-items:center; justify-content:center; margin-top:12px; }

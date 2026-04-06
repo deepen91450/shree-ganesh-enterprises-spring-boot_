@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="/css/admin-add-category.css">
+
+<div class="category-container" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="category-title">Edit Category</h2>
+
+    <form th:action="@{'/admin/categories/edit/' + ${category.id}}"
+          method="post"
+          enctype="multipart/form-data"
+          class="category-form">
+
+        <label>Category Name</label>
+        <input type="text" name="name"
+               th:value="${category.name}" required>
+
+        <label>Current Image</label>
+        <img th:if="${category.imagePath != null}"
+             th:src="${category.imagePath}"
+             class="category-image">
+
+        <label>Upload New Image (Optional)</label>
+        <input type="file" name="image">
+
+        <label>Parent Category</label>
+        <select name="parentId">
+            <option value="">None (Root Category)</option>
+            <option th:each="c : ${categories}"
+                    th:if="${c.id != category.id}"
+                    th:value="${c.id}"
+                    th:selected="${category.parent != null and c.id == category.parent.id}"
+                    th:text="${c.name}">
+            </option>
+        </select>
+
+        <button type="submit">Update Category</button>
+    </form>
+
+</div>

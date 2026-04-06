@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/products.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/categories-list.css">
+
+
+
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- Toast -->
+<div id="toast">Added to Cart!</div>
+
+<main class="product-page">
+
+    <!-- ⭐ CATEGORY GRID -->
+    <section class="category-section">
+
+        <h2 class="category-title">Product Categories</h2>
+
+        <div class="category-grid">
+            <div class="category-card" th:each="c : ${categories}">
+
+                <div class="cat-img-box">
+                    <img th:src="${c.imagePath}" alt="Category Image">
+                </div>
+
+                <h3 th:text="${c.name}"></h3>
+
+                <a class="cat-btn" th:href="@{'/categories/' + ${c.id}}">
+                    View Products →
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ⭐ PRODUCT GRID -->
+    <section class="product-section">
+
+        <h2>Our Products</h2>
+
+        <div class="product-grid">
+            <div class="product-card"
+                 th:each="p : ${products}"
+                 th:attr="data-url=@{'/product/' + ${p.id}}"
+                 onclick="openProductCard(event, this)">
+
+                <img th:src="${p.imagePath}" alt="Product">
+
+                <h3 th:text="${p.name}"></h3>
+
+                <p th:text="${#strings.abbreviate(p.description, 80)}"></p>
+
+                <p>₹ <span th:text="${p.price}"></span></p>
+
+                <!-- QTY -->
+                <div class="qty-box">
+                    <button type="button" class="qty-btn minus">-</button>
+                    <input type="number" class="qty-input" value="1" min="1">
+                    <button type="button" class="qty-btn plus">+</button>
+                </div>
+
+                <!-- ADD TO CART -->
+                <button type="button"
+                        class="add-to-cart-btn"
+                        th:attr="data-product-id=${p.id}">
+                    Add to Cart
+                </button>
+
+                <a class="view-details-btn"
+                   th:href="@{'/product/' + ${p.id}}">
+                    View Details →
+                </a>
+            </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="pagination">
+            <a th:if="${currentPage > 0}"
+               th:href="@{'/products?page=' + (${currentPage} - 1)}">← Prev</a>
+
+            <span>
+                Page <span th:text="${currentPage + 1}"></span>
+                of <span th:text="${totalPages}"></span>
+            </span>
+
+            <a th:if="${currentPage < totalPages - 1}"
+               th:href="@{'/products?page=' + (${currentPage} + 1)}">Next →</a>
+        </div>
+
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- ⭐ WORKING JS -->
+
+<!-- 🌟 GLOBAL JS (toggleMenu is here) -->
+<script src="/js/script.js"></script>
+
+<!-- 🌟 Toast / add to cart / qty logic -->
+<script>
+    // Toast
+    function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.innerText = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2000);
+    }
+
+    // Update cart count from backend
+   function updateCartCount() {
+        const desk = document.getElementById("cart-count");
+        const mob = document.getElementById("cart-count-mobile");
+        const mobMenu = document.getElementById("cart-count-mobile-menu");
+
+        fetch("/cart/count")
+            .then(res => res.json())
+            .then(data => {
+                if (desk) desk.innerText = data.count;
+                if (mob) mob.innerText = data.count;
+                if (mobMenu) mobMenu.innerText = data.count;
+            })
+            .catch(err => console.error("Cart count error", err));
+    }
+
+    // qty buttons
+    document.querySelectorAll(".product-card").forEach(card => {
+        const minus = card.querySelector(".minus");
+        const plus = card.querySelector(".plus");
+        const input = card.querySelector(".qty-input");
+
+        minus.addEventListener("click", () => {
+            if (input.value > 1) input.value--;
+        });
+
+        plus.addEventListener("click", () => {
+            input.value = Number(input.value) + 1;
+        });
+    });
+
+   // Add to Cart AJAX with login redirect
+document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const productId = btn.getAttribute("data-product-id");
+        const qty = btn.closest(".product-card").querySelector(".qty-input").value;
+
+        fetch(window.location.origin + "/cart/ajax/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-Requested-With": "XMLHttpRequest"   // ⭐ Important
+            },
+            body: "id=" + productId + "&qty=" + qty
+        })
+        .then(res => res.json())
+        .then(data => {
+
+            console.log("AJAX Response:", data);
+
+            if (data.error === "not_logged_in") {
+                window.location.href = data.redirect;
+                return;
+            }
+
+            showToast("Added to cart!");
+            updateCartCount();
+        })
+        .catch(err => console.error("Add cart error", err));
+    });
+});
+
+
+</script>
+
+
+
+
+
+
+</body>
+
+<script>
+    function openProductCard(event, card) {
+        // If user clicked a button, link, input, qty controls → do nothing
+        if (
+            event.target.closest("button") ||
+            event.target.closest("a") ||
+            event.target.closest("input")
+        ) {
+            return;
+        }
+
+        const url = card.getAttribute("data-url");
+        if (url) {
+            window.location.href = url;
+        }
+    }
+</script>
+
+</html>

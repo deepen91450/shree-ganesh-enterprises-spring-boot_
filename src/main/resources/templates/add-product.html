@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Product</title>
+    <link rel="stylesheet" href="/css/add-product.css">
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+
+
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <h2 class="admin-title">Admin Dashboard</h2>
+
+    <!-- Admin Action Buttons -->
+    <div class="admin-actions">
+
+        <a href="/admin/add" class="action-btn add">+ Add New Product</a>
+        <a href="/admin/categories" class="action-btn category">+ Add Category</a>
+
+        <a href="/admin/customer-enquiries" class="action-btn enquiry">Customer Enquiries</a>
+        <a href="/admin/product-enquiries" class="action-btn enquiry">Product Enquiries</a>
+
+        <!-- ⭐ New Section Added -->
+        <a href="/admin/hero" class="action-btn banner">🎨 Manage Hero Banners</a>
+
+    </div>
+
+</div>
+
+<div class="add-product-container">
+
+    <h2 class="add-product-title">Add New Product</h2>
+
+    <form th:action="@{/admin/add}" method="post" enctype="multipart/form-data" class="product-form">
+
+        <!-- CATEGORY DROPDOWN -->
+        <label class="label">Select Category</label>
+
+        <select name="categoryId" required class="form-input dropdown">
+            <option value="">-- Select Category --</option>
+
+            <!-- Parent + Subcategories -->
+            <th:block th:each="cat : ${categories}">
+
+                <!-- Parent Category -->
+                <option th:if="${cat.parent == null}"
+                        th:value="${cat.id}"
+                        th:text="${cat.name}">
+                </option>
+
+                <!-- Subcategories (Indented) -->
+                <option th:each="sub : ${cat.children}"
+                        th:value="${sub.id}"
+                        th:text="'— ' + ${sub.name}">
+                </option>
+
+            </th:block>
+        </select>
+
+        <!-- PRODUCT NAME -->
+        <label class="label">Product Name</label>
+        <input type="text" name="name" placeholder="Enter Product Name" required class="form-input">
+
+        <!-- SHORT DESCRIPTION -->
+        <label class="label">Short Description</label>
+        <textarea name="description" placeholder="Short Description" required class="form-input textarea"></textarea>
+
+        <!-- PRICE -->
+        <label class="label">Price</label>
+        <input type="number" step="0.01" name="price" placeholder="₹ Price" required class="form-input">
+
+        <!-- PRODUCT IMAGE -->
+        <label class="label">Upload Product Image</label>
+        <input type="file" name="image" accept="image/*" required class="form-input file">
+
+        <!-- LONG DESCRIPTION (CKEditor) -->
+        <label class="label">Product Full Details</label>
+        <textarea id="longDescription" name="longDescription"></textarea>
+
+        <!-- SAVE BUTTON -->
+        <button type="submit" class="save-btn">Save Product</button>
+    </form>
+
+    <!-- BACK BUTTON -->
+    <div class="back-btn-box">
+        <a href="/admin/dashboard" class="back-btn">← Back to Dashboard</a>
+    </div>
+
+</div>
+
+
+<!-- CKEDITOR (FULL VERSION) -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#longDescription'), {
+            ckfinder: {
+                uploadUrl: '/admin/upload-image'   // Optional image upload endpoint
+            },
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'underline', '|',
+                'bulletedList', 'numberedList', '|',
+                'insertTable', '|',
+                'alignment', '|',
+                'imageUpload', 'link', '|',
+                'undo', 'redo'
+            ],
+            table: {
+                contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+
+            }
+        })
+        .catch(error => console.error(error));
+</script>
+
+</body>
+</html>

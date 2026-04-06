@@ -1,0 +1,94 @@
+/* =====================================================
+   ENQUIRY PAGE — GLOBAL BLUE THEME DESIGN SYSTEM
+===================================================== */
+
+/* =============== WRAPPER =============== */
+.enquiry-wrapper {
+    width: 100%;
+    max-width: 550px;
+    margin: 40px auto;
+    padding: 0 12px;
+}
+
+/* =============== FORM CARD =============== */
+.enquiry-form {
+    background: var(--bg-white);
+    padding: 22px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* SUCCESS BOX */
+.success-msg {
+    padding: 14px;
+    background: #e8ffe8;
+    border-left: 5px solid #27c427;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    color: #1b7f1b;
+}
+
+/* =============== FORM INPUTS =============== */
+.enquiry-form input,
+.enquiry-form textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid #ccc;
+    font-size: 15px;
+    background: var(--bg-white);
+    transition: 0.25s ease;
+}
+
+.enquiry-form textarea {
+    resize: none;
+    height: 130px;
+}
+
+.enquiry-form input:focus,
+.enquiry-form textarea:focus {
+    border-color: var(--primary);
+}
+
+/* =============== SUBMIT BUTTON =============== */
+.enquiry-form button {
+    padding: 12px 18px;
+    background: var(--primary);
+    color: var(--text-white);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.enquiry-form button:hover {
+    background: var(--primary-dark);
+}
+
+/* =============== MOBILE RESPONSIVE =============== */
+@media (max-width: 480px) {
+
+    .enquiry-wrapper {
+        margin: 25px auto;
+    }
+
+    .enquiry-form {
+        padding: 18px;
+    }
+
+    .enquiry-form input,
+    .enquiry-form textarea {
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    .enquiry-form button {
+        padding: 12px;
+        font-size: 16px;
+    }
+}

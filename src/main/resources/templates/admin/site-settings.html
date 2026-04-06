@@ -1,0 +1,103 @@
+<div class="admin-page" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="admin-title">Site Settings</h2>
+
+    <form th:action="@{/admin/site-settings/save}"
+          method="post"
+          enctype="multipart/form-data"
+          class="admin-form">
+
+        <!-- ================= HEADER SETTINGS ================= -->
+
+        <label>Site Title</label>
+        <input type="text"
+               name="siteTitle"
+               th:value="${settings != null ? settings.siteTitle : ''}"
+               placeholder="Shree Ganesh Enterprises">
+
+        <label>Logo Image</label>
+        <input type="file"
+               name="logoFile"
+               accept="image/*">
+
+        <!-- CURRENT LOGO PREVIEW -->
+        <div th:if="${settings != null && settings.logoPath != null}"
+             style="margin:10px 0;">
+            <img th:src="${settings.logoPath}"
+                 style="max-height:60px;">
+        </div>
+
+        <!-- ================= FOOTER SETTINGS ================= -->
+
+        <hr>
+        <h3 class="admin-section-title">Footer Settings</h3>
+
+        <label>Footer Company Name</label>
+        <input type="text"
+               name="footerCompanyName"
+               th:value="${settings != null ? settings.footerCompanyName : ''}">
+
+        <label>Footer Description</label>
+        <textarea name="footerDescription"
+                  rows="3"
+                  placeholder="Short description for footer"
+                  th:text="${settings != null ? settings.footerDescription : ''}">
+        </textarea>
+
+        <label>Address</label>
+        <input type="text"
+               name="footerAddress"
+               th:value="${settings != null ? settings.footerAddress : ''}">
+
+        <label>Phone</label>
+        <input type="text"
+               name="footerPhone"
+               th:value="${settings != null ? settings.footerPhone : ''}">
+
+        <label>Email</label>
+        <input type="email"
+               name="footerEmail"
+               th:value="${settings != null ? settings.footerEmail : ''}">
+
+        <!-- ================= SOCIAL LINKS ================= -->
+
+        <hr>
+        <h4>Social Links</h4>
+
+        <input type="text"
+               name="whatsappUrl"
+               placeholder="WhatsApp URL"
+               th:value="${settings != null ? settings.whatsappUrl : ''}">
+
+        <input type="text"
+               name="instagramUrl"
+               placeholder="Instagram URL"
+               th:value="${settings != null ? settings.instagramUrl : ''}">
+
+        <input type="text"
+               name="facebookUrl"
+               placeholder="Facebook URL"
+               th:value="${settings != null ? settings.facebookUrl : ''}">
+
+        <input type="text"
+               name="linkedinUrl"
+               placeholder="LinkedIn URL"
+               th:value="${settings != null ? settings.linkedinUrl : ''}">
+
+        <!-- ================= COPYRIGHT ================= -->
+
+        <label>Copyright Text</label>
+        <input type="text"
+               name="footerCopyright"
+               th:value="${settings != null ? settings.footerCopyright : ''}"
+               placeholder="© 2025 Shree Ganesh Enterprises. All Rights Reserved.">
+
+        <!-- ================= SAVE ================= -->
+
+        <button type="submit" class="admin-btn-primary">
+            Save
+        </button>
+
+    </form>
+
+</div>

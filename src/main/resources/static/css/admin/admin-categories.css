@@ -1,0 +1,98 @@
+/* ================================
+   ADMIN CATEGORIES
+================================ */
+
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+/* Top action */
+.category-actions {
+    margin-bottom: 18px;
+}
+
+.category-actions .btn {
+    padding: 10px 16px;
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.category-actions .btn:hover {
+    background: #1d4ed8;
+}
+
+/* Table */
+.cat-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+}
+
+.cat-table th {
+    background: #f3f4f6;
+    text-align: left;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.cat-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 14px;
+    color: #374151;
+}
+
+.cat-table tr:hover {
+    background: #f9fafb;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn {
+    padding: 6px 12px;
+    background: #f59e0b;
+    color: #111827;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.edit-btn:hover {
+    background: #d97706;
+}
+
+.delete-btn {
+    padding: 6px 12px;
+    background: #dc2626;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.delete-btn:hover {
+    background: #b91c1c;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .actions {
+        flex-direction: column;
+    }
+}

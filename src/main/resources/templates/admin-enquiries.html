@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Customer Enquiries</title>
+    <link rel="stylesheet" href="/css/admin-enquiries.css">
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+
+</head>
+<body>
+
+<div class="admin-container">
+
+    <h2 class="admin-title">Admin Dashboard</h2>
+
+    <!-- Admin Action Buttons -->
+    <div class="admin-actions">
+
+        <a href="/admin/add" class="action-btn add">+ Add New Product</a>
+        <a href="/admin/categories" class="action-btn category">+ Add Category</a>
+
+        <a href="/admin/customer-enquiries" class="action-btn enquiry">Customer Enquiries</a>
+        <a href="/admin/product-enquiries" class="action-btn enquiry">Product Enquiries</a>
+
+        <!-- ⭐ New Section Added -->
+        <a href="/admin/hero" class="action-btn banner">🎨 Manage Hero Banners</a>
+
+    </div>
+
+</div>
+
+<h2>All Product Enquiries</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Customer</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Company</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Status</th>
+
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="e : ${enquiries}">
+        <td th:text="${e.id}"></td>
+        <td th:text="${e.name}"></td>
+        <td th:text="${e.email}"></td>
+        <td th:text="${e.phone}"></td>
+        <td th:text="${e.company}"></td>
+        <td th:text="${e.message}"></td>
+        <td th:text="${#temporals.format(e.createdAt,'dd-MM-yyyy HH:mm')}"></td>
+        <td>
+            <span th:if="${e.adminReply == null}" style="color: orange;">Pending</span>
+            <span th:if="${e.adminReply != null}" style="color: green;">Replied</span>
+        </td>
+
+
+        <!-- Reply Button -->
+        <td>
+            <a th:href="@{'/admin/customer-enquiries/reply/' + ${e.id}}" class="reply-btn">Reply</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

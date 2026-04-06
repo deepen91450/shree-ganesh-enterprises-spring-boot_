@@ -1,0 +1,263 @@
+/* ============================================
+   CART PAGE (SCOPED – FINAL & SAFE)
+============================================ */
+
+/* ===== PAGE WRAPPER ===== */
+.cart-page {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+    min-height: calc(100vh - 160px); /* header + footer space */
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-page h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ===== CART TABLE ===== */
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.cart-table th {
+    background: #0066ff;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.cart-table td {
+    padding: 14px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+/* ===== PRODUCT IMAGE ===== */
+
+.cart-product-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* ===== QUANTITY CONTROLS ===== */
+
+.cart-page .qty-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.cart-page .qty-btn {
+    background: #0066ff;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.cart-page .qty-btn:hover {
+    background: #004bcc;
+}
+
+/* ===== ACTIONS ===== */
+
+.cart-page .remove-btn {
+    background: #ff3b3b;
+    color: #fff;
+    padding: 7px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cart-page .remove-btn:hover {
+    background: #d62828;
+}
+
+.cart-page .grand-total {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* ===== ENQUIRY FORM ===== */
+
+.cart-page .enquiry-form {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+}
+
+.cart-page .enquiry-form textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+
+.cart-page .btn-enquiry {
+    background: #0066ff;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cart-page .btn-enquiry:hover {
+    background: #004bcc;
+}
+
+/* ===== EMPTY CART STATE ===== */
+
+.empty-cart-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.empty-cart {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+
+.empty-cart h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.empty-cart p {
+    margin-bottom: 20px;
+}
+
+/* ===== MOBILE RESPONSIVE (CART ONLY) ===== */
+
+@media (max-width: 700px) {
+
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table tr {
+        display: block;
+        max-width: 420px;
+        margin: 0 auto 16px;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 12px;
+        text-align: left;
+        background: #fff;
+    }
+
+    .cart-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: none;
+        padding: 10px 0;
+    }
+
+    .cart-product-img {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .cart-page .enquiry-form {
+        flex-direction: column;
+    }
+
+    .cart-table td:last-child {
+        justify-content: center;
+    }
+}
+
+
+
+.cart-product-link {
+    color: #0f172a;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cart-product-link:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.cart-product-img {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.cart-product-img:hover {
+    transform: scale(1.05);
+}
+
+/* ===== MOBILE CENTER ALIGN: NAME, QTY, TOTAL ===== */
+@media (max-width: 700px) {
+
+    /* Product Name */
+    .cart-table td:nth-child(2) {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .cart-table td:nth-child(2) a {
+        text-align: center;
+    }
+
+    /* Quantity */
+    .cart-table td:nth-child(4) {
+        justify-content: center;
+    }
+
+    /* Item Total */
+    .cart-table td:nth-child(5) {
+        justify-content: center;
+        font-weight: 600;
+    }
+}
+
+/* ===== MOBILE CENTER ALIGN: IMAGE & PRICE ===== */
+@media (max-width: 700px) {
+
+    /* Product Image */
+    .cart-table td:nth-child(1) {
+        justify-content: center;
+    }
+
+    /* Price */
+    .cart-table td:nth-child(3) {
+        justify-content: center;
+        text-align: center;
+        font-weight: 500;
+    }
+}
+

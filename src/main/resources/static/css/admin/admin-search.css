@@ -1,0 +1,115 @@
+/* =====================================================
+   ADMIN GLOBAL SEARCH RESULTS
+===================================================== */
+
+.search-wrapper {
+    padding: 24px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Search heading */
+.search-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    color: #0f172a;
+}
+
+.search-title strong {
+    color: #2563eb;
+}
+
+/* Section block */
+.section {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 26px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Section heading */
+.section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: #1e293b;
+    border-left: 4px solid #2563eb;
+    padding-left: 10px;
+}
+
+/* Tables */
+.section table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.section thead {
+    background: #f1f5f9;
+}
+
+.section th {
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+    color: #334155;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.section td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+}
+
+/* Hover effect */
+.section tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Status badges */
+.status {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.status.ACTIVE {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status.INACTIVE {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Empty state */
+.empty {
+    padding: 14px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-wrapper {
+        padding: 16px;
+    }
+
+    .section {
+        padding: 14px;
+    }
+
+    .section table {
+        font-size: 13px;
+    }
+}

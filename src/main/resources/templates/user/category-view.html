@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${category.name}">Category</title>
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <link rel="stylesheet" href="/css/products.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="category-view-page">
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="cat-container">
+
+    <!-- CATEGORY HEADER -->
+    <section class="category-header">
+
+        <h1 class="category-title" th:text="${category.name}"></h1>
+
+        <div class="subcategory-section"
+             th:if="${!#lists.isEmpty(subcategories)}">
+            <h3 class="subcategory-title">Subcategories</h3>
+
+            <div class="subcategory-grid">
+                <a class="subcategory-card"
+                   th:each="sc : ${subcategories}"
+                   th:href="@{'/categories/' + ${sc.id}}"
+                   th:text="${sc.name}">
+                </a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="product-section">
+
+        <h2>Products</h2>
+
+        <div class="product-grid">
+
+            <div class="product-card"
+                 th:each="p : ${products}"
+                 th:attr="data-url=@{'/product/' + ${p.id}}"
+                 onclick="openProductCard(event, this)">
+
+                <img th:src="${p.imagePath}" alt="Product">
+
+                <h3 th:text="${p.name}"></h3>
+
+                <p th:text="${#strings.abbreviate(p.description, 80)}"></p>
+
+                <!-- ================= PRICED PRODUCT ================= -->
+                <div th:if="${p.priceVisible}">
+
+                    <p class="price">
+                        ₹ <span th:text="${p.price}"></span>
+                    </p>
+
+                    <!-- QTY -->
+                    <div class="qty-box">
+                        <button type="button" class="qty-btn minus">-</button>
+                        <input type="number" class="qty-input" value="1" min="1">
+                        <button type="button" class="qty-btn plus">+</button>
+                    </div>
+
+                    <!-- ADD TO CART -->
+                    <button type="button"
+                            class="add-to-cart-btn"
+                            th:attr="data-product-id=${p.id}">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+                <!-- ================= ENQUIRY ONLY PRODUCT ================= -->
+                <div th:if="${!p.priceVisible}" class="enquiry-only">
+
+                    <a class="enquire-btn"
+                       th:href="@{/contact(
+            productId=${p.id},
+            productName=${p.name}
+       )}">
+                        Enquire Now
+                    </a>
+
+                </div>
+
+
+                <a class="view-details-btn"
+                   th:href="@{'/product/' + ${p.id}}">
+                    View Details →
+                </a>
+
+            </div>
+        </div>
+
+        <p th:if="${products.size() == 0}" class="no-products">
+            No products available in this category.
+        </p>
+
+    </section>
+</main>
+
+<!-- TOAST -->
+<div id="toast" class="toast">Added to Cart Successfully!</div>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- PAGE-SCOPED JS ONLY -->
+<script>
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        if (!toast) return;
+
+        toast.innerText = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2000);
+    }
+
+    document.querySelectorAll(".product-card").forEach(card => {
+
+        const minus = card.querySelector(".minus");
+        const plus = card.querySelector(".plus");
+        const input = card.querySelector(".qty-input");
+        const addBtn = card.querySelector(".add-to-cart-btn");
+
+        // 🔒 Guard: one bad card must not break others
+        if (!minus || !plus || !input || !addBtn) return;
+
+        minus.addEventListener("click", () => {
+            let v = parseInt(input.value) || 1;
+            if (v > 1) input.value = v - 1;
+        });
+
+        plus.addEventListener("click", () => {
+            input.value = (parseInt(input.value) || 1) + 1;
+        });
+
+        addBtn.addEventListener("click", () => {
+            const productId = addBtn.dataset.productId;
+            const qty = input.value;
+
+            fetch("/cart/ajax/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: `id=${productId}&qty=${qty}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error === "not_logged_in") {
+                    window.location.href = data.redirect;
+                    return;
+                }
+
+                showToast("Added to cart!");
+                if (typeof updateCartCount === "function") {
+                    updateCartCount();
+                }
+            })
+            .catch(err => console.error("Add cart error", err));
+        });
+    });
+</script>
+
+<!-- GLOBAL JS LAST -->
+<script src="/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<div th:fragment="content" xmlns:th="http://www.thymeleaf.org">
+
+    <div th:if="${param.success != null and param.success[0] == 'customerReply'}"
+         class="toast success">
+        Customer enquiry replied successfully
+    </div>
+
+
+
+    <h1 class="page-title">Customer Enquiries</h1>
+
+    <table class="customer-enquiry-table">
+
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Company</th>
+            <th>Message</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="e : ${enquiries}">
+            <td th:text="${e.id}"></td>
+            <td th:text="${e.name}"></td>
+            <td th:text="${e.email}"></td>
+            <td th:text="${e.phone}"></td>
+            <td th:text="${e.company}"></td>
+            <td th:text="${e.message}"></td>
+            <td th:text="${#temporals.format(e.createdAt,'dd-MM-yyyy HH:mm')}"></td>
+
+            <td>
+                <span th:if="${e.adminReply == null}" class="badge pending">Pending</span>
+                <span th:if="${e.adminReply != null}" class="badge replied">Replied</span>
+            </td>
+
+            <td>
+                <a th:href="@{'/admin/enquiries/customers/reply/' + ${e.id}}"
+                   class="btn small">Reply</a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

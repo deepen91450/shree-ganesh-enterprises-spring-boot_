@@ -1,0 +1,28 @@
+<div class="category-container" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="category-title">Add Category</h2>
+
+    <form th:action="@{/admin/categories/add}"
+          method="post"
+          enctype="multipart/form-data"
+          class="category-form">
+
+        <label>Category Name</label>
+        <input type="text" name="name" required>
+
+        <label>Parent Category</label>
+        <select name="parentId">
+            <option value="">None (Root Category)</option>
+            <option th:each="c : ${categories}"
+                    th:value="${c.id}"
+                    th:text="${c.name}">
+            </option>
+        </select>
+
+        <label>Category Image</label>
+        <input type="file" name="image" required>
+
+        <button type="submit">Save Category</button>
+    </form>
+
+</div>

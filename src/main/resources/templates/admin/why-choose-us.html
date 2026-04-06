@@ -1,0 +1,80 @@
+<div th:fragment="content"
+     xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="admin-page-title">Why Choose Us</h2>
+
+    <!-- ================= ADD FORM ================= -->
+    <div class="admin-card">
+        <form th:action="@{/admin/why-choose-us/save}"
+              method="post"
+              enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text"
+                       name="title"
+                       placeholder="Eg: Premium Quality"
+                       required>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description"
+                          rows="3"
+                          placeholder="Short description shown on home page"
+                          required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Icon (PNG / JPG / SVG)</label>
+                <input type="file"
+                       name="iconFile"
+                       accept="image/*"
+                       required>
+            </div>
+
+            <button class="btn-primary" type="submit">
+                Add Item
+            </button>
+        </form>
+    </div>
+
+    <!-- ================= LIST ================= -->
+    <div class="admin-card" style="margin-top:20px;">
+        <h3>Existing Items</h3>
+
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Icon</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="item : ${items}">
+                <td>
+                    <img th:src="${item.iconPath}"
+                         alt="icon"
+                         style="width:32px;height:32px;object-fit:contain;">
+                </td>
+
+                <td th:text="${item.title}"></td>
+
+                <td th:text="${item.description}"></td>
+
+                <td>
+                    <a th:href="@{'/admin/why-choose-us/delete/' + ${item.id}}"
+                       class="btn-danger"
+                       onclick="return confirm('Delete this item?')">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

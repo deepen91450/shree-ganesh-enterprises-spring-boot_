@@ -1,0 +1,204 @@
+/* ===============================
+      ADMIN DASHBOARD LAYOUT
+================================*/
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+.admin-container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.admin-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+
+/* ===============================
+        TOP ACTION BUTTONS
+================================*/
+
+.admin-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.action-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+
+.action-btn.add { background: #007bff; }
+.action-btn.category { background: #17a2b8; }
+.action-btn.enquiry { background: #28a745; }
+.action-btn.banner { background: #6f42c1; }
+
+.action-btn:hover { opacity: 0.85; }
+
+
+/* ===============================
+            LOGOUT BUTTON
+================================*/
+
+.logout-box {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.logout-btn {
+    background: #dc3545;
+    border: none;
+    padding: 8px 14px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #c82333;
+}
+
+
+/* ===============================
+           ADMIN TABLE
+================================*/
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th {
+    background: #222;
+    color: white;
+    padding: 14px;
+    text-align: left;
+    font-size: 15px;
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e1e1e1;
+    vertical-align: middle;
+    font-size: 15px;
+}
+
+/* Product image */
+.admin-table img {
+    border-radius: 8px;
+}
+
+
+
+/* ===============================
+        VIEW / EDIT / DELETE BUTTONS
+================================*/
+
+.action-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.btn-view,
+.btn-warning,
+.btn-danger {
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* View */
+.btn-view {
+    background: #17a2b8;
+    color: white;
+}
+.btn-view:hover {
+    background: #117684;
+}
+
+/* Edit */
+.btn-warning {
+    background: #ffc107;
+    color: black;
+}
+.btn-warning:hover {
+    background: #e0a800;
+}
+
+/* Delete */
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+.btn-danger:hover {
+    background: #c82333;
+}
+
+
+/* ===============================
+           RESPONSIVE DESIGN
+================================*/
+
+@media (max-width: 768px) {
+    .admin-table th, .admin-table td {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .admin-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .action-btn {
+        width: 90%;
+        text-align: center;
+    }
+
+    .admin-container {
+        padding: 10px;
+    }
+
+    .admin-title {
+        font-size: 26px;
+    }
+
+    .action-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .btn-view,
+    .btn-warning,
+    .btn-danger {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}

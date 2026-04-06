@@ -1,0 +1,35 @@
+<div class="admin-card" xmlns:th="http://www.thymeleaf.org">
+    <h2>Contact Settings</h2>
+
+    <form th:action="@{/admin/contact/save}" method="post"
+          th:object="${contact}">
+
+        <label>Email</label>
+        <input type="email" th:field="*{email}">
+
+        <label>Phone 1</label>
+        <input type="text" th:field="*{phone1}">
+
+        <label>Phone 2</label>
+        <input type="text" th:field="*{phone2}">
+
+        <label>Address</label>
+        <textarea th:field="*{address}"></textarea>
+
+        <label>WhatsApp</label>
+        <input type="text" th:field="*{whatsapp}">
+
+        <label>Instagram</label>
+        <input type="text" th:field="*{instagram}">
+
+        <label>Facebook</label>
+        <input type="text" th:field="*{facebook}">
+
+        <label>LinkedIn</label>
+        <input type="text" th:field="*{linkedin}">
+
+        <button type="submit" class="btn-primary">
+            Save Contact Details
+        </button>
+    </form>
+</div>

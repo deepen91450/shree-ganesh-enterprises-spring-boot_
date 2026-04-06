@@ -1,0 +1,113 @@
+/* ----------------------------
+   PAGE CONTAINER
+-----------------------------*/
+.checkout-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+/* ----------------------------
+   TITLE
+-----------------------------*/
+.checkout-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ----------------------------
+   CART TABLE
+-----------------------------*/
+.checkout-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.checkout-table th {
+    background: #151c1c;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.checkout-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 15px;
+}
+
+.checkout-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ----------------------------
+   TOTAL AMOUNT
+-----------------------------*/
+.total-box {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ----------------------------
+   PAYMENT SECTION
+-----------------------------*/
+.payment-box {
+    margin-top: 30px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.payment-box label {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.payment-box input[type="radio"] {
+    transform: scale(1.2);
+    margin-right: 8px;
+}
+
+.place-order-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.place-order-btn:hover {
+    background: #0b5ed7;
+}
+
+/* ----------------------------
+   MOBILE RESPONSIVE
+-----------------------------*/
+@media (max-width: 768px) {
+
+    .checkout-container {
+        padding: 15px;
+    }
+
+    .checkout-table th,
+    .checkout-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .place-order-btn {
+        font-size: 16px;
+    }
+}

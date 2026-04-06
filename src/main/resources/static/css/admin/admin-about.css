@@ -1,0 +1,120 @@
+/* ===============================
+   ADMIN ABOUT PAGE
+================================ */
+
+.admin-page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 30px 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* PAGE TITLE */
+.admin-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #222;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 12px;
+}
+
+/* SECTION TITLES */
+.admin-section-title {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0056b3;
+}
+
+/* FORM */
+.admin-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* LABELS */
+.admin-form label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    margin-top: 14px;
+    color: #333;
+}
+
+/* INPUTS & TEXTAREAS */
+.admin-form input[type="text"],
+.admin-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #fafafa;
+}
+
+/* FOCUS EFFECT */
+.admin-form input[type="text"]:focus,
+.admin-form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    background: #ffffff;
+}
+
+/* TEXTAREA */
+.admin-form textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+/* HIGHLIGHT POINT INPUTS */
+.admin-form input[placeholder^="Point"] {
+    margin-bottom: 10px;
+}
+
+/* SAVE BUTTON */
+.admin-btn-primary {
+    margin-top: 35px;
+    align-self: flex-start;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #ffffff;
+    border: none;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* BUTTON HOVER */
+.admin-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.35);
+}
+
+/* BUTTON ACTIVE */
+.admin-btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 12px rgba(0, 123, 255, 0.25);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .admin-page {
+        padding: 22px;
+    }
+
+    .admin-title {
+        font-size: 22px;
+    }
+
+    .admin-section-title {
+        font-size: 16px;
+    }
+}

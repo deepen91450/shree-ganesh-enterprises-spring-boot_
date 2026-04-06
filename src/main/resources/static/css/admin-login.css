@@ -1,0 +1,89 @@
+/* =========================================================
+   Matches Shree Ganesh Enterprises dark theme
+========================================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f2f4f5;
+}
+
+/* Center wrapper */
+.admin-login-wrapper {
+    max-width: 420px;
+    margin: 70px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Title */
+.admin-login-wrapper h2 {
+    text-align: center;
+    color: #151c1c;
+    font-size: 28px;
+    margin-bottom: 25px;
+}
+
+/* Messages (logout, error) */
+.message {
+    text-align: center;
+    padding: 10px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    border-radius: 6px;
+}
+
+.message.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.message.error {
+    background: #f8d7da;
+    color: #842029;
+}
+
+/* Inputs */
+.admin-login-wrapper input {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background: #fafafa;
+    transition: border 0.3s ease;
+}
+
+.admin-login-wrapper input:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 3px rgba(13,110,253,0.5);
+}
+
+/* Login button */
+.admin-login-wrapper button {
+    width: 100%;
+    padding: 12px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background 0.3s ease;
+}
+
+.admin-login-wrapper button:hover {
+    background: #095ad1;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

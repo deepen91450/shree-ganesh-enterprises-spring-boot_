@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - Shree Ganesh Enterprises</title>
+
+    <meta name="description"
+          content="Shree Ganesh Enterprises provides industrial glassware, pipeline components, valves, laboratory equipment and engineering products with quality and trust.">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/about.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/enquiry.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- ======================= MAIN CONTENT ======================= -->
+<main th:if="${about != null}">
+
+    <!-- ======================= ABOUT SECTION ======================= -->
+    <section class="about-section-img">
+        <div class="about-wrapper">
+
+            <!-- LEFT IMAGE -->
+            <div class="about-image">
+                <img th:src="${about.aboutImageUrl != null ? about.aboutImageUrl : '/images/about-factory.png'}"
+                     alt="Industrial Glassware and Engineering Products">
+            </div>
+
+            <!-- RIGHT CONTENT -->
+            <div class="about-content">
+
+                <h2 class="about-title" th:text="${about.companyName}"></h2>
+
+                <p class="about-subtitle" th:text="${about.subtitle}"></p>
+
+                <p class="about-desc" th:text="${about.description}"></p>
+
+                <div class="about-points">
+                    <p th:text="${about.point1}"></p>
+                    <p th:text="${about.point2}"></p>
+                    <p th:text="${about.point3}"></p>
+                    <p th:text="${about.point4}"></p>
+                </div>
+
+                <a href="/products" class="about-btn">Explore Products</a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ======================= MISSION / VISION / VALUES ======================= -->
+    <section class="about-mvv">
+
+        <h2 class="mvv-title">Our Commitment</h2>
+
+        <div class="mvv-grid">
+
+            <div class="mvv-card">
+                <h3>Our Mission</h3>
+                <p th:text="${about.mission}"></p>
+            </div>
+
+            <div class="mvv-card">
+                <h3>Our Vision</h3>
+                <p th:text="${about.vision}"></p>
+            </div>
+
+            <div class="mvv-card">
+                <h3>Our Values</h3>
+                <p th:text="${about.coreValues}"></p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ======================= PRODUCT CATEGORIES ======================= -->
+    <section class="about-product-range">
+
+        <h2 class="products-title">Our Product Range</h2>
+
+        <div class="category-grid">
+
+            <div class="category-card"
+                 th:each="cat : ${categories}">
+
+                <img class="category-img"
+                     th:src="${cat.imagePath != null ? cat.imagePath : '/images/category-placeholder.png'}"
+                     th:alt="${cat.name}">
+
+
+                <h3 th:text="${cat.name}"></h3>
+
+                <a th:href="@{/categories/{id}(id=${cat.id})}"
+                   class="category-btn">
+                    View Products →
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ======================= ENQUIRY FORM ======================= -->
+    <section class="enquiry-section">
+
+        <!-- Title above enquiry form -->
+        <h2 class="enquiry-title">Have a Question?</h2>
+        <p class="enquiry-subtitle">
+            Our team is here to help you. Fill out the form below and we’ll get back to you.
+        </p>
+
+        <!-- Reused enquiry form -->
+        <div th:replace="~{fragments/enquiry-form :: enquiry-form}"></div>
+
+    </section>
+
+
+</main>
+
+<!-- ======================= FALLBACK ======================= -->
+<div th:if="${about == null}"
+     style="text-align:center; padding:60px;">
+    <h2>About information coming soon</h2>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Cart Count Script -->
+<script>
+    function updateCartCount() {
+        const desk = document.getElementById("cart-count");
+        const mob = document.getElementById("cart-count-mobile");
+        const mobMenu = document.getElementById("cart-count-mobile-menu");
+
+        fetch("/cart/count")
+            .then(res => res.json())
+            .then(data => {
+                if (desk) desk.innerText = data.count;
+                if (mob) mob.innerText = data.count;
+                if (mobMenu) mobMenu.innerText = data.count;
+            })
+            .catch(err => console.error("Cart count error", err));
+    }
+</script>
+
+<script src="/js/script.js"></script>
+
+</body>
+</html>

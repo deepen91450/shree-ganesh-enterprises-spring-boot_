@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${category.name} + ' Products'">Products</title>
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/products-by-category.css">
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="main-wrapper">
+
+    <!-- CATEGORY TITLE -->
+    <section class="category-header">
+        <h1 th:text="${category.name}"></h1>
+        <p>
+            Explore premium <span th:text="${category.name}"></span> products from our collection.
+        </p>
+    </section>
+
+    <!-- SUBCATEGORIES -->
+    <section class="subcat-section"
+             th:if="${subcategories != null and !#lists.isEmpty(subcategories)}">
+
+        <h2 class="subcat-title">Subcategories</h2>
+
+        <div class="subcat-container">
+            <a class="subcat-box"
+               th:each="sub : ${subcategories}"
+               th:href="@{'/categories/' + ${sub.id}}"
+               th:text="${sub.name}">
+            </a>
+        </div>
+
+    </section>
+
+    <!-- NO PRODUCTS -->
+    <p th:if="${products == null or #lists.isEmpty(products)}" class="empty-msg">
+        🚫 No products found in this category.
+    </p>
+
+    <!-- PRODUCT GRID -->
+    <section class="product-grid"
+             th:if="${products != null and !#lists.isEmpty(products)}">
+
+        <div class="product-card" th:each="p : ${products}">
+
+            <!-- IMAGE -->
+            <div class="image-wrapper">
+                <img th:src="${p.imagePath}" alt="Product Image">
+            </div>
+
+            <!-- INFO -->
+            <div class="product-info">
+                <h3 th:text="${p.name}"></h3>
+
+                <p class="desc" th:text="${#strings.abbreviate(p.description, 80)}"></p>
+
+                <p class="price">₹ <span th:text="${p.price}"></span></p>
+
+                <!-- QTY + CART -->
+                <div class="qty-cart-row">
+                    <div class="qty-box">
+                        <button type="button" class="qty-btn minus">-</button>
+                        <input type="number" class="qty-input" value="1" min="1">
+                        <button type="button" class="qty-btn plus">+</button>
+                    </div>
+
+                    <button class="add-cart-btn"
+                            th:attr="data-id=${p.id}, data-name=${p.name}, data-price=${p.price}">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- DETAILS -->
+                <a class="view-btn" th:href="@{'/product/' + ${p.id}}">
+                    View Details →
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- JS -->
+<script>
+    // Quantity buttons
+    document.querySelectorAll(".product-card").forEach(card => {
+        const minusBtn = card.querySelector(".minus");
+        const plusBtn = card.querySelector(".plus");
+        const qtyInput = card.querySelector(".qty-input");
+
+        minusBtn.addEventListener("click", () => {
+            let value = parseInt(qtyInput.value);
+            if (value > 1) qtyInput.value = value - 1;
+        });
+
+        plusBtn.addEventListener("click", () => {
+            qtyInput.value = parseInt(qtyInput.value) + 1;
+        });
+    });
+
+    // Add to cart button
+    document.querySelectorAll(".add-cart-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            const name = btn.getAttribute("data-name");
+            const price = btn.getAttribute("data-price");
+
+            const card = btn.closest(".product-card");
+            const qty = card.querySelector(".qty-input").value;
+
+            alert("Added to cart:\n" + name + " (Qty: " + qty + ")");
+
+            // Future backend code:
+            // fetch('/cart/add', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ id, qty })
+            // });
+        });
+    });
+</script>
+
+</body>
+</html>

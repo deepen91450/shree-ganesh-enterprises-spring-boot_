@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${product.name}">Product Details</title>
+    <link rel="stylesheet" href="/css/admin-view-product.css">
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+
+</head>
+
+<body>
+<div class="admin-container">
+
+    <h2 class="admin-title">Admin Dashboard</h2>
+
+    <!-- Admin Action Buttons -->
+    <div class="admin-actions">
+
+        <a href="/admin/add" class="action-btn add">+ Add New Product</a>
+        <a href="/admin/categories" class="action-btn category">+ Add Category</a>
+
+        <a href="/admin/enquiries" class="action-btn enquiry">Customer Enquiries</a>
+        <a href="/admin/product-enquiries" class="action-btn enquiry">Product Enquiries</a>
+
+        <!-- ⭐ New Section Added -->
+        <a href="/admin/hero" class="action-btn banner">🎨 Manage Hero Banners</a>
+
+    </div>
+
+</div>
+
+<div class="container">
+
+    <h1 class="title">Product Details</h1>
+
+    <div class="product-box">
+
+        <!-- LEFT IMAGE -->
+        <div class="left-area">
+            <img th:src="@{${product.imagePath}}" alt="Product Image">
+        </div>
+
+        <!-- RIGHT DETAILS -->
+        <div class="right-area">
+
+            <h2 th:text="${product.name}"></h2>
+
+            <p class="price">
+                Price: ₹ <span th:text="${product.price}"></span>
+            </p>
+
+            <p><strong>Short Description:</strong></p>
+            <p class="short-desc" th:text="${product.description}"></p>
+
+            <p><strong>Category:</strong>
+                <span th:text="${product.category != null ? product.category.name : 'No Category'}"></span>
+            </p>
+
+            <div class="btn-row">
+                <a th:href="@{'/admin/edit/' + ${product.id}}" class="btn-edit">Edit</a>
+                <a th:href="@{'/admin/delete/' + ${product.id}}"
+                   onclick="return confirm('Delete this product?');"
+                   class="btn-delete">Delete</a>
+                <a href="/admin/dashboard" class="btn-back">Back</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FULL DETAILS -->
+    <div class="full-details-box">
+        <h3>Full Product Details</h3>
+        <div class="details-content" th:utext="${product.longDescription}"></div>
+    </div>
+
+</div>
+
+</body>
+</html>

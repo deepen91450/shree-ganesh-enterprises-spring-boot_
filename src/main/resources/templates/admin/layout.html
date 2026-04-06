@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Admin CSS -->
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin/admin-products.css">
+    <link rel="stylesheet" href="/css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="/css/admin/admin-categories.css">
+    <link rel="stylesheet" href="/css/admin/admin-add-category.css">
+    <link rel="stylesheet" href="/css/admin/admin-customer-enquiries.css">
+    <link rel="stylesheet" href="/css/admin/admin-product-enquiries.css">
+    <link rel="stylesheet" href="/css/admin/admin-add-products.css">
+    <link rel="stylesheet" href="/css/admin/admin-about.css">
+    <link rel="stylesheet" href="/css/admin/admin-contact.css">
+    <link rel="stylesheet" href="/css/admin/admin-search.css">
+
+
+</head>
+
+<body>
+
+<div class="admin-wrapper">
+
+    <!-- ================= TOP BAR ================= -->
+    <header class="topbar">
+        <div class="top-left">
+            <span class="logo">Shree Ganesh Admin</span>
+        </div>
+
+        <div class="top-center">
+            <form th:action="@{/admin/search}" method="get" class="admin-search-form">
+                <input type="text"
+                       name="q"
+                       placeholder="Search products, categories, enquiries..."
+                       autocomplete="off"
+                       required />
+            </form>
+        </div>
+
+
+        <div class="top-right">
+            <span class="icon">🔔</span>
+
+            <div class="admin-dropdown">
+    <span class="admin-name">
+        <span class="admin-avatar">👤</span>
+        <span th:text="${#authentication.name}">Admin</span>
+    </span>
+
+                <div class="dropdown-menu">
+                    <a href="/admin/change-password">Change Password</a>
+
+                    <form th:action="@{/admin/logout}" method="post">
+                        <button type="submit">Logout</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= BODY ================= -->
+    <div class="body-wrapper">
+
+        <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <a href="/admin/dashboard">Dashboard</a>
+                <a href="/admin/products">Products</a>
+                <a href="/admin/categories">Categories</a>
+                <a href="/admin/about">About Page</a>   <!-- ✅ ADD THIS -->
+                <a href="/admin/contact">Contact Settings</a>
+                <a href="/admin/enquiries/customers">Customer Enquiries</a>
+                <a href="/admin/enquiries/products">Product Enquiries</a>
+                <a href="/admin/banners">Banners</a>
+                <a href="/admin/users">Users</a>
+                <a href="/admin/why-choose-us">Why Choose Us</a>
+                <a href="/admin/site-settings">Settings</a>
+
+            </aside>
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- ✅ FIXED: SAFE FRAGMENT LOADING -->
+            <div th:if="${content != null}"
+                 th:replace="~{${content}}">
+            </div>
+
+            <div th:unless="${content != null}">
+                <h2>Admin Panel</h2>
+                <p>Content not loaded.</p>
+            </div>
+
+        </main>
+
+    </div>
+</div>
+
+
+
+
+</body>
+
+<div th:if="${param.success != null}"
+     class="toast success"
+     th:text="${param.success[0] == 'productReply' ?
+              'Product enquiry replied successfully' :
+              'Customer enquiry replied successfully'}">
+</div>
+
+<script>
+    setTimeout(() => {
+        const toast = document.querySelector('.toast');
+        if (toast) toast.remove();
+    }, 3000);
+</script>
+
+</html>

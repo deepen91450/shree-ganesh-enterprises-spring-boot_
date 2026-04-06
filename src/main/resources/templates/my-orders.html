@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders</title>
+
+    <!-- Mobile Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/my-orders.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="fragments/header :: header"></div>
+
+<main>
+    <h2 style="text-align:center; margin-top: 20px;">My Orders</h2>
+
+    <div class="orders-container">
+        <table class="orders-table">
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Total Amount</th>
+                <th>Payment</th>
+                <th>Items</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td data-label="Order ID" th:text="${order.id}"></td>
+                <td data-label="Date" th:text="${order.orderDate}"></td>
+                <td data-label="Total Amount">₹<span th:text="${order.totalAmount}"></span></td>
+                <td data-label="Payment" th:text="${order.paymentMethod}"></td>
+                <td data-label="Items">
+
+                <td>
+                    <ul>
+                        <li th:each="item : ${order.items}">
+                            <span th:text="${item.name}"></span>
+                            (Qty: <span th:text="${item.quantity}"></span>)
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+        <a href="/" class="btn">Back to Home</a>
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- JS -->
+<script src="/js/script.js"></script>
+
+</body>
+</html>

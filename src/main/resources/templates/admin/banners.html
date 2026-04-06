@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="/css/admin-manage-hero.css">
+
+<div class="hero-banner-container" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="hero-banner-title">Manage Hero Banners</h2>
+
+    <!-- ADD BANNER FORM -->
+    <form th:action="@{/admin/banners/add}"
+          method="post"
+          enctype="multipart/form-data"
+          class="hero-banner-form">
+
+        <label>Banner Image</label>
+        <input type="file" name="file" required>
+
+        <label>Title</label>
+        <input type="text" name="title">
+
+        <label>Subtitle</label>
+        <input type="text" name="subtitle">
+
+        <button type="submit">Add Banner</button>
+    </form>
+
+    <hr style="margin:30px 0">
+
+    <!-- BANNERS LIST -->
+    <table class="hero-banner-table">
+        <thead>
+        <tr>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="b : ${banners}">
+            <td>
+                <img th:src="${b.imageUrl}"
+                     alt="Banner Image">
+            </td>
+            <td th:text="${b.title}"></td>
+            <td>
+                <a th:href="@{/admin/banners/delete/{id}(id=${b.id})}"
+                   onclick="return confirm('Delete this banner?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

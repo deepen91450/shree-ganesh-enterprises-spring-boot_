@@ -1,0 +1,59 @@
+<div class="admin-page" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="admin-title">Edit About Page</h2>
+
+    <form th:action="@{/admin/about/save}"
+          th:object="${about}"
+          method="post"
+          enctype="multipart/form-data"
+          class="admin-form">
+
+
+    <!-- Hidden ID (important for update) -->
+        <input type="hidden" th:field="*{id}"/>
+
+        <!-- ================= ABOUT INTRO ================= -->
+        <h3 class="admin-section-title">Company Introduction</h3>
+
+        <label>Company Name</label>
+        <input type="text" th:field="*{companyName}" required>
+
+        <label>Subtitle</label>
+        <input type="text" th:field="*{subtitle}">
+
+        <label>Description</label>
+        <textarea th:field="*{description}" rows="5"></textarea>
+
+        <label>About Image</label>
+        <input type="file" name="aboutImageFile" accept="image/*">
+
+
+        <!-- ================= BULLET POINTS ================= -->
+        <h3 class="admin-section-title">Highlight Points</h3>
+
+        <input type="text" th:field="*{point1}" placeholder="Point 1">
+        <input type="text" th:field="*{point2}" placeholder="Point 2">
+        <input type="text" th:field="*{point3}" placeholder="Point 3">
+        <input type="text" th:field="*{point4}" placeholder="Point 4">
+
+        <!-- ================= MISSION / VISION ================= -->
+        <h3 class="admin-section-title">Mission, Vision & Values</h3>
+
+        <label>Mission</label>
+        <textarea th:field="*{mission}" rows="3"></textarea>
+
+        <label>Vision</label>
+        <textarea th:field="*{vision}" rows="3"></textarea>
+
+        <label>Core Values</label>
+        <textarea th:field="*{coreValues}" rows="3"></textarea>
+
+
+        <!-- ================= SAVE ================= -->
+        <button type="submit" class="admin-btn-primary">
+            Save About Page
+        </button>
+
+    </form>
+
+</div>

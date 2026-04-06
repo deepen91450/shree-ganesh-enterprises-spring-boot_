@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Categories</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Include global styles -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <link rel="stylesheet" href="/css/categories.css">
+
+</head>
+
+<body class="categories-page">
+
+
+<!-- HEADER -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<h2 class="cat-title">Categories</h2>
+
+<div class="category-grid">
+
+    <div class="category-card" th:each="c : ${categories}">
+
+        <!-- Image Box -->
+        <div class="cat-img-box">
+            <img th:src="${c.imagePath}" alt="Category Image">
+        </div>
+
+        <!-- Category Name -->
+        <h3 th:text="${c.name}"></h3>
+
+        <!-- View Button -->
+        <a class="cat-btn" th:href="@{'/categories/' + ${c.id}}">
+            View Products →
+        </a>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>
