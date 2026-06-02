@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Shree Ganesh Enterprises</title>
 
+    <!-- Google Fonts (already using Poppins via global.css) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <!-- Core CSS -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
@@ -16,6 +20,9 @@
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/enquiry.css">
+
+    <!-- ✅ ANIMATION CSS — add LAST so it can override -->
+    <link rel="stylesheet" href="/css/animations.css">
 </head>
 
 <body>
@@ -26,6 +33,7 @@
 <main>
 
     <!-- ================= HERO SLIDER ================= -->
+    <!-- animations.js will inject Gmail-colored particles inside this section -->
     <section class="hero-section">
 
         <div id="heroSlider" class="hero-slider">
@@ -38,33 +46,31 @@
             </div>
         </div>
 
-        <!-- Slider Dots -->
+        <!-- Slider Dots (z-index: 4 via animations.css) -->
         <div id="sliderDots"></div>
 
     </section>
 
     <!-- ================= PRODUCT CATEGORIES ================= -->
+    <!-- .category-card gets scroll-reveal automatically via animations.js -->
     <section class="category-section">
-        <h2 class="section-title">Product Categories</h2>
+        <h2 class="section-title reveal">Product Categories</h2>
 
         <div class="category-grid">
-
             <div th:each="cat : ${categories}" class="category-card">
                 <img th:src="${cat.imagePath}" alt="category-image">
-
                 <h3 th:text="${cat.name}"></h3>
-
-                <a th:href="@{'/categories/' + ${cat.id}}" class="view-btn">
+                <a th:href="@{'/categories/' + ${cat.id}}" class="btn btn-primary">
                     View Products →
                 </a>
             </div>
-
         </div>
     </section>
 
     <!-- ================= WHY CHOOSE US ================= -->
+    <!-- .why-card gets scroll-reveal automatically via animations.js -->
     <section class="why-section">
-        <h2 class="section-title">Why Choose Us</h2>
+        <h2 class="section-title reveal">Why Choose Us</h2>
 
         <div class="why-grid">
             <div class="why-card" th:each="w : ${whyList}">
@@ -75,20 +81,25 @@
         </div>
     </section>
 
-
 </main>
 
 <!-- FOOTER -->
+<!-- animations.js will inject Gmail-colored particles inside footer.footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
+<!-- Scripts -->
 <script src="/js/script.js"></script>
 
-<script>
-    let index = 0;
-    const slider = document.getElementById("heroSlider");
-    const slides = document.querySelectorAll(".hero-slide");
+<!-- ✅ ANIMATION ENGINE — add before closing body -->
+<script src="/js/animations.js"></script>
 
+<script>
+    /* ── Hero Slider ── */
+    let index = 0;
+    const slider     = document.getElementById("heroSlider");
+    const slides     = document.querySelectorAll(".hero-slide");
     const dotsContainer = document.getElementById("sliderDots");
+
     slides.forEach((_, i) => {
         const dot = document.createElement("div");
         dot.addEventListener("click", () => goToSlide(i));
@@ -100,7 +111,7 @@
 
     function updateDots() {
         dots.forEach(dot => dot.classList.remove("active"));
-        dots[index].classList.add("active");
+        if (dots[index]) dots[index].classList.add("active");
     }
 
     function goToSlide(i) {
@@ -116,21 +127,6 @@
 
     setInterval(autoSlide, 4000);
 
-    // Update cart count from backend
-    function updateCartCount() {
-        const desk = document.getElementById("cart-count");
-        const mob = document.getElementById("cart-count-mobile");
-        const mobMenu = document.getElementById("cart-count-mobile-menu");
-
-        fetch("/cart/count")
-            .then(res => res.json())
-            .then(data => {
-                if (desk) desk.innerText = data.count;
-                if (mob) mob.innerText = data.count;
-                if (mobMenu) mobMenu.innerText = data.count;
-            })
-            .catch(err => console.error("Cart count error", err));
-    }
 </script>
 
 </body>

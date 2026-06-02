@@ -12,6 +12,7 @@ import java.security.Principal;
 import java.util.Map;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/cart")
@@ -60,12 +61,19 @@ public class CartController {
             @RequestParam Long id,
             @RequestParam(defaultValue = "1") int qty,
             Principal principal,
-            HttpSession session) {
+            HttpSession session,
+            HttpServletRequest request) {
 
         if (principal == null) {
+            // ✅ Pass the page the user was on so JS can redirect back after login
+            String referer = request.getHeader("Referer");
+            String redirectUrl = (referer != null && !referer.isBlank())
+                    ? "/login?redirect=" + java.net.URLEncoder.encode(referer, java.nio.charset.StandardCharsets.UTF_8)
+                    : "/login";
+
             return Map.of(
                     "error", "not_logged_in",
-                    "redirect", "/login"
+                    "redirect", redirectUrl
             );
         }
 

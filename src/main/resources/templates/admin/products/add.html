@@ -7,36 +7,64 @@
           class="product-form">
 
         <!-- CATEGORY -->
-        <label class="label">Select Category</label>
-        <select name="categoryId" required class="form-input dropdown">
-            <option value="">-- Select Category --</option>
+        <div class="field">
+            <label class="label">Select Category</label>
+            <select name="categoryId" required class="form-input dropdown">
+                <option value="">-- Select Category --</option>
 
-            <th:block th:each="cat : ${categories}">
-                <option th:if="${cat.parent == null}"
-                        th:value="${cat.id}"
-                        th:text="${cat.name}">
-                </option>
+                <th:block th:each="cat : ${categories}">
+                    <option th:if="${cat.parent == null}"
+                            th:value="${cat.id}"
+                            th:text="${cat.name}">
+                    </option>
 
-                <option th:each="sub : ${cat.children}"
-                        th:value="${sub.id}"
-                        th:text="'— ' + ${sub.name}">
-                </option>
-            </th:block>
-        </select>
+                    <option th:each="sub : ${cat.children}"
+                            th:value="${sub.id}"
+                            th:text="'- ' + ${sub.name}">
+                    </option>
+                </th:block>
+            </select>
+        </div>
 
         <!-- NAME -->
-        <label class="label">Product Name</label>
-        <input type="text" name="name" required class="form-input">
+        <div class="field">
+            <label class="label">Product Name</label>
+            <input type="text" name="name" required class="form-input">
+        </div>
 
         <!-- SHORT DESCRIPTION -->
-        <label class="label">Short Description</label>
-        <textarea name="description" required class="form-input textarea"></textarea>
+        <div class="field">
+            <label class="label">Short Description</label>
+            <textarea name="description" required class="form-input textarea"></textarea>
+        </div>
 
         <!-- PRICE -->
-        <label class="label">Price</label>
-        <input type="number" step="0.01" name="price" class="form-input">
+        <div class="field">
+            <label class="label">Price</label>
+            <input type="number" step="0.01" name="price" class="form-input">
+        </div>
 
-        <!-- ✅ PRICE VISIBILITY (FIXED) -->
+        <!-- STOCK -->
+        <div class="field">
+            <label class="label">Stock Quantity</label>
+            <input type="number"
+                   name="stockQuantity"
+                   class="form-input"
+                   min="0"
+                   value="0"
+                   required>
+        </div>
+
+        <div class="field">
+            <label class="label">Max Order Quantity</label>
+            <input type="number"
+                   name="maxOrderQty"
+                   class="form-input"
+                   min="1"
+                   placeholder="Default 200 if not set">
+        </div>
+
+        <!-- PRICE VISIBILITY -->
         <div class="form-checkbox">
             <label>
                 <input type="checkbox"
@@ -47,16 +75,21 @@
             </label>
         </div>
 
-
         <!-- IMAGE -->
-        <label class="label">Upload Product Image</label>
-        <input type="file" name="image" required class="form-input file">
+        <div class="field">
+            <label class="label">Upload Product Image</label>
+            <input type="file" name="image" required class="form-input file">
+        </div>
 
         <!-- LONG DESCRIPTION -->
-        <label class="label">Product Full Details</label>
-        <textarea id="longDescription" name="longDescription"></textarea>
+        <div class="field">
+            <label class="label">Product Full Details</label>
+            <textarea id="longDescription" name="longDescription"></textarea>
+        </div>
 
-        <button type="submit" class="save-btn">Save Product</button>
+        <button type="submit" class="save-btn">
+            <span data-lucide="save"></span>Save Product
+        </button>
     </form>
 
 </div>

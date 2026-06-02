@@ -1,21 +1,15 @@
 /* =====================================================
-   ENQUIRY PAGE — GLOBAL BLUE THEME DESIGN SYSTEM
+   ENQUIRY FORM — GLOBAL BLUE THEME
 ===================================================== */
 
 /* =============== WRAPPER =============== */
 .enquiry-wrapper {
     width: 100%;
-    max-width: 550px;
-    margin: 40px auto;
-    padding: 0 12px;
+    max-width: 100%;
 }
 
-/* =============== FORM CARD =============== */
+/* =============== FORM =============== */
 .enquiry-form {
-    background: var(--bg-white);
-    padding: 22px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -29,18 +23,20 @@
     border-radius: var(--radius-md);
     font-size: 15px;
     color: #1b7f1b;
+    margin-bottom: 10px;
 }
 
-/* =============== FORM INPUTS =============== */
+/* =============== INPUTS =============== */
 .enquiry-form input,
 .enquiry-form textarea {
     width: 100%;
     padding: 14px;
     border-radius: var(--radius-md);
-    border: 1px solid #ccc;
+    border: 1px solid var(--border);
     font-size: 15px;
-    background: var(--bg-white);
-    transition: 0.25s ease;
+    background: var(--bg-card);
+    transition: var(--transition);
+    font-family: inherit;
 }
 
 .enquiry-form textarea {
@@ -50,45 +46,51 @@
 
 .enquiry-form input:focus,
 .enquiry-form textarea:focus {
+    outline: none;
     border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
 /* =============== SUBMIT BUTTON =============== */
-.enquiry-form button {
-    padding: 12px 18px;
+.enquiry-form button[type="submit"] {
+    padding: 13px 18px;
     background: var(--primary);
     color: var(--text-white);
     border: none;
     border-radius: var(--radius-md);
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.25s ease;
+    transition: var(--transition);
 }
 
-.enquiry-form button:hover {
+.enquiry-form button[type="submit"]:hover {
     background: var(--primary-dark);
 }
 
-/* =============== MOBILE RESPONSIVE =============== */
+/* =============== TURNSTILE =============== */
+.cf-turnstile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.cf-turnstile iframe {
+    max-width: 100%;
+    display: block;
+}
+
+/* =============== MOBILE =============== */
 @media (max-width: 480px) {
-
-    .enquiry-wrapper {
-        margin: 25px auto;
-    }
-
-    .enquiry-form {
-        padding: 18px;
-    }
-
     .enquiry-form input,
     .enquiry-form textarea {
         padding: 12px;
-        font-size: 15px;
+        font-size: 14px;
     }
 
-    .enquiry-form button {
+    .enquiry-form button[type="submit"] {
         padding: 12px;
-        font-size: 16px;
+        font-size: 15px;
     }
 }

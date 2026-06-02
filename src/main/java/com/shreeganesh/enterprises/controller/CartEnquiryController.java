@@ -3,6 +3,7 @@ package com.shreeganesh.enterprises.controller;
 import com.shreeganesh.enterprises.entity.*;
 import com.shreeganesh.enterprises.repository.*;
 import com.shreeganesh.enterprises.service.EmailService;
+import com.shreeganesh.enterprises.service.NotificationService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,10 @@ import org.springframework.ui.Model;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Controller
 public class CartEnquiryController {
@@ -33,6 +38,9 @@ public class CartEnquiryController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     /* ======================================================
        CONVERT CART TO PRODUCT ENQUIRY
@@ -107,7 +115,11 @@ public class CartEnquiryController {
 
         enquiry.setItems(items);
         productEnquiryRepository.save(enquiry);
-
+ // 🔔 NOTIFICATION
+        notificationService.create(
+                "New product enquiry from " + enquiry.getUserName() +
+                        " (" + enquiry.getItems().size() + " items)"
+        );
         // 🔐 Lock further submissions for this cart
         session.setAttribute("CART_ENQUIRY_SUBMITTED", true);
 
@@ -197,7 +209,10 @@ public class CartEnquiryController {
        MY ENQUIRIES PAGE
     ====================================================== */
     @GetMapping("/my-enquiries")
-    public String myEnquiries(Model model, Principal principal) {
+    public String myEnquiries(
+            @RequestParam(defaultValue = "0") int page,
+            Model model,
+            Principal principal) {
 
         if (principal == null) {
             return "redirect:/login";
@@ -208,10 +223,15 @@ public class CartEnquiryController {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        model.addAttribute(
-                "productEnquiries",
-                productEnquiryRepository.findByUserId(user.getId())
-        );
+        Pageable pageable = PageRequest.of(page, 5); // 5 per page
+
+        Page<ProductEnquiry> enquiryPage =
+                productEnquiryRepository
+                        .findByUserIdOrderByCreatedAtDesc(user.getId(), pageable);
+
+        model.addAttribute("productEnquiries", enquiryPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", enquiryPage.getTotalPages());
 
         return "my-enquiries";
     }

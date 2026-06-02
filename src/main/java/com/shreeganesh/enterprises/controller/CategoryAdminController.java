@@ -2,6 +2,7 @@ package com.shreeganesh.enterprises.controller;
 
 import com.shreeganesh.enterprises.entity.Category;
 import com.shreeganesh.enterprises.service.CategoryService;
+import com.shreeganesh.enterprises.service.UploadStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,16 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.*;
-
 @Controller
 @RequestMapping("/admin/categories")
 public class CategoryAdminController {
 
-    private static final String UPLOAD_DIR = "F:/enterprises/uploads/categories/";
-
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private UploadStorageService uploadStorageService;
 
     // ================= LIST CATEGORIES =================
     @GetMapping
@@ -58,20 +58,7 @@ public class CategoryAdminController {
         // Image upload
         if (!imageFile.isEmpty()) {
 
-            String fileName = System.currentTimeMillis() + "-" + imageFile.getOriginalFilename();
-            Path path = Paths.get(UPLOAD_DIR);
-
-            if (!Files.exists(path)) {
-                Files.createDirectories(path);
-            }
-
-            Files.copy(
-                    imageFile.getInputStream(),
-                    path.resolve(fileName),
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-
-            c.setImagePath("/uploads/categories/" + fileName);
+            c.setImagePath(uploadStorageService.storeImage(imageFile, "categories"));
         }
 
         categoryService.save(c);
@@ -113,20 +100,8 @@ public class CategoryAdminController {
         // Update image only if new file uploaded
         if (imageFile != null && !imageFile.isEmpty()) {
 
-            String fileName = System.currentTimeMillis() + "-" + imageFile.getOriginalFilename();
-            Path path = Paths.get(UPLOAD_DIR);
-
-            if (!Files.exists(path)) {
-                Files.createDirectories(path);
-            }
-
-            Files.copy(
-                    imageFile.getInputStream(),
-                    path.resolve(fileName),
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-
-            c.setImagePath("/uploads/categories/" + fileName);
+            uploadStorageService.deletePublicFile(c.getImagePath());
+            c.setImagePath(uploadStorageService.storeImage(imageFile, "categories"));
         }
 
         categoryService.save(c);
@@ -134,7 +109,7 @@ public class CategoryAdminController {
     }
 
     // ================= DELETE CATEGORY =================
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return "redirect:/admin/categories";

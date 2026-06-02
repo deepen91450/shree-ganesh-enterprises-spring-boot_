@@ -33,7 +33,7 @@ public class User {
 
 
     @Pattern(
-            regexp = "^[6-9]\\d{9}$",
+            regexp = "^$|^[6-9]\\d{9}$",
             message = "Invalid mobile number"
     )
     @Column(unique = true)

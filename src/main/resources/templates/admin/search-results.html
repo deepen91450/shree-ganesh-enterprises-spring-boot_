@@ -1,5 +1,5 @@
 <!-- ADMIN SEARCH RESULTS : FRAGMENT -->
-<div th:fragment="content" class="search-wrapper"   xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="content" class="search-wrapper" xmlns:th="http://www.thymeleaf.org">
 
     <div class="search-title">
         Search results for:
@@ -10,24 +10,40 @@
     <div class="section">
         <h3>Products</h3>
 
-        <table th:if="${#lists.size(products) > 0}">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="p : ${products}">
-                <td th:text="${p.id}"></td>
-                <td th:text="${p.name}"></td>
-                <td th:text="${p.price}"></td>
-                <td th:text="${p.status}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-shell" th:if="${#lists.size(products) > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p : ${products}">
+                    <td>
+                        <img th:src="${p.imagePath}" class="product-thumb" alt="Product image">
+                    </td>
+                    <td th:text="${p.name}"></td>
+                    <td>&#8377; <span th:text="${p.price}"></span></td>
+                    <td th:text="${p.stockQuantity}"></td>
+                    <td>
+                        <span th:if="${p.stockQuantity == 0}" class="stock-badge out">Out of Stock</span>
+                        <span th:if="${p.stockQuantity > 0 and p.stockQuantity <= 5}" class="stock-badge low">Low Stock</span>
+                        <span th:if="${p.stockQuantity > 5}" class="stock-badge in">In Stock</span>
+                    </td>
+                    <td>
+                        <a class="action-btn" th:href="@{/admin/products/{id}(id=${p.id})}">
+                            <span data-lucide="eye"></span>View
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="empty" th:if="${#lists.isEmpty(products)}">
             No products found
@@ -38,22 +54,24 @@
     <div class="section">
         <h3>Categories</h3>
 
-        <table th:if="${#lists.size(categories) > 0}">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Parent</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="c : ${categories}">
-                <td th:text="${c.id}"></td>
-                <td th:text="${c.name}"></td>
-                <td th:text="${c.parent != null ? c.parent.name : 'ROOT'}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-shell" th:if="${#lists.size(categories) > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Parent</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${categories}">
+                    <td th:text="${c.id}"></td>
+                    <td th:text="${c.name}"></td>
+                    <td th:text="${c.parent != null ? c.parent.name : 'ROOT'}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="empty" th:if="${#lists.isEmpty(categories)}">
             No categories found
@@ -64,24 +82,26 @@
     <div class="section">
         <h3>Product Enquiries</h3>
 
-        <table th:if="${#lists.size(productEnquiries) > 0}">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>User</th>
-                <th>Email</th>
-                <th>Phone</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="e : ${productEnquiries}">
-                <td th:text="${e.id}"></td>
-                <td th:text="${e.userName}"></td>
-                <td th:text="${e.userEmail}"></td>
-                <td th:text="${e.userPhone}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-shell" th:if="${#lists.size(productEnquiries) > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="e : ${productEnquiries}">
+                    <td th:text="${e.id}"></td>
+                    <td th:text="${e.userName}"></td>
+                    <td th:text="${e.userEmail}"></td>
+                    <td th:text="${e.userPhone}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="empty" th:if="${#lists.isEmpty(productEnquiries)}">
             No product enquiries found
@@ -92,24 +112,26 @@
     <div class="section">
         <h3>Customer Enquiries</h3>
 
-        <table th:if="${#lists.size(customerEnquiries) > 0}">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Message</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="e : ${customerEnquiries}">
-                <td th:text="${e.id}"></td>
-                <td th:text="${e.name}"></td>
-                <td th:text="${e.email}"></td>
-                <td th:text="${e.message}"></td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-shell" th:if="${#lists.size(customerEnquiries) > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="e : ${customerEnquiries}">
+                    <td th:text="${e.id}"></td>
+                    <td th:text="${e.name}"></td>
+                    <td th:text="${e.email}"></td>
+                    <td th:text="${e.message}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div class="empty" th:if="${#lists.isEmpty(customerEnquiries)}">
             No customer enquiries found

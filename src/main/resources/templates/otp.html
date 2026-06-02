@@ -3,53 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin 2FA Verification</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .box {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            width: 360px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        img {
-            width: 200px;
-            margin-bottom: 15px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
-        button {
-            margin-top: 15px;
-            width: 100%;
-            padding: 12px;
-            background: #0d6efd;
-            color: white;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .error {
-            color: red;
-            margin-top: 10px;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/admin-otp.css}">
 </head>
 
 <body>
@@ -57,16 +11,22 @@
 <div class="box">
     <h2>Admin 2FA</h2>
 
-    <p>Scan this QR in Google Authenticator</p>
+    <p class="subtitle">Scan this QR using Google Authenticator</p>
 
     <img th:src="'data:image/png;base64,' + ${qr}" alt="QR Code"/>
 
     <form th:action="@{/admin/2fa/verify}" method="post">
         <input type="text" name="otp" placeholder="Enter 6-digit OTP" required />
+        <small style="color:#6b7280;">
+            Code refreshes every 30 seconds
+        </small>
         <button type="submit">Verify</button>
     </form>
 
     <div class="error" th:if="${error}" th:text="${error}"></div>
+    <div class="error" th:if="${param.rateLimited}">
+        Too many OTP attempts. Please wait a few minutes and try again.
+    </div>
 </div>
 
 </body>

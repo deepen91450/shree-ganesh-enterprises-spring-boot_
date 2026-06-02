@@ -7,11 +7,16 @@
     <title>Your Cart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- ✅ CSRF META TAGS -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <!-- GLOBAL CSS -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
-
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
     <!-- HEADER + NAV -->
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/navbar.css">
@@ -56,7 +61,6 @@
                     </a>
                 </td>
 
-
                 <td>
                     <a th:href="@{/product/{id}(id=${item.productId})}"
                        target="_blank"
@@ -64,7 +68,6 @@
                        th:text="${item.name}">
                     </a>
                 </td>
-
 
                 <td data-price th:text="${item.price}"></td>
 
@@ -90,8 +93,16 @@
             Total: ₹ <span id="grandTotal" th:text="${total}"></span>
         </h3>
 
-        <form action="/cart/enquiry" method="post" class="enquiry-form">
+        <!-- ✅ FIXED FORM -->
+        <form th:action="@{/cart/enquiry}" method="post" class="enquiry-form">
+
+            <!-- CSRF TOKEN -->
+            <input type="hidden"
+                   th:name="${_csrf.parameterName}"
+                   th:value="${_csrf.token}" />
+
             <textarea name="message" placeholder="Add a message (optional)..."></textarea>
+
             <button type="submit" class="btn-enquiry" id="sendEnquiryBtn">
                 Send Enquiry
             </button>
@@ -114,6 +125,10 @@
 <!-- CART JAVASCRIPT -->
 <script>
 
+    // ✅ CSRF TOKEN FETCH
+    const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
     function updateCartCount() {
         const desk = document.getElementById("cart-count");
         const mob = document.getElementById("cart-count-mobile");
@@ -132,7 +147,8 @@
         fetch(`/cart/update/${productId}`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/x-www-form-urlencoded",
+                [csrfHeader]: csrfToken
             },
             body: `qty=${qty}`
         })
@@ -152,15 +168,20 @@
     }
 
     function removeFromCart(id, row) {
-        fetch(`/cart/remove/${id}`, { method: "POST" })
-            .then(res => res.json())
-            .then(data => {
-                row.remove();
-                if (data.grandTotal !== undefined) {
-                    document.getElementById("grandTotal").textContent = data.grandTotal;
-                }
-                updateCartCount();
-            });
+        fetch(`/cart/remove/${id}`, {
+            method: "POST",
+            headers: {
+                [csrfHeader]: csrfToken
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            row.remove();
+            if (data.grandTotal !== undefined) {
+                document.getElementById("grandTotal").textContent = data.grandTotal;
+            }
+            updateCartCount();
+        });
     }
 
     document.querySelectorAll(".cart-table tbody tr").forEach(row => {
@@ -200,6 +221,8 @@
 </script>
 
 <script src="/js/script.js"></script>
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 
 </body>
 </html>

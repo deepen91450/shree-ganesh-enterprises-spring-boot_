@@ -1,35 +1,102 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>Admin Login</title>
+    <title>Shree Ganesh Enterprises - Admin Login</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Poppins Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/admin-login.css}">
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/components.css">
-    <link rel="stylesheet" href="/css/layout.css">
 </head>
+
 <body>
 
+<!-- Background Particles -->
+<div class="particles">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- Login Card -->
 <div class="admin-login-wrapper">
 
+    <!-- Logo -->
+    <div class="logo-section">
+
+        <img th:src="@{/images/shree_ganesh.png}"
+             alt="Shree Ganesh Enterprises Logo"
+             class="admin-logo">
+
+        <h1>Shree Ganesh</h1>
+        <p>Enterprise Admin Panel</p>
+
+    </div>
+
     <!-- Messages -->
+
     <div th:if="${param.logout}" class="message success">
         You have been logged out successfully.
     </div>
 
     <div th:if="${param.error}" class="message error">
-        Invalid username or password.
+        Invalid email or password.
     </div>
 
-    <h2>Admin Login</h2>
+    <div th:if="${param.rateLimited}" class="message error">
+        Too many login attempts. Please wait before trying again.
+    </div>
+
+    <div th:if="${param.passwordChanged}" class="message success">
+        Password changed successfully.
+    </div>
+
+    <!-- Login Form -->
 
     <form th:action="@{/admin/login}" method="post">
 
-        <input type="email" name="username" placeholder="Email" required>
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}">
 
-        <input type="password" name="password" placeholder="Password" required>
+        <!-- Email -->
+        <div class="input-group">
+            <input type="email"
+                   name="username"
+                   placeholder="Admin Email"
+                   required>
+        </div>
 
-        <button type="submit">Login</button>
+        <!-- Password -->
+        <div class="input-group">
+            <input type="password"
+                   name="password"
+                   placeholder="Password"
+                   required>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit">
+            Secure Login
+        </button>
+
     </form>
+
+    <!-- Footer -->
+    <div class="login-footer">
+        Protected by Spring Security • 2FA Enabled
+    </div>
 
 </div>
 

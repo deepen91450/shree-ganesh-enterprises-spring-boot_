@@ -4,58 +4,64 @@
 
     <h2 class="admin-users-title">Users</h2>
 
-    <table class="admin-users-table">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Provider</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+    <div class="table-shell">
+        <table class="admin-users-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Provider</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
 
-        <tbody>
+            <tbody>
 
-        <!-- Empty state -->
-        <tr th:if="${#lists.isEmpty(users)}">
-            <td colspan="6" class="empty-state">
-                No users found
-            </td>
-        </tr>
+            <!-- Empty state -->
+            <tr th:if="${#lists.isEmpty(users)}">
+                <td colspan="6" class="empty-state">
+                    No users found
+                </td>
+            </tr>
 
-        <!-- Users -->
-        <tr th:each="u : ${users}">
-            <td th:text="${u.id}"></td>
-            <td th:text="${u.name}"></td>
-            <td th:text="${u.email}"></td>
-            <td th:text="${u.provider != null ? u.provider : 'LOCAL'}"></td>
+            <!-- Users -->
+            <tr th:each="u : ${users}">
+                <td th:text="${u.id}"></td>
+                <td th:text="${u.name}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.provider != null ? u.provider : 'LOCAL'}"></td>
 
-            <td>
-                <span th:text="${u.enabled ? 'Active' : 'Blocked'}"
-                      th:classappend="${u.enabled ? 'status-active' : 'status-blocked'}">
-                </span>
-            </td>
+                <td>
+                    <span th:text="${u.enabled ? 'Active' : 'Blocked'}"
+                          th:classappend="${u.enabled ? 'status-active' : 'status-blocked'}">
+                    </span>
+                </td>
 
-            <td>
-                <a th:if="${u.enabled}"
-                   th:href="@{/admin/users/block/{id}(id=${u.id})}"
-                   class="btn-danger"
-                   onclick="return confirm('Block this user?')">
-                    Block
-                </a>
+                <td>
+                    <form th:if="${u.enabled}"
+                          th:action="@{/admin/users/block/{id}(id=${u.id})}"
+                          method="post"
+                          onsubmit="return confirm('Block this user?')">
+                        <button class="btn-danger" type="submit">
+                            <span data-lucide="ban"></span>Block
+                        </button>
+                    </form>
 
-                <a th:if="${!u.enabled}"
-                   th:href="@{/admin/users/unblock/{id}(id=${u.id})}"
-                   class="btn-success"
-                   onclick="return confirm('Unblock this user?')">
-                    Unblock
-                </a>
-            </td>
-        </tr>
+                    <form th:if="${!u.enabled}"
+                          th:action="@{/admin/users/unblock/{id}(id=${u.id})}"
+                          method="post"
+                          onsubmit="return confirm('Unblock this user?')">
+                        <button class="btn-success" type="submit">
+                            <span data-lucide="check"></span>Unblock
+                        </button>
+                    </form>
+                </td>
+            </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 
 </div>

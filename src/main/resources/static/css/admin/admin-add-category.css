@@ -1,92 +1,10 @@
-/* ===============================
-   CENTER ADD CATEGORY CARD ONLY
-   =============================== */
+/* Category form page-specific sizing. Shared form/card styles live in /css/admin.css. */
 
 .category-container {
-    max-width: 560px;
-    background: #ffffff;
-
-    /* ✅ CENTERING */
-    margin: 40px auto;
-
-    padding: 26px 28px;
-    border-radius: 14px;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+    width: min(100%, 620px);
 }
 
-/* TITLE */
-.category-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 22px;
-}
-
-/* FORM */
-.category-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-/* LABEL */
-.category-form label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #374151;
-}
-
-/* INPUTS */
-.category-form input[type="text"],
-.category-form select,
-.category-form input[type="file"] {
-    width: 100%;
-    padding: 11px 14px;
-    font-size: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    background: #ffffff;
-}
-
-/* FILE INPUT */
-.category-form input[type="file"] {
-    padding: 8px;
-    font-size: 13px;
-}
-
-/* FOCUS */
-.category-form input:focus,
-.category-form select:focus {
-    border-color: #2563eb;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* BUTTON */
-.category-form button {
-    margin-top: 10px;
-    padding: 12px;
-    background: #2563eb;
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.category-form button:hover {
-    background: #1d4ed8;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-    .category-container {
-        margin: 20px auto;
-        padding: 22px;
-    }
-
-    .category-title {
-        font-size: 22px;
-    }
+.category-image {
+    width: 140px;
+    height: 100px;
 }

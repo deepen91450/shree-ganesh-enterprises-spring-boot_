@@ -34,3 +34,6 @@ build/
 ### ENV FILES ###
 .env
 .env.*
+!.env.example
+### Upload directory (runtime files) ###
+uploads/

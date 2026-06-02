@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
+
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/about.css">
@@ -142,23 +146,8 @@
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- Cart Count Script -->
-<script>
-    function updateCartCount() {
-        const desk = document.getElementById("cart-count");
-        const mob = document.getElementById("cart-count-mobile");
-        const mobMenu = document.getElementById("cart-count-mobile-menu");
-
-        fetch("/cart/count")
-            .then(res => res.json())
-            .then(data => {
-                if (desk) desk.innerText = data.count;
-                if (mob) mob.innerText = data.count;
-                if (mobMenu) mobMenu.innerText = data.count;
-            })
-            .catch(err => console.error("Cart count error", err));
-    }
-</script>
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 
 <script src="/js/script.js"></script>
 

@@ -1,20 +1,18 @@
 package com.shreeganesh.enterprises.security;
 
+import com.shreeganesh.enterprises.entity.User;
 import com.shreeganesh.enterprises.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Optional;
 
 @Component
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -29,7 +27,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(
             HttpServletRequest request,
             HttpServletResponse response,
-            org.springframework.security.core.Authentication authentication
+            Authentication authentication
     ) throws IOException, ServletException {
 
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
@@ -39,7 +37,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         String name = oAuth2User.getAttribute("name");
         String providerId = oAuth2User.getAttribute("sub");
 
-        // ✅ Create or update user in DB
+        // ✅ Save or update user
         userService.createOrUpdateOauthUser(
                 token.getAuthorizedClientRegistrationId(),
                 providerId,
@@ -47,10 +45,34 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                 email
         );
 
+        // ✅ FETCH USER
+        Optional<User> userOpt = userService.findByEmail(email);
 
+        if (userOpt.isPresent()) {
 
+            User user = userOpt.get();
 
-        // redirect to home
+            // 🔒 BLOCKED USER CHECK
+            if (!user.isEnabled()) {
+
+                // logout session
+                request.getSession().invalidate();
+
+                response.sendRedirect("/login?blocked=true");
+
+                return;
+            }
+
+            // 📱 CHECK PHONE
+            if (user.getPhone() == null || user.getPhone().isBlank()) {
+
+                response.sendRedirect("/enter-phone");
+
+                return;
+            }
+        }
+
+// ✅ NORMAL LOGIN
         response.sendRedirect("/");
     }
 }

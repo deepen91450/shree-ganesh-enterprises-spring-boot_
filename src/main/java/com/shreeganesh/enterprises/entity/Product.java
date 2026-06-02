@@ -13,21 +13,23 @@ public class Product {
 
     private String description;
 
-    // ✅ Used only when priceVisible = true
     private double price;
 
-    // ✅ NEW FIELD (for enquiry-only products)
     @Column(nullable = false)
     private boolean priceVisible = true;
 
     private String imagePath;
+
+    // ✅ NEW FIELD (STOCK)
+    private int stockQuantity;
+    @Column(name = "max_order_qty")
+    private Integer maxOrderQty;
 
     // CATEGORY RELATION
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    // ⭐ CKEditor Full HTML Description
     @Lob
     @Column(columnDefinition = "LONGTEXT")
     private String longDescription;
@@ -43,12 +45,12 @@ public class Product {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -71,7 +73,6 @@ public class Product {
         this.price = price;
     }
 
-    // ✅ NEW
     public boolean isPriceVisible() {
         return priceVisible;
     }
@@ -86,6 +87,15 @@ public class Product {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    // ✅ STOCK GETTER/SETTER
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 
     public Category getCategory() {
@@ -110,5 +120,13 @@ public class Product {
 
     public void setStatus(ProductStatus status) {
         this.status = status;
+    }
+
+    public Integer getMaxOrderQty() {
+        return maxOrderQty;
+    }
+
+    public void setMaxOrderQty(Integer maxOrderQty) {
+        this.maxOrderQty = maxOrderQty;
     }
 }

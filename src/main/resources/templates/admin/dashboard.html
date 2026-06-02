@@ -10,28 +10,32 @@
         <div class="card">
             <div class="card-title">Total Products</div>
             <div class="card-value" th:text="${totalProducts}">0</div>
+            <div class="card-meta">Catalog items managed in admin</div>
         </div>
 
         <div class="card">
             <div class="card-title">Active Products</div>
             <div class="card-value" th:text="${activeProducts}">0</div>
+            <div class="card-meta">Visible products ready for customers</div>
         </div>
 
         <div class="card">
             <div class="card-title">Categories</div>
             <div class="card-value" th:text="${totalCategories}">0</div>
+            <div class="card-meta">Navigation and product grouping</div>
         </div>
 
         <div class="card highlight">
             <div class="card-title">New Enquiries</div>
             <div class="card-value" th:text="${newEnquiries}">0</div>
+            <div class="card-meta">Awaiting admin follow-up</div>
         </div>
 
     </div>
 
     <!-- ================= QUICK ACTIONS ================= -->
     <div class="quick-actions">
-        <a href="/admin/add" class="btn">+ Add Product</a>
+        <a href="/admin/add" class="btn"><span data-lucide="plus"></span>Add Product</a>
         <a href="/admin/enquiries/customers" class="btn secondary">Customer Enquiries</a>
         <a href="/admin/enquiries/products" class="btn secondary">Product Enquiries</a>
 

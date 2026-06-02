@@ -1,5 +1,6 @@
 package com.shreeganesh.enterprises.config;
 
+import com.shreeganesh.enterprises.security.AdminTwoFactorEnforcementFilter;
 import com.shreeganesh.enterprises.service.AdminUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @Order(1)
@@ -20,40 +22,30 @@ public class AdminSecurityConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private AdminTwoFactorEnforcementFilter adminTwoFactorEnforcementFilter;
+
     @Bean
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
 
         http
-                // Applies ONLY to admin URLs
                 .securityMatcher("/admin/**")
-
                 .authorizeHttpRequests(auth -> auth
-
-                        // Public admin pages
                         .requestMatchers(
                                 "/admin/login",
-                                "/admin/2fa/**",          // ⭐ allow OTP pages
                                 "/admin/css/**",
                                 "/admin/js/**",
                                 "/admin/images/**"
                         ).permitAll()
-
-                        .requestMatchers("/admin/about/**").hasRole("ADMIN")
-
-
-                        // Everything else requires ADMIN
+                        .requestMatchers("/admin/2fa/**").hasRole("ADMIN")
                         .anyRequest().hasRole("ADMIN")
                 )
-
-
                 .formLogin(login -> login
                         .loginPage("/admin/login")
                         .loginProcessingUrl("/admin/login")
                         .defaultSuccessUrl("/admin/2fa", true)
-
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutUrl("/admin/logout")
                         .logoutSuccessUrl("/admin/login?logout")
@@ -61,23 +53,15 @@ public class AdminSecurityConfig {
                         .invalidateHttpSession(true)
                 )
                 .exceptionHandling(e -> e.accessDeniedPage("/access-denied"))
-
-
                 .sessionManagement(session -> session
                         .sessionFixation().migrateSession()
-                        .maximumSessions(1)               // single admin session
-                        .maxSessionsPreventsLogin(false) // ✅ IMPORTANT
-                )
-
-
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers(
-                                "/admin/login",
-                                "/admin/logout"
-                        ));
-
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(false)
+                );
+                 // CSRF enabled on all endpoints including /admin/login
 
         http.authenticationProvider(adminProvider());
+        http.addFilterAfter(adminTwoFactorEnforcementFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

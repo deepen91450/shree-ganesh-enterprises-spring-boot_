@@ -2,25 +2,22 @@ package com.shreeganesh.enterprises.controller;
 
 import com.shreeganesh.enterprises.entity.AboutPage;
 import com.shreeganesh.enterprises.repository.AboutPageRepository;
+import com.shreeganesh.enterprises.service.UploadStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
-
 @Controller
 @RequestMapping("/admin/about")
 public class AdminAboutController {
 
     @Autowired
     private AboutPageRepository aboutRepo;
+
+    @Autowired
+    private UploadStorageService uploadStorageService;
 
     // 🔹 SHOW ABOUT PAGE EDIT FORM
     @GetMapping
@@ -44,26 +41,10 @@ public class AdminAboutController {
             @RequestParam("aboutImageFile") MultipartFile aboutImageFile
     ) throws Exception {
 
-        // Upload folder
-        String uploadDir = "uploads/about/";
-        File dir = new File(uploadDir);
-        if (!dir.exists()) dir.mkdirs();
-
         // If new image uploaded
         if (aboutImageFile != null && !aboutImageFile.isEmpty()) {
-
-            String fileName = System.currentTimeMillis() + "_" +
-                    aboutImageFile.getOriginalFilename();
-
-            Path filePath = Paths.get(uploadDir + fileName);
-            Files.copy(
-                    aboutImageFile.getInputStream(),
-                    filePath,
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-
-            // Save image path in DB
-            about.setAboutImageUrl("/uploads/about/" + fileName);
+            uploadStorageService.deletePublicFile(about.getAboutImageUrl());
+            about.setAboutImageUrl(uploadStorageService.storeImage(aboutImageFile, "about"));
         }
 
         aboutRepo.save(about);

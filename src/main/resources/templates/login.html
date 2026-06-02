@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
 
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
+
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" th:href="@{/css/navbar.css}">
 
@@ -30,15 +33,38 @@
 
         <h2>Login</h2>
 
-        <!-- Login messages -->
-        <p th:if="${param.error}" style="color:red;text-align:center;">
-            Invalid username or password.
-        </p>
-        <p th:if="${param.logout}" style="color:green;text-align:center;">
-            You have been logged out.
-        </p>
+        <!-- ================= LOGIN MESSAGES ================= -->
 
-        <form th:action="@{/login}" method="post" class="login-form">
+        <!-- 🔒 BLOCKED USER -->
+
+        <div th:if="${param.blocked}" class="message error">
+            Your account has been blocked by admin.
+            Please contact support.
+        </div>
+
+        <!-- ❌ INVALID LOGIN -->
+
+        <div th:if="${param.error}" class="message error">
+            Invalid email or password.
+        </div>
+
+        <!-- ⏳ RATE LIMITED -->
+
+        <div th:if="${param.rateLimited}" class="message error">
+            Too many attempts.
+            Please wait a minute and try again.
+        </div>
+
+        <!-- ✅ LOGOUT -->
+
+        <div th:if="${param.logout}" class="message success">
+            You have been logged out successfully.
+        </div>
+
+        <form th:action="@{/login(redirect=${param.redirect})}" method="post" class="login-form">
+
+            <!-- ✅ Carry redirect URL through form POST so success handler can read it -->
+            <input type="hidden" name="redirect" th:value="${param.redirect}">
 
             <div class="form-row">
                 <label>Email or phone</label>

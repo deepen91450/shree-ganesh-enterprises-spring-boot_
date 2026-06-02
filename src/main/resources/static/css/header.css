@@ -1,284 +1,456 @@
-/* ====================================================
-   GLOBAL HEADER WRAPPER
-==================================================== */
-.header {
-    width: 100%;
-    background: #fff;
-    border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+/* =====================================================
+   HEADER.CSS — Shree Ganesh Enterprises
+   Gmail-palette brand + professional top bar
+===================================================== */
+
+/* ── GMAIL COLOR TOKENS ── */
+:root {
+    --gmail-red:    #EA4335;
+    --gmail-blue:   #4285F4;
+    --gmail-yellow: #FBBC05;
+    --gmail-green:  #34A853;
+}
+
+/* ── OUTER HEADER WRAPPER ── */
+header {
+    background: #ffffff;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
     position: sticky;
     top: 0;
-    z-index: 9999;
+    z-index: 500;
+    transition: box-shadow 0.3s ease, transform 0.32s ease;
 }
 
-/* TOP ROW */
+header.header-compact .header-top {
+    padding: 6px 28px;
+}
+
+/* ── TOP ROW ── */
 .header-top {
-    max-width: 1400px;
-    margin: auto;
-    padding: 12px 25px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 10px 28px;
+    gap: 16px;
+    transition: padding 0.28s ease;
 }
 
-/* LOGO */
+/* ============================================================
+   BRAND LOGO + NAME  — Gmail gradient treatment
+============================================================ */
 .header-logo {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 18px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-.header-logo img {
-    height: 55px;
+    text-decoration: none;
+    flex-shrink: 0;
 }
 
-/* DESKTOP SEARCH */
-.header-search {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
-.search-box {
-    max-width: 420px;
-    width: 100%;
-    background: #f2f2f2;
-    padding: 8px 14px;
-    border-radius: 10px;
+.header-logo a {
     display: flex;
     align-items: center;
     gap: 10px;
-}
-.search-box input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    outline: none;
-    font-size: 15px;
-}
-.search-box button {
-    background: #007bff;
-    color: white;
-    padding: 7px 16px;
-    border-radius: 8px;
-    border: none;
+    text-decoration: none;
 }
 
-/* DESKTOP ICONS */
+/* Logo image — subtle color-ring glow */
+.header-logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    border-radius: 50%;
+    padding: 2px;
+
+    /* animated Gmail-color ring */
+    background: conic-gradient(
+        var(--gmail-red)   0deg   90deg,
+        var(--gmail-blue)  90deg  180deg,
+        var(--gmail-green) 180deg 270deg,
+        var(--gmail-yellow)270deg 360deg
+    );
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px rgba(66,133,244,0.18);
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
+
+.header-logo:hover img,
+.header-logo a:hover img {
+    transform: rotate(15deg) scale(1.08);
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px rgba(234,67,53,0.28);
+}
+
+/* ── BRAND TEXT — Gmail multi-color gradient ── */
+.header-logo span,
+.header-logo a span {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    line-height: 1.15;
+
+    /* Gmail 4-color letter gradient */
+    background: linear-gradient(
+        90deg,
+        var(--gmail-blue)   0%,
+        var(--gmail-red)    30%,
+        var(--gmail-yellow) 60%,
+        var(--gmail-green)  100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    /* Animate gradient position on hover */
+    background-size: 200% auto;
+    transition: background-position 0.6s ease;
+}
+
+.header-logo:hover span,
+.header-logo a:hover span {
+    background-position: right center;
+}
+
+/* Two-line version on small screens */
+@media (max-width: 480px) {
+    .header-logo span,
+    .header-logo a span {
+        font-size: 15px;
+        max-width: 140px;
+        line-height: 1.2;
+    }
+    .header-logo img {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* ============================================================
+   SEARCH BOX
+============================================================ */
+.header-search {
+    flex: 1;
+    max-width: 480px;
+}
+
+.search-box {
+    display: flex;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 50px;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    background: #f9fafb;
+}
+
+.search-box:focus-within {
+    border-color: var(--gmail-blue);
+    box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.15);
+    background: #ffffff;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 9px 18px;
+    font-size: 14px;
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    color: #1f2937;
+}
+
+.search-box input::placeholder {
+    color: #9ca3af;
+}
+
+.search-box button {
+    padding: 9px 22px;
+    background: var(--gmail-blue);
+    color: #ffffff;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    border-radius: 0 50px 50px 0;
+    transition: background 0.25s ease;
+    white-space: nowrap;
+}
+
+.search-box button:hover {
+    background: #1e40af;
+}
+
+/* ============================================================
+   DESKTOP ICON AREA (cart, auth buttons)
+============================================================ */
 .header-icons {
     display: flex;
     align-items: center;
-    gap: 20px;
-}
-.header-icons a {
-    text-decoration: none;
-    color: #222;
-    display: flex;
-    align-items: center;
-    gap: 5px;
+    gap: 14px;
+    flex-shrink: 0;
 }
 
-
-.logout-btn {
-    background: #ff4d4d;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    border: none;
-}
-
-/* ====================================================
-   MOBILE VISIBILITY CONTROL
-==================================================== */
-.desktop-only { display: flex; }
-.mobile-only { display: none; }
-
-/* Hide mobile menu on desktop */
-.mobile-nav-panel {
-    display: none;
-}
-
-/* ====================================================
-   MOBILE RESPONSIVE SETTINGS
-==================================================== */
-@media (max-width: 900px) {
-
-    .desktop-only { display: none !important; }
-    .mobile-only { display: flex !important; }
-
-    .header-top {
-        padding: 12px 18px;
-    }
-
-    .header-logo img {
-        height: 38px;
-    }
-
-    .header-icons-mobile {
-        display: flex;
-        font-size: 22px;
-        gap: 8px;
-    }
-
-    #cart-count-mobile {
-
-        background: #007bff;
-        padding: 2px 7px;
-        border-radius: 50%;
-        font-size: 12px;
-        color: white;
-    }
-
-    .mobile-menu-btn {
-        font-size: 28px;
-        padding: 5px;
-        cursor: pointer;
-    }
-
-    .mobile-search {
-        padding: 12px 18px;
-    }
-
-    /* ================================
-       MOBILE NAV — CLEAN STYLING
-    =================================*/
-    .mobile-nav-panel {
-        display: block;
-        width: 260px;
-        height: 100vh;
-        background: #ffffff;
-        position: fixed;
-        top: 0;
-        left: -100%;
-        padding: 25px;
-        z-index: 99999;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-        transition: left 0.3s ease;
-        font-family: inherit;
-    }
-
-    .mobile-nav-panel.open {
-        left: 0;
-    }
-
-    .mobile-nav-panel a {
-        display: block;
-        padding: 12px 0;
-        font-size: 17px;
-        text-decoration: none;
-        color: #222 !important;
-        font-weight: 500;
-        border-bottom: 1px solid #f2f2f2;
-    }
-
-    .mobile-nav-panel a:hover {
-        color: #007bff !important;
-    }
-
-    /* Remove border from last item */
-    .mobile-nav-panel a:last-of-type {
-        border-bottom: none;
-    }
-
-    .mobile-nav-panel hr {
-        margin: 18px 0;
-        border: none;
-        border-top: 1px solid #eee;
-    }
-
-    /* Logout button */
-    .mobile-nav-panel .logout-btn {
-        width: 100%;
-        text-align: center;
-        margin-top: 10px;
-        padding: 10px 0;
-        font-size: 16px;
-    }
-}
-/* AUTH BUTTONS CONTAINER */
-.auth-buttons {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* spacing between buttons */
-}
-
-/* LOGIN BUTTON (outline style) */
-.btn-login {
-    padding: 8px 18px;
-    border: 2px solid #0a74da;     /* blue outline */
-    border-radius: 6px;
-    color: #0a74da;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-.btn-login:hover {
-    background: #0a74da;
-    color: white;
-}
-
-/* SIGN UP BUTTON (solid blue style) */
-.btn-signup {
-    padding: 8px 20px;
-    background: #0a74da;           /* solid blue */
-    color: white;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 15px;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-.btn-signup:hover {
-    background: #005bb5;            /* darker blue on hover */
-}
-
-/* ====================================================
-   CART — DESKTOP vs MOBILE
-==================================================== */
-
-/* Desktop Cart */
+/* Cart link */
 .cart-desktop {
     display: flex;
     align-items: center;
     gap: 6px;
+    font-size: 14px;
     font-weight: 600;
+    color: #374151;
+    text-decoration: none;
+    padding: 7px 14px;
+    border-radius: 50px;
+    border: 1.5px solid #e5e7eb;
+    transition: all 0.25s ease;
+    position: relative;
+}
+
+.cart-desktop:hover {
+    border-color: var(--gmail-blue);
+    color: var(--gmail-blue);
+    background: rgba(66,133,244,0.05);
 }
 
 .cart-count {
-    background: #2563eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 50px;
+    background: var(--gmail-red);
     color: #fff;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 999px;
-    line-height: 1;
 }
 
-/* Mobile Cart */
-.cart-mobile {
-    position: relative;
+/* My Enquiries / My Profile links */
+.header-icons a:not(.cart-desktop):not(.btn-login):not(.btn-signup) {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #374151;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.header-icons a:not(.cart-desktop):not(.btn-login):not(.btn-signup):hover {
+    color: var(--gmail-blue);
+}
+
+/* Auth Buttons */
+.auth-buttons {
     display: flex;
+    gap: 10px;
     align-items: center;
 }
 
+.btn-login {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gmail-blue) !important;
+    border: 1.5px solid var(--gmail-blue);
+    border-radius: 50px;
+    background: transparent;
+    text-decoration: none !important;
+    transition: all 0.25s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-login:hover {
+    background: rgba(66, 133, 244, 0.08);
+}
+
+.btn-signup {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff !important;
+    background: linear-gradient(135deg, var(--gmail-blue), #1e40af);
+    border-radius: 50px;
+    text-decoration: none !important;
+    border: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-signup:hover {
+    background: linear-gradient(135deg, #1e40af, var(--gmail-blue));
+    box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+    transform: translateY(-1px);
+}
+
+/* Logout button */
+.logout-btn {
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gmail-red);
+    background: transparent;
+    border: 1.5px solid var(--gmail-red);
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.25s ease;
+}
+
+.logout-btn:hover {
+    background: rgba(234, 67, 53, 0.08);
+}
+
+/* ============================================================
+   MOBILE ELEMENTS
+============================================================ */
+.mobile-menu-btn {
+    font-size: 24px;
+    cursor: pointer;
+    color: #374151;
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    user-select: none;
+}
+
+.mobile-menu-btn:hover {
+    background: #f3f4f6;
+}
+
+/* Mobile cart badge */
+.cart-mobile {
+    position: relative;
+    display: inline-block;
+}
+
 .cart-mobile img {
-    width: 34px;
-    height: auto;
+    width: 28px;
+    height: 28px;
 }
 
 .cart-badge {
     position: absolute;
     top: -6px;
     right: -8px;
-    background: #ef4444;
+    background: var(--gmail-red);
     color: #fff;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 999px;
-    line-height: 1;
+    min-width: 17px;
+    height: 17px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+}
+
+/* Mobile search bar */
+.mobile-search {
+    padding: 8px 16px;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+}
+
+.mobile-search .search-box {
+    border-radius: 50px;
+}
+
+/* Mobile nav panel */
+.mobile-nav-panel {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 270px;
+    height: 100vh;
+    background: #ffffff;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.12);
+    z-index: 9999;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-nav-panel.open {
+    left: 0;
+}
+
+.mobile-nav-panel a,
+.mobile-nav-panel button {
+    padding: 12px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f2937;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.2s;
+    display: block;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+}
+
+.mobile-nav-panel a:hover {
+    background: rgba(66, 133, 244, 0.08);
+    color: var(--gmail-blue);
+    padding-left: 22px;
+}
+
+.mobile-nav-panel hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 8px 0;
+}
+
+/* ============================================================
+   RESPONSIVE SHOW/HIDE
+============================================================ */
+.desktop-only {
+    display: flex;
+}
+
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 900px) {
+    .desktop-only {
+        display: none !important;
+    }
+    .mobile-only {
+        display: flex !important;
+    }
+    .header-top {
+        padding: 10px 16px;
+    }
+}
+
+/* ============================================================
+   GMAIL COLOR UNDERLINE ACCENT — below entire header
+============================================================ */
+header::after {
+    content: "";
+    display: block;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--gmail-blue)   0%,
+        var(--gmail-red)    25%,
+        var(--gmail-yellow) 50%,
+        var(--gmail-green)  75%,
+        var(--gmail-blue)   100%
+    );
+    background-size: 200% auto;
+    animation: gmailBar 4s linear infinite;
+}
+
+@keyframes gmailBar {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
 }

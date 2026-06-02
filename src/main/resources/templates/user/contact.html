@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
 
     <!-- Layout CSS -->
     <link rel="stylesheet" href="/css/header.css">
@@ -42,6 +44,9 @@
         <!-- Enquiry Form -->
         <div class="contact-form-wrapper">
             <h3>Get in Touch</h3>
+            <p th:if="${param.rateLimited}" class="error-msg">
+                Too many enquiries submitted. Please wait a minute and try again.
+            </p>
             <div th:replace="~{fragments/enquiry-form :: enquiry-form}"></div>
         </div>
 
@@ -130,25 +135,14 @@
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- Cart Count Script -->
-<script>
-    function updateCartCount() {
-        const desk = document.getElementById("cart-count");
-        const mob = document.getElementById("cart-count-mobile");
-        const mobMenu = document.getElementById("cart-count-mobile-menu");
-
-        fetch("/cart/count")
-            .then(res => res.json())
-            .then(data => {
-                if (desk) desk.innerText = data.count;
-                if (mob) mob.innerText = data.count;
-                if (mobMenu) mobMenu.innerText = data.count;
-            })
-            .catch(err => console.error("Cart count error", err));
-    }
-</script>
-
+<!-- cart count + all interactions handled by script.js -->
 <script src="/js/script.js"></script>
+
+<!-- ✅ Turnstile Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 
 </body>
 </html>

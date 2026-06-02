@@ -4,11 +4,13 @@ import com.shreeganesh.enterprises.entity.User;
 import com.shreeganesh.enterprises.service.EmailService;
 import com.shreeganesh.enterprises.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +22,9 @@ public class AuthController {
 
     @Autowired
     private EmailService emailService;
+
+    @Value("${app.base-url}")
+    private String appBaseUrl;
 
     // ===================== LOGIN PAGE =====================
     @GetMapping("/login")
@@ -49,9 +54,20 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String signupSubmit(@ModelAttribute User user) {
-        userService.signup(user);
-        return "redirect:/login?registered=true";
+    public String signupSubmit(@ModelAttribute User user, Model model) {
+        try {
+            userService.signup(user);
+            return "redirect:/login?registered=true";
+        } catch (IllegalArgumentException e) {
+            if ("EMAIL_EXISTS".equals(e.getMessage())) {
+                model.addAttribute("error", "An account with this email already exists.");
+                model.addAttribute("user", user); // re-populate form fields
+            } else {
+                model.addAttribute("error", "Something went wrong. Please try again.");
+                model.addAttribute("user", user);
+            }
+            return "signup"; // stay on signup page
+        }
     }
 
     // ===================== FORGOT PASSWORD =====================
@@ -68,8 +84,11 @@ public class AuthController {
 
         userService.findByEmail(email).ifPresent(user -> {
             var token = userService.createPasswordResetToken(email);
-            String resetLink =
-                    "http://localhost:2330/reset-password?token=" + token.getToken();
+            String resetLink = UriComponentsBuilder
+                    .fromHttpUrl(appBaseUrl)
+                    .path("/reset-password")
+                    .queryParam("token", token.getToken())
+                    .toUriString();
             emailService.sendPasswordReset(email, resetLink);
         });
 
@@ -143,5 +162,34 @@ public class AuthController {
         return password.matches(
                 "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$"
         );
+    }
+
+    // ===================== ENTER PHONE =====================
+    @GetMapping("/enter-phone")
+    public String showPhonePage() {
+        return "enter-phone";
+    }
+
+    // ===================== SAVE PHONE =====================
+    @PostMapping("/save-phone")
+    public String savePhone(@RequestParam String phone,
+                            Authentication authentication,
+                            Model model) {
+
+        // 🔐 Validate phone
+        if (!phone.matches("^[6-9]\\d{9}$")) {
+            model.addAttribute("error", "Invalid phone number");
+            return "enter-phone";
+        }
+
+        var oauthUser = (org.springframework.security.oauth2.core.user.OAuth2User) authentication.getPrincipal();
+        String email = oauthUser.getAttribute("email");
+
+        userService.findByEmail(email).ifPresent(user -> {
+            user.setPhone(phone);
+            userService.save(user);
+        });
+
+        return "redirect:/";
     }
 }

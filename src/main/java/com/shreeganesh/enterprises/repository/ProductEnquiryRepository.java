@@ -5,12 +5,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface ProductEnquiryRepository
         extends JpaRepository<ProductEnquiry, Long> {
 
     List<ProductEnquiry> findByUserId(Long userId);
+
+    Page<ProductEnquiry> findByUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
 
     long countByAdminReplyNull();
 
@@ -23,4 +28,5 @@ public interface ProductEnquiryRepository
            OR LOWER(i.productName) LIKE LOWER(CONCAT('%', :q, '%'))
     """)
     List<ProductEnquiry> searchProductEnquiries(@Param("q") String q);
+    Page<ProductEnquiry> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }

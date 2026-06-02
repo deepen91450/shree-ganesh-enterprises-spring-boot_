@@ -10,45 +10,56 @@
           enctype="multipart/form-data"
           class="hero-banner-form">
 
-        <label>Banner Image</label>
-        <input type="file" name="file" required>
+        <div class="field">
+            <label>Banner Image</label>
+            <input type="file" name="file" required>
+        </div>
 
-        <label>Title</label>
-        <input type="text" name="title">
+        <div class="field">
+            <label>Title</label>
+            <input type="text" name="title">
+        </div>
 
-        <label>Subtitle</label>
-        <input type="text" name="subtitle">
+        <div class="field">
+            <label>Subtitle</label>
+            <input type="text" name="subtitle">
+        </div>
 
-        <button type="submit">Add Banner</button>
+        <button type="submit"><span data-lucide="plus"></span>Add Banner</button>
     </form>
 
-    <hr style="margin:30px 0">
+    <hr>
 
     <!-- BANNERS LIST -->
-    <table class="hero-banner-table">
-        <thead>
-        <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+    <div class="table-shell">
+        <table class="hero-banner-table">
+            <thead>
+            <tr>
+                <th>Image</th>
+                <th>Title</th>
+                <th>Action</th>
+            </tr>
+            </thead>
 
-        <tbody>
-        <tr th:each="b : ${banners}">
-            <td>
-                <img th:src="${b.imageUrl}"
-                     alt="Banner Image">
-            </td>
-            <td th:text="${b.title}"></td>
-            <td>
-                <a th:href="@{/admin/banners/delete/{id}(id=${b.id})}"
-                   onclick="return confirm('Delete this banner?')">
-                    Delete
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            <tbody>
+            <tr th:each="b : ${banners}">
+                <td>
+                    <img th:src="${b.imageUrl}"
+                         alt="Banner Image">
+                </td>
+                <td th:text="${b.title}"></td>
+                <td>
+                    <form th:action="@{/admin/banners/delete/{id}(id=${b.id})}"
+                          method="post"
+                          onsubmit="return confirm('Delete this banner?')">
+                        <button class="btn-danger" type="submit">
+                            <span data-lucide="trash-2"></span>Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>

@@ -1,5 +1,5 @@
 <!-- VIEW PRODUCT (ADMIN) -->
-<link rel="stylesheet" href="/css/admin/admin-view-product.css" >
+<link rel="stylesheet" href="/css/admin/admin-view-product.css">
 
 <div class="product-view-container" xmlns:th="http://www.thymeleaf.org">
 
@@ -20,7 +20,23 @@
         <div class="view-row">
             <span class="view-label">Price</span>
             <span class="view-value">
-                ₹ <span th:text="${product.price}"></span>
+                &#8377; <span th:text="${product.price}"></span>
+            </span>
+        </div>
+
+        <!-- STOCK FIELD -->
+        <div class="view-row">
+            <span class="view-label">Stock Quantity</span>
+            <span class="view-value" th:text="${product.stockQuantity}"></span>
+        </div>
+
+        <!-- STATUS DISPLAY -->
+        <div class="view-row">
+            <span class="view-label">Stock Status</span>
+            <span class="view-value">
+                <span th:if="${product.stockQuantity == 0}" class="stock-badge out">Out of Stock</span>
+                <span th:if="${product.stockQuantity > 0 and product.stockQuantity <= 5}" class="stock-badge low">Low Stock</span>
+                <span th:if="${product.stockQuantity > 5}" class="stock-badge in">In Stock</span>
             </span>
         </div>
 
@@ -46,9 +62,9 @@
     </div>
 
     <div class="view-actions">
-        <a href="/admin/products" class="view-back">← Back to Products</a>
+        <a href="/admin/products" class="view-back"><span data-lucide="arrow-left"></span>Back to Products</a>
         <a th:href="@{/admin/edit/{id}(id=${product.id})}"
-           class="view-edit">Edit Product</a>
+           class="view-edit"><span data-lucide="pencil"></span>Edit Product</a>
     </div>
 
 </div>

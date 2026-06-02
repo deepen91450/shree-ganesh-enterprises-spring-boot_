@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="/css/admin/admin-about.css">
     <link rel="stylesheet" href="/css/admin/admin-contact.css">
     <link rel="stylesheet" href="/css/admin/admin-search.css">
-
-
 </head>
 
 <body>
@@ -31,7 +29,21 @@
     <!-- ================= TOP BAR ================= -->
     <header class="topbar">
         <div class="top-left">
-            <span class="logo">Shree Ganesh Admin</span>
+            <button class="sidebar-toggle"
+                    type="button"
+                    aria-label="Toggle sidebar"
+                    aria-expanded="true"
+                    data-sidebar-toggle>
+                <span data-lucide="panel-left"></span>
+            </button>
+
+            <a href="/admin/dashboard" class="brand-lockup" aria-label="Admin dashboard">
+                <span class="brand-mark">SG</span>
+                <span class="brand-copy">
+                    <span class="logo">Shree Ganesh Admin</span>
+                    <span class="brand-kicker">Operations Console</span>
+                </span>
+            </a>
         </div>
 
         <div class="top-center">
@@ -44,55 +56,134 @@
             </form>
         </div>
 
-
         <div class="top-right">
-            <span class="icon">🔔</span>
 
+            <!-- Notification -->
+            <div class="notification-container">
+
+                <!-- Bell -->
+                <button class="icon"
+                        type="button"
+                        onclick="toggleDropdown()"
+                        aria-label="Open notifications"
+                        aria-controls="notifDropdown">
+                    <span data-lucide="bell"></span>
+                    <span class="notif-count"
+                          th:if="${notifications != null and notifications.size() > 0}"
+                          th:text="${notifications.size()}">
+                    </span>
+                </button>
+
+                <!-- Dropdown -->
+                <div id="notifDropdown" class="notif-dropdown">
+
+                    <div th:if="${notifications == null or #lists.isEmpty(notifications)}"
+                         class="notif-empty">
+                        No notifications
+                    </div>
+
+                    <div th:each="n : ${notifications}" class="notif-item">
+                        <span th:text="${n.message}"></span>
+                    </div>
+
+                    <div class="notif-footer">
+                        <form th:action="@{/admin/mark-read}" method="post">
+                            <button type="submit">
+                                <span data-lucide="check-check"></span>
+                                Mark all as read
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ADMIN DROPDOWN -->
             <div class="admin-dropdown">
-    <span class="admin-name">
-        <span class="admin-avatar">👤</span>
-        <span th:text="${#authentication.name}">Admin</span>
-    </span>
+                <button class="admin-name" type="button" aria-label="Open admin menu">
+                    <span class="admin-avatar" aria-hidden="true">A</span>
+                    <span th:text="${#authentication.name}">Admin</span>
+                    <span data-lucide="chevron-down"></span>
+                </button>
 
                 <div class="dropdown-menu">
-                    <a href="/admin/change-password">Change Password</a>
+                    <a href="/admin/change-password">
+                        <span data-lucide="key-round"></span>
+                        Change Password
+                    </a>
 
                     <form th:action="@{/admin/logout}" method="post">
-                        <button type="submit">Logout</button>
+                        <button type="submit">
+                            <span data-lucide="log-out"></span>
+                            Logout
+                        </button>
                     </form>
                 </div>
             </div>
 
         </div>
+
     </header>
 
     <!-- ================= BODY ================= -->
     <div class="body-wrapper">
 
         <!-- SIDEBAR -->
-            <aside class="sidebar">
-                <a href="/admin/dashboard">Dashboard</a>
-                <a href="/admin/products">Products</a>
-                <a href="/admin/categories">Categories</a>
-                <a href="/admin/about">About Page</a>   <!-- ✅ ADD THIS -->
-                <a href="/admin/contact">Contact Settings</a>
-                <a href="/admin/enquiries/customers">Customer Enquiries</a>
-                <a href="/admin/enquiries/products">Product Enquiries</a>
-                <a href="/admin/banners">Banners</a>
-                <a href="/admin/users">Users</a>
-                <a href="/admin/why-choose-us">Why Choose Us</a>
-                <a href="/admin/site-settings">Settings</a>
+        <aside class="sidebar" aria-label="Admin navigation">
+            <a href="/admin/dashboard">
+                <span class="nav-icon" data-lucide="layout-dashboard"></span>
+                <span class="nav-label">Dashboard</span>
+            </a>
+            <a href="/admin/products">
+                <span class="nav-icon" data-lucide="package"></span>
+                <span class="nav-label">Products</span>
+            </a>
+            <a href="/admin/categories">
+                <span class="nav-icon" data-lucide="folders"></span>
+                <span class="nav-label">Categories</span>
+            </a>
+            <a href="/admin/about">
+                <span class="nav-icon" data-lucide="file-text"></span>
+                <span class="nav-label">About Page</span>
+            </a>
+            <a href="/admin/contact">
+                <span class="nav-icon" data-lucide="contact"></span>
+                <span class="nav-label">Contact Settings</span>
+            </a>
+            <a href="/admin/enquiries/customers">
+                <span class="nav-icon" data-lucide="messages-square"></span>
+                <span class="nav-label">Customer Enquiries</span>
+            </a>
+            <a href="/admin/enquiries/products">
+                <span class="nav-icon" data-lucide="message-circle-question"></span>
+                <span class="nav-label">Product Enquiries</span>
+            </a>
+            <a href="/admin/banners">
+                <span class="nav-icon" data-lucide="image"></span>
+                <span class="nav-label">Banners</span>
+            </a>
+            <a href="/admin/users">
+                <span class="nav-icon" data-lucide="users"></span>
+                <span class="nav-label">Users</span>
+            </a>
+            <a href="/admin/why-choose-us">
+                <span class="nav-icon" data-lucide="sparkles"></span>
+                <span class="nav-label">Why Choose Us</span>
+            </a>
+            <a href="/admin/site-settings">
+                <span class="nav-icon" data-lucide="settings"></span>
+                <span class="nav-label">Settings</span>
+            </a>
+        </aside>
 
-            </aside>
         <!-- MAIN CONTENT -->
         <main class="main-content">
 
-            <!-- ✅ FIXED: SAFE FRAGMENT LOADING -->
             <div th:if="${content != null}"
                  th:replace="~{${content}}">
             </div>
 
-            <div th:unless="${content != null}">
+            <div th:unless="${content != null}" class="admin-shell-fallback">
                 <h2>Admin Panel</h2>
                 <p>Content not loaded.</p>
             </div>
@@ -102,11 +193,7 @@
     </div>
 </div>
 
-
-
-
-</body>
-
+<!-- Toast Message -->
 <div th:if="${param.success != null}"
      class="toast success"
      th:text="${param.success[0] == 'productReply' ?
@@ -114,11 +201,92 @@
               'Customer enquiry replied successfully'}">
 </div>
 
+<script src="https://unpkg.com/lucide@latest"></script>
 <script>
-    setTimeout(() => {
-        const toast = document.querySelector('.toast');
-        if (toast) toast.remove();
-    }, 3000);
+    function toggleDropdown() {
+        var dropdown = document.getElementById("notifDropdown");
+        dropdown.classList.toggle("show");
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var body = document.body;
+        var sidebarToggle = document.querySelector("[data-sidebar-toggle]");
+        var savedCollapsed = localStorage.getItem("adminSidebarCollapsed") === "true";
+        var currentPath = window.location.pathname.replace(/\/$/, "");
+        var navLinks = document.querySelectorAll(".sidebar a");
+
+        if (savedCollapsed && window.innerWidth > 900) {
+            body.classList.add("sidebar-collapsed");
+            sidebarToggle.setAttribute("aria-expanded", "false");
+        }
+
+        navLinks.forEach(function (link) {
+            var linkPath = new URL(link.getAttribute("href"), window.location.origin).pathname.replace(/\/$/, "");
+            if (currentPath === linkPath || currentPath.indexOf(linkPath + "/") === 0) {
+                link.classList.add("active");
+            }
+        });
+
+        sidebarToggle.addEventListener("click", function () {
+            if (window.innerWidth <= 900) {
+                body.classList.toggle("sidebar-open");
+                sidebarToggle.setAttribute("aria-expanded", body.classList.contains("sidebar-open"));
+                return;
+            }
+
+            body.classList.toggle("sidebar-collapsed");
+            var collapsed = body.classList.contains("sidebar-collapsed");
+            sidebarToggle.setAttribute("aria-expanded", String(!collapsed));
+            localStorage.setItem("adminSidebarCollapsed", String(collapsed));
+        });
+
+        document.addEventListener("click", function (event) {
+            var notification = document.querySelector(".notification-container");
+            var dropdown = document.getElementById("notifDropdown");
+
+            if (dropdown && notification && !notification.contains(event.target)) {
+                dropdown.classList.remove("show");
+            }
+
+            if (window.innerWidth <= 900 &&
+                !event.target.closest(".sidebar") &&
+                !event.target.closest("[data-sidebar-toggle]")) {
+                body.classList.remove("sidebar-open");
+            }
+        });
+
+        document.querySelectorAll('input[type="file"]').forEach(function (input) {
+            input.addEventListener("change", function () {
+                var file = input.files && input.files[0];
+                var existingPreview = input.parentElement.querySelector(".upload-preview");
+
+                if (existingPreview) {
+                    existingPreview.remove();
+                }
+
+                if (!file || !file.type || file.type.indexOf("image/") !== 0) {
+                    return;
+                }
+
+                var preview = document.createElement("img");
+                preview.className = "upload-preview";
+                preview.alt = "Selected image preview";
+                preview.src = URL.createObjectURL(file);
+                input.insertAdjacentElement("afterend", preview);
+            });
+        });
+
+        setTimeout(function () {
+            document.querySelectorAll(".toast").forEach(function (toast) {
+                toast.remove();
+            });
+        }, 3000);
+
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    });
 </script>
 
+</body>
 </html>

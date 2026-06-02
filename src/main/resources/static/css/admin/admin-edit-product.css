@@ -1,96 +1,27 @@
-/* ==============================
-   ADMIN – EDIT PRODUCT
-============================== */
+/* Edit product page-specific sizing. Shared form/card styles live in /css/admin.css. */
 
 .edit-product-container {
-    max-width: 900px;
-    margin: 30px auto;
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-
-.edit-product-title {
-    font-size: 26px;
-    font-weight: 700;
-    text-align: center;
-    color: #1f2937;
-    margin-bottom: 25px;
+    width: min(100%, 940px);
 }
 
 .edit-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.edit-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #374151;
-}
-
-.edit-input {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-    font-size: 14px;
-}
-
-.edit-input:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.edit-textarea {
-    min-height: 90px;
-    resize: vertical;
-}
-
-.current-image {
-    max-width: 220px;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-}
-
-.update-btn {
-    margin-top: 10px;
-    padding: 14px;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.update-btn:hover {
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+.edit-form .field:has(textarea),
+.edit-form .field:has(input[type="file"]),
+.edit-form .field:has(img),
+.edit-form .edit-checkbox,
+.edit-form .update-btn {
+    grid-column: 1 / -1;
 }
 
 .edit-back {
-    text-align: center;
-    margin-top: 20px;
+    margin-top: 18px;
 }
 
-.edit-back a {
-    color: #2563eb;
-    font-weight: 600;
-    text-decoration: none;
-}
-
-/* CKEditor Fix */
-.ck-editor__editable_inline {
-    min-height: 180px;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-    .edit-product-container {
-        margin: 15px;
-        padding: 20px;
+@media (max-width: 760px) {
+    .edit-form {
+        grid-template-columns: 1fr;
     }
 }

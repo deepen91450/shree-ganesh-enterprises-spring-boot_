@@ -162,3 +162,87 @@
         font-size: 16px;
     }
 }
+
+/* ===============================
+   ERROR MESSAGE
+================================ */
+
+.message.error {
+
+    background: rgba(255, 59, 59, 0.12);
+
+    border: 1px solid rgba(255, 59, 59, 0.35);
+
+    color: #ff4d4d;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    margin-bottom: 18px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+        0 0 15px rgba(255, 0, 0, 0.12);
+
+    animation: shakeError 0.35s ease;
+}
+
+/* ===============================
+   SUCCESS MESSAGE
+================================ */
+
+.message.success {
+
+    background: rgba(34, 197, 94, 0.12);
+
+    border: 1px solid rgba(34, 197, 94, 0.3);
+
+    color: #16a34a;
+
+    padding: 14px 16px;
+
+    border-radius: 14px;
+
+    margin-bottom: 18px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+/* ===============================
+   ERROR SHAKE ANIMATION
+================================ */
+
+@keyframes shakeError {
+
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
+
+    75% {
+        transform: translateX(-3px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}

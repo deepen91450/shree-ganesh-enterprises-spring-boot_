@@ -2,17 +2,12 @@ package com.shreeganesh.enterprises.controller;
 
 import com.shreeganesh.enterprises.entity.SiteSettings;
 import com.shreeganesh.enterprises.repository.SiteSettingsRepository;
+import com.shreeganesh.enterprises.service.UploadStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @Controller
 @RequestMapping("/admin/site-settings")
@@ -20,6 +15,9 @@ public class AdminSiteSettingsController {
 
     @Autowired
     private SiteSettingsRepository repo;
+
+    @Autowired
+    private UploadStorageService uploadStorageService;
 
     // ===================== PAGE LOAD =====================
     @GetMapping
@@ -69,15 +67,8 @@ public class AdminSiteSettingsController {
         }
 
         if (logoFile != null && !logoFile.isEmpty()) {
-            String uploadDir = "uploads/logo/";
-            File dir = new File(uploadDir);
-            if (!dir.exists()) dir.mkdirs();
-
-            String fileName = System.currentTimeMillis() + "_" + logoFile.getOriginalFilename();
-            Path path = Paths.get(uploadDir + fileName);
-
-            Files.copy(logoFile.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            settings.setLogoPath("/uploads/logo/" + fileName);
+            uploadStorageService.deletePublicFile(settings.getLogoPath());
+            settings.setLogoPath(uploadStorageService.storeImage(logoFile, "logo"));
         }
 
         // ================= FOOTER =================

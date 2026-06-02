@@ -1,5 +1,6 @@
-<div th:fragment="content"  xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content" xmlns:th="http://www.thymeleaf.org">
 
+    <!-- SUCCESS TOAST -->
     <div th:if="${param.success != null and param.success[0] == 'productReply'}"
          class="toast success">
         Product enquiry replied successfully
@@ -7,54 +8,87 @@
 
     <h1 class="page-title">Product Enquiries</h1>
 
+    <!-- TABLE -->
+    <div class="table-shell">
+        <table class="product-enquiry-table">
 
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Message</th>
+                <th>Date</th>
+                <th>Products</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
 
+            <tbody>
 
-    <table class="product-enquiry-table">
+            <tr th:each="e : ${requests}">
+                <td th:text="${e.id}"></td>
+                <td th:text="${e.userName}"></td>
+                <td th:text="${e.userEmail}"></td>
+                <td th:text="${e.userPhone}"></td>
+                <td th:text="${e.message}"></td>
+                <td th:text="${#temporals.format(e.createdAt,'dd-MM-yyyy HH:mm')}"></td>
 
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Message</th>
-            <th>Date</th>
-            <th>Products</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-        </thead>
+                <td>
+                    <ul class="product-items">
+                        <li th:each="p : ${e.items}"
+                            th:text="${p.productName + ' (Qty: ' + p.quantity + ')'}">
+                        </li>
+                    </ul>
+                </td>
 
-        <tbody>
-        <tr th:each="e : ${requests}">
-            <td th:text="${e.id}"></td>
-            <td th:text="${e.userName}"></td>
-            <td th:text="${e.userEmail}"></td>
-            <td th:text="${e.userPhone}"></td>
-            <td th:text="${e.message}"></td>
-            <td th:text="${#temporals.format(e.createdAt,'dd-MM-yyyy HH:mm')}"></td>
+                <td>
+                    <span th:if="${e.adminReply == null}" class="badge pending">Pending</span>
+                    <span th:if="${e.adminReply != null}" class="badge replied">Replied</span>
+                </td>
 
-            <td>
-                <ul class="product-items">
+                <td>
+                    <a th:href="@{'/admin/enquiries/products/reply/' + ${e.id}}"
+                       class="btn small"><span data-lucide="reply"></span>Reply</a>
+                </td>
+            </tr>
 
-                <li th:each="p : ${e.items}"
-                        th:text="${p.productName + ' (Qty: ' + p.quantity + ')'}"></li>
-                </ul>
-            </td>
+            <!-- EMPTY STATE -->
+            <tr th:if="${#lists.isEmpty(requests)}">
+                <td colspan="9" class="empty-state">
+                    No product enquiries found
+                </td>
+            </tr>
 
-            <td>
-                <span th:if="${e.adminReply == null}" class="badge pending">Pending</span>
-                <span th:if="${e.adminReply != null}" class="badge replied">Replied</span>
-            </td>
+            </tbody>
+        </table>
+    </div>
 
-            <td>
-                <a th:href="@{'/admin/enquiries/products/reply/' + ${e.id}}"
-                   class="btn small">Reply</a>
+    <!-- PAGINATION -->
+    <div class="pagination">
 
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <!-- Previous -->
+        <a th:if="${currentPage > 0}"
+           th:href="@{/admin/enquiries/products(page=${currentPage - 1})}">
+            Prev
+        </a>
+
+        <!-- Pages -->
+        <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/admin/enquiries/products(page=${i})}"
+               th:text="${i + 1}"
+               th:classappend="${i == currentPage} ? 'active' : ''">
+            </a>
+        </span>
+
+        <!-- Next -->
+        <a th:if="${currentPage < totalPages - 1}"
+           th:href="@{/admin/enquiries/products(page=${currentPage + 1})}">
+            Next
+        </a>
+
+    </div>
 
 </div>

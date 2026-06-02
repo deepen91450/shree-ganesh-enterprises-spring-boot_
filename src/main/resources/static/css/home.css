@@ -108,6 +108,15 @@
     padding: 16px;
     transition: 0.25s ease;
     cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ADD THIS NEW RULE */
+.category-card .btn {
+    margin-top: auto;
 }
 
 .category-card:hover {
@@ -128,12 +137,7 @@
     color: var(--text-dark);
 }
 
-/* View Button (now uses global button system) */
-.view-btn {
-    margin-top: 12px;
-    display: inline-block;
-    width: fit-content;
-}
+
 
 /* ================= WHY CHOOSE US ================= */
 

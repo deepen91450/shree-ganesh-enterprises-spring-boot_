@@ -5,14 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Enquiries</title>
 
-    <link rel="stylesheet" href="/css/my-enquiries.css">
+    <!-- GLOBAL DESIGN SYSTEM -->
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
+    <!-- HEADER / NAV -->
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/footer.css">
-    <link rel="stylesheet" href="/css/enquiry.css">
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/components.css">
-    <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- PAGE CSS -->
+    <link rel="stylesheet" href="/css/my-enquiries.css">
 
 </head>
 <body>
@@ -20,85 +25,101 @@
 <!-- Header -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h2 class="my-enquiry-title">My Enquiries</h2>
+<div class="container">
 
-<!-- If no enquiries -->
-<p th:if="${#lists.isEmpty(productEnquiries) and #lists.isEmpty(customerEnquiries)}"
-   class="no-enquiry">
-    🚫 You have not made any enquiries yet.
-</p>
+    <h2 class="page-title">My Enquiries</h2>
 
+    <!-- No enquiries -->
+    <p th:if="${#lists.isEmpty(productEnquiries)}" class="no-enquiry">
+        🚫 You have not made any enquiries yet.
+    </p>
 
-<!-- ================= PRODUCT ENQUIRIES ================= -->
+    <!-- PRODUCT ENQUIRIES -->
+    <div th:if="${!#lists.isEmpty(productEnquiries)}">
 
-<div th:if="${!#lists.isEmpty(productEnquiries)}">
-    <h3 style="margin-top:25px;">🛒 Product Enquiries</h3>
+        <div th:each="e : ${productEnquiries}" class="enquiry-card">
 
-    <div th:each="e : ${productEnquiries}" class="enquiry-card">
+            <!-- Header -->
+            <div class="enquiry-header">
+                <h3>Enquiry #<span th:text="${e.id}"></span></h3>
 
-        <h3>Enquiry #<span th:text="${e.id}"></span></h3>
+                <span class="status"
+                      th:classappend="${e.adminReply != null} ? 'replied' : 'pending'">
+                    <span th:text="${e.adminReply != null ? 'Replied' : 'Pending'}"></span>
+                </span>
+            </div>
 
-        <p>
-            <strong>Date:</strong>
-            <span th:text="${#temporals.format(e.createdAt, 'dd-MM-yyyy HH:mm')}"></span>
-        </p>
+            <!-- Date -->
+            <div class="enquiry-date">
+                <span th:text="${#temporals.format(e.createdAt, 'dd MMM yyyy, HH:mm')}"></span>
+            </div>
 
-        <p>
-            <strong>Message:</strong>
-            <span th:text="${e.message}"></span>
-        </p>
+            <!-- Message -->
+            <div class="enquiry-box">
+                <strong>Your Message</strong>
+                <p th:text="${e.message}"></p>
+            </div>
 
-        <p>
-            <strong>Admin Reply:</strong>
-            <span th:if="${e.adminReply == null}">⏳ No reply yet</span>
-            <span th:if="${e.adminReply != null}" th:text="${e.adminReply}"></span>
-        </p>
+            <!-- Admin Reply -->
+            <div class="enquiry-reply" th:if="${e.adminReply != null}">
+                <strong>Admin Reply</strong>
+                <p th:text="${e.adminReply}"></p>
+            </div>
 
-        <p>
-            <strong>Status:</strong>
-            <span th:if="${e.adminReply == null}" style="color: orange;">Pending</span>
-            <span th:if="${e.adminReply != null}" style="color: green;">Replied</span>
-        </p>
+            <!-- Products -->
+            <div class="product-list">
+                <div class="product-item" th:each="item : ${e.items}">
 
-        <!-- Product list -->
-        <ul>
-            <li th:each="item : ${e.items}">
-                <img th:src="@{${item.productImage}}" alt="Product">
+                    <img th:src="${item.productImage != null} ? @{${item.productImage}} : @{/images/no-product.png}"
+                         onerror="this.onerror=null;this.src='/images/no-product.png';"
+                         alt="Product">
 
-                <div class="enquiry-product-meta">
-                    <strong th:text="${item.productName}"></strong>
-                    <span>Qty: <span th:text="${item.quantity}"></span></span>
-                    <span>₹ <span th:text="${item.productPrice}"></span></span>
+                    <div class="product-info">
+                        <h4 th:text="${item.productName}"></h4>
+                        <p>Qty: <span th:text="${item.quantity}"></span></p>
+                        <p class="price">₹ <span th:text="${item.productPrice}"></span></p>
+                    </div>
+
                 </div>
-            </li>
-        </ul>
+            </div>
 
+        </div>
 
-        <hr>
+        <!-- ================= PAGINATION ================= -->
+        <div class="pagination" th:if="${totalPages > 1}">
+
+            <!-- Prev -->
+            <a th:if="${currentPage > 0}"
+               th:href="@{/my-enquiries(page=${currentPage - 1})}">
+                ⬅ Prev
+            </a>
+
+            <!-- Page Numbers -->
+            <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                <a th:href="@{/my-enquiries(page=${i})}"
+                   th:classappend="${i == currentPage} ? 'active'">
+                    <span th:text="${i + 1}"></span>
+                </a>
+            </span>
+
+            <!-- Next -->
+            <a th:if="${currentPage < totalPages - 1}"
+               th:href="@{/my-enquiries(page=${currentPage + 1})}">
+                Next ➡
+            </a>
+
+        </div>
+
     </div>
+
 </div>
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <script src="/js/script.js"></script>
-
-<script>
-    function updateCartCount() {
-        const desk = document.getElementById("cart-count");
-        const mob = document.getElementById("cart-count-mobile");
-        const mobMenu = document.getElementById("cart-count-mobile-menu");
-
-        fetch("/cart/count")
-            .then(res => res.json())
-            .then(data => {
-                if (desk) desk.innerText = data.count;
-                if (mob) mob.innerText = data.count;
-                if (mobMenu) mobMenu.innerText = data.count;
-            })
-            .catch(err => console.error("Cart count error", err));
-    }
-</script>
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 
 </body>
 </html>

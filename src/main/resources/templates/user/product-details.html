@@ -3,10 +3,17 @@
 <head>
     <title th:text="${product.name}">Product Details</title>
 
+    <!-- CSRF -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <!-- GLOBAL STYLES -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
+
 
     <!-- PAGE SPECIFIC -->
     <link rel="stylesheet" href="/css/product-details.css">
@@ -19,25 +26,23 @@
 
 <body>
 
-<!-- HEADER -->
 <div th:replace="~{fragments/header :: header}"></div>
+
+<!-- TOAST -->
+<div id="toast">Added to Cart!</div>
 
 <main class="details-wrapper">
 
-    <!-- TOP PRODUCT SECTION -->
     <div class="details-container">
 
-        <!-- LEFT IMAGE -->
         <div class="left-box">
             <img th:src="${product.imagePath}" alt="Product Image">
         </div>
 
-        <!-- RIGHT SIDE DETAILS -->
         <div class="right-box">
 
             <h1 th:text="${product.name}"></h1>
 
-            <!-- PRICE -->
             <div th:if="${product.priceVisible}" class="price">
                 ₹ <span th:text="${product.price}"></span>
             </div>
@@ -48,10 +53,8 @@
 
             <p class="short-desc" th:text="${product.description}"></p>
 
-            <!-- ACTION SECTION -->
             <div class="action-buttons">
 
-                <!-- ===== PRICED PRODUCT ===== -->
                 <div th:if="${product.priceVisible}" class="priced-actions">
 
                     <div class="qty-box">
@@ -60,27 +63,21 @@
                         <button class="plus">+</button>
                     </div>
 
-                    <button class="add-cart" id="addToCartBtn">
+                    <button class="add-cart add-to-cart-btn"
+                            th:attr="data-product-id=${product.id}">
                         Add to Cart
                     </button>
 
-                    <a th:href="@{/contact(
-                productId=${product.id},
-                productName=${product.name}
-            )}"
+                    <a th:href="@{/contact(productId=${product.id}, productName=${product.name})}"
                        class="enquire-btn secondary">
                         Enquire Now
                     </a>
 
                 </div>
 
-                <!-- ===== ENQUIRY ONLY PRODUCT ===== -->
                 <div th:if="${!product.priceVisible}" class="enquiry-only-actions">
 
-                    <a th:href="@{/contact(
-                productId=${product.id},
-                productName=${product.name}
-            )}"
+                    <a th:href="@{/contact(productId=${product.id}, productName=${product.name})}"
                        class="enquire-btn primary">
                         Enquire Now
                     </a>
@@ -89,14 +86,11 @@
 
             </div>
 
-
-            <!-- HELP -->
             <div class="help-box">
                 Need help choosing the right size?
                 <a href="/contact">Talk to our expert</a>
             </div>
 
-            <!-- TRUST -->
             <div class="trust-points">
                 <span>✔ Quality Checked</span>
                 <span>✔ Trusted by Industries</span>
@@ -112,7 +106,6 @@
 
     </div>
 
-    <!-- FULL DETAILS -->
     <div class="full-details">
         <h2>Product Details</h2>
         <div th:utext="${product.longDescription}"></div>
@@ -120,38 +113,14 @@
 
 </main>
 
-<!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- JS -->
-<script>
 
-    // QTY BUTTONS (only if present)
-    const plusBtn = document.querySelector(".plus");
-    const minusBtn = document.querySelector(".minus");
-    const qtyInput = document.querySelector("#qty");
-
-    if (plusBtn && minusBtn && qtyInput) {
-        plusBtn.onclick = () => qtyInput.value++;
-        minusBtn.onclick = () => {
-            if (qtyInput.value > 1) qtyInput.value--;
-        };
-    }
-
-    // ADD TO CART (only if button exists)
-    const addBtn = document.querySelector("#addToCartBtn");
-
-    if (addBtn) {
-        addBtn.onclick = () => {
-            let qty = document.querySelector("#qty").value;
-            let productId = [[${product.id}]];
-            window.location.href = "/cart/add/" + productId + "?qty=" + qty;
-        };
-    }
-
-</script>
-
+<!-- GLOBAL SCRIPT (handles cart + toast) -->
 <script src="/js/script.js"></script>
+
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 
 </body>
 </html>

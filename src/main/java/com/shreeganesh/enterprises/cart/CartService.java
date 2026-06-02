@@ -3,6 +3,7 @@ package com.shreeganesh.enterprises.cart;
 import com.shreeganesh.enterprises.entity.CartItemEntity;
 import com.shreeganesh.enterprises.entity.Product;
 import com.shreeganesh.enterprises.repository.CartRepository;
+import com.shreeganesh.enterprises.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,9 @@ public class CartService {
 
     @Autowired
     private CartRepository cartRepository;
+    @Autowired
+    private ProductRepository productRepository;
+
 
     /* ----------------------------------------------------------
      * GET CART ITEMS
@@ -28,12 +32,38 @@ public class CartService {
     @Transactional
     public void addToCart(Product product, int qty, String email) {
 
-        CartItemEntity existing = cartRepository.findByUserEmailAndProductId(email, product.getId());
+        if (qty <= 0) {
+            throw new IllegalArgumentException("Invalid quantity");
+        }
+
+        int maxLimit = (product.getMaxOrderQty() != null)
+                ? product.getMaxOrderQty()
+                : 200;
+
+        int allowedQty = Math.min(product.getStockQuantity(), maxLimit);
+
+        CartItemEntity existing =
+                cartRepository.findByUserEmailAndProductId(email, product.getId());
 
         if (existing != null) {
-            existing.setQuantity(existing.getQuantity() + qty);
+
+            int newQty = existing.getQuantity() + qty;
+
+            if (newQty > allowedQty) {
+                throw new IllegalArgumentException(
+                        "Maximum allowed quantity is " + allowedQty
+                );
+            }
+
+            existing.setQuantity(newQty);
             cartRepository.save(existing);
             return;
+        }
+
+        if (qty > allowedQty) {
+            throw new IllegalArgumentException(
+                    "You can only add up to " + allowedQty + " items"
+            );
         }
 
         CartItemEntity newItem = new CartItemEntity();
@@ -46,7 +76,6 @@ public class CartService {
 
         cartRepository.save(newItem);
     }
-
     /* ----------------------------------------------------------
      * REMOVE ITEM
      * ---------------------------------------------------------- */
@@ -96,12 +125,30 @@ public class CartService {
      * ---------------------------------------------------------- */
     @Transactional
     public void setQuantity(String email, Long productId, int qty) {
-        CartItemEntity item = cartRepository.findByUserEmailAndProductId(email, productId);
+
+        CartItemEntity item =
+                cartRepository.findByUserEmailAndProductId(email, productId);
+
         if (item == null) return;
 
         if (qty <= 0) {
             cartRepository.delete(item);
             return;
+        }
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        int maxLimit = (product.getMaxOrderQty() != null)
+                ? product.getMaxOrderQty()
+                : 200;
+
+        int allowedQty = Math.min(product.getStockQuantity(), maxLimit);
+
+        if (qty > allowedQty) {
+            throw new IllegalArgumentException(
+                    "Maximum allowed quantity is " + allowedQty
+            );
         }
 
         item.setQuantity(qty);

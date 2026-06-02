@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
 
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
+
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <link rel="stylesheet" href="/css/navbar.css">
 
@@ -30,7 +33,10 @@
     <div class="signup-container">
 
         <h2>Sign Up</h2>
-
+        <p class="error" th:if="${error}">
+            <span th:text="${error}"></span>
+            <a href="/login">Login instead?</a>
+        </p>
         <form th:action="@{/signup}" method="post" th:object="${user}">
             <input th:field="*{name}" placeholder="Full name" required />
             <input th:field="*{email}" placeholder="Email" required />

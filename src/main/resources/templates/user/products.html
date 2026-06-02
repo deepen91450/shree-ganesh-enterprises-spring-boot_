@@ -5,9 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- CSRF -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
 
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/navbar.css">
@@ -21,12 +28,12 @@
 <!-- HEADER -->
 <div th:replace="~{fragments/header :: header}"></div>
 
-<!-- Toast -->
+<!-- TOAST -->
 <div id="toast">Added to Cart!</div>
 
 <main class="product-page">
 
-    <!-- ⭐ CATEGORY GRID -->
+    <!-- CATEGORY GRID -->
     <section class="category-section">
 
         <h2 class="category-title">Product Categories</h2>
@@ -37,7 +44,7 @@
                     <img th:src="${c.imagePath}" alt="Category Image">
                 </div>
                 <h3 th:text="${c.name}"></h3>
-                <a class="cat-btn" th:href="@{'/categories/' + ${c.id}}">
+                <a class="btn btn-primary" th:href="@{'/categories/' + ${c.id}}">
                     View Products →
                 </a>
             </div>
@@ -45,7 +52,7 @@
 
     </section>
 
-    <!-- ⭐ PRODUCT GRID -->
+    <!-- PRODUCT GRID -->
     <section class="product-section">
 
         <h2>Our Products</h2>
@@ -54,33 +61,30 @@
 
             <div class="product-card"
                  th:each="p : ${products}"
-                 th:attr="data-url=@{'/product/' + ${p.id}}"
-                 onclick="openProductCard(event, this)">
+                 th:attr="data-url=@{'/product/' + ${p.id}}">
 
-                <!-- IMAGE -->
                 <img th:src="${p.imagePath}" alt="Product">
 
-                <!-- NAME -->
                 <h3 th:text="${p.name}"></h3>
 
-                <!-- SHORT DESCRIPTION -->
                 <p th:text="${#strings.abbreviate(p.description, 80)}"></p>
 
-                <!-- ================= PRICED PRODUCT ================= -->
                 <div th:if="${p.priceVisible}">
 
                     <p class="price">
                         ₹ <span th:text="${p.price}"></span>
                     </p>
 
-                    <!-- QTY -->
                     <div class="qty-box">
                         <button type="button" class="qty-btn minus">-</button>
-                        <input type="number" class="qty-input" value="1" min="1">
+                        <input type="number"
+                               class="qty-input"
+                               value="1"
+                               min="1"
+                               th:attr="max=${p.maxOrderQty != null ? p.maxOrderQty : 200}">
                         <button type="button" class="qty-btn plus">+</button>
                     </div>
 
-                    <!-- ADD TO CART -->
                     <button type="button"
                             class="add-to-cart-btn"
                             th:attr="data-product-id=${p.id}">
@@ -89,20 +93,13 @@
 
                 </div>
 
-                <!-- ================= ENQUIRY ONLY PRODUCT ================= -->
                 <div th:if="${!p.priceVisible}" class="enquiry-only">
-
                     <a class="enquire-btn"
-                       th:href="@{/contact(
-                            productId=${p.id},
-                            productName=${p.name}
-                       )}">
+                       th:href="@{/contact(productId=${p.id}, productName=${p.name})}">
                         Enquire Now
                     </a>
-
                 </div>
 
-                <!-- VIEW DETAILS -->
                 <a class="view-details-btn"
                    th:href="@{'/product/' + ${p.id}}">
                     View Details →
@@ -115,25 +112,22 @@
         <!-- PAGINATION -->
         <div class="pagination" th:if="${totalPages > 1}">
 
-            <!-- Prev -->
             <a th:if="${currentPage > 0}"
                th:href="@{/products(page=${currentPage - 1}, size=20)}">
                 ← Prev
             </a>
 
             <span>
-        Page <span th:text="${currentPage + 1}"></span>
-        of <span th:text="${totalPages}"></span>
-    </span>
+                Page <span th:text="${currentPage + 1}"></span>
+                of <span th:text="${totalPages}"></span>
+            </span>
 
-            <!-- Next -->
             <a th:if="${currentPage < totalPages - 1}"
                th:href="@{/products(page=${currentPage + 1}, size=20)}">
                 Next →
             </a>
 
         </div>
-
 
     </section>
 
@@ -142,68 +136,10 @@
 <!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- GLOBAL JS -->
+<!-- ONLY GLOBAL SCRIPT -->
 <script src="/js/script.js"></script>
 
-<!-- CART + QTY JS (UNCHANGED & SAFE) -->
 <script>
-    function showToast(msg) {
-        const t = document.getElementById("toast");
-        t.innerText = msg;
-        t.classList.add("show");
-        setTimeout(() => t.classList.remove("show"), 2000);
-    }
-
-    function updateCartCount() {
-        const desk = document.getElementById("cart-count");
-        const mob = document.getElementById("cart-count-mobile");
-        const mobMenu = document.getElementById("cart-count-mobile-menu");
-
-        fetch("/cart/count")
-            .then(res => res.json())
-            .then(data => {
-                if (desk) desk.innerText = data.count;
-                if (mob) mob.innerText = data.count;
-                if (mobMenu) mobMenu.innerText = data.count;
-            });
-    }
-
-    document.querySelectorAll(".product-card").forEach(card => {
-        const minus = card.querySelector(".minus");
-        const plus = card.querySelector(".plus");
-        const input = card.querySelector(".qty-input");
-
-        if (minus && plus && input) {
-            minus.onclick = () => input.value > 1 && input.value--;
-            plus.onclick = () => input.value = Number(input.value) + 1;
-        }
-    });
-
-    document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
-        btn.onclick = () => {
-            const productId = btn.dataset.productId;
-            const qty = btn.closest(".product-card").querySelector(".qty-input").value;
-
-            fetch("/cart/ajax/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                body: "id=" + productId + "&qty=" + qty
-            })
-            .then(res => res.json())
-            .then(data => {
-                if (data.error === "not_logged_in") {
-                    window.location.href = data.redirect;
-                    return;
-                }
-                showToast("Added to cart!");
-                updateCartCount();
-            });
-        };
-    });
-
     function openProductCard(event, card) {
         if (
             event.target.closest("button") ||
@@ -214,6 +150,9 @@
         window.location.href = card.dataset.url;
     }
 </script>
+
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 
 </body>
 </html>

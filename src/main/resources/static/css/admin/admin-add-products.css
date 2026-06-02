@@ -1,121 +1,22 @@
-/* ==============================
-   ADD PRODUCT PAGE (ADMIN)
-============================== */
+/* Product form page-specific sizing. Shared form/card styles live in /css/admin.css. */
 
 .add-product-container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: min(100%, 940px);
 }
 
-/* Title */
-.add-product-title {
-    text-align: center;
-    font-size: 26px;
-    font-weight: 700;
-    color: #1f2937;
-    margin-bottom: 25px;
-}
-
-/* Form Layout */
 .product-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-/* Labels */
-.label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #374151;
+.product-form .field:has(textarea),
+.product-form .field:has(input[type="file"]),
+.product-form .form-checkbox,
+.product-form .save-btn {
+    grid-column: 1 / -1;
 }
 
-/* Inputs */
-.form-input {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-    font-size: 14px;
-    transition: all 0.25s ease;
-    background: #ffffff;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-/* Textarea */
-.textarea {
-    min-height: 80px;
-    resize: vertical;
-}
-
-/* Dropdown */
-.dropdown {
-    cursor: pointer;
-}
-
-/* File input */
-.file {
-    padding: 10px;
-    background: #f9fafb;
-}
-
-/* CKEditor spacing fix */
-.ck-editor__editable_inline {
-    min-height: 180px;
-    border-radius: 8px;
-}
-
-/* Save Button */
-.save-btn {
-    margin-top: 10px;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
-    color: #ffffff;
-    border: none;
-    padding: 14px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.save-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
-}
-
-/* Back button */
-.back-btn-box {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.back-btn {
-    text-decoration: none;
-    color: #2563eb;
-    font-weight: 600;
-}
-
-/* ==============================
-   RESPONSIVE (MOBILE)
-============================== */
-
-@media (max-width: 768px) {
-    .add-product-container {
-        margin: 15px;
-        padding: 20px;
-    }
-
-    .add-product-title {
-        font-size: 22px;
+@media (max-width: 760px) {
+    .product-form {
+        grid-template-columns: 1fr;
     }
 }

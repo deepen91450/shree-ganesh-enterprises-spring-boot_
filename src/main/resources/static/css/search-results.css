@@ -1,5 +1,6 @@
 /* =============================
    SEARCH RESULTS PAGE DESIGN
+   Uses variables from global.css
 ============================== */
 
 .search-page {
@@ -13,12 +14,12 @@
     font-size: 24px;
     margin-bottom: 20px;
     font-weight: 600;
-    color: #222;
+    color: var(--text-primary);
 }
 
 .no-result-text {
     font-size: 18px;
-    color: #777;
+    color: var(--text-secondary);
 }
 
 /* =============================
@@ -33,218 +34,219 @@
 }
 
 .product-card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    transition: 0.3s ease;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);      /* matches products.css */
+    padding: 16px;                         /* matches products.css */
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+    transition: var(--transition);
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .product-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);           /* matches products.css */
+    box-shadow: var(--shadow-lg);
 }
 
 /* Image */
 .product-card img {
     width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 8px;
+    height: 220px;                         /* matches products.css */
+    object-fit: contain;                   /* matches products.css */
+    border-radius: var(--radius-md);
 }
 
 /* Title */
 .product-card h3 {
-    margin: 10px 0;
+    margin: 12px 0 6px;
     font-size: 18px;
+    color: var(--text-primary);
 }
 
+.product-card > div {
+    margin-top: auto;
+}
 /* Description */
 .product-card p {
     font-size: 14px;
-    color: #555;
+    color: var(--text-secondary);
+    text-align: center;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .price {
     font-weight: 700;
     margin-bottom: 10px;
+    color: var(--text-primary);
 }
 
 /* =============================
-   QTY BOX + BUTTONS
+   QTY BOX — matches products.css
 ============================== */
 
 .qty-box {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 8px;
-    margin: 10px 0;
+    gap: 7px;
+    margin: 12px 0;
 }
 
 .qty-btn {
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border: none;
-    background: #007BFF;
-    color: white;
+    background: #eaeaea;                   /* grey, matches products.css */
+    color: var(--text-primary);
     font-size: 18px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     cursor: pointer;
+    transition: var(--transition);
+}
+
+.qty-btn:hover {
+    background: #dcdcdc;                   /* matches products.css */
 }
 
 .qty-input {
     width: 50px;
     text-align: center;
-    padding: 5px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    padding: 6px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
 }
 
-/* ADD TO CART BUTTON */
-
+/* ADD TO CART — matches products.css */
 .add-to-cart-btn {
     width: 100%;
     padding: 10px;
-    background: #0f172a;
-    color: white;
+    background: var(--primary);            /* blue, matches products.css */
+    color: var(--text-white);
     border: none;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
     cursor: pointer;
-    font-size: 15px;
+    font-size: 16px;
+    font-weight: 600;
     margin-top: 10px;
+    transition: var(--transition);
 }
 
 .add-to-cart-btn:hover {
-    background: #218838;
+    background: var(--primary-dark);       /* matches products.css */
 }
 
-/* VIEW DETAILS BUTTON */
-
+/* VIEW DETAILS — matches products.css */
 .view-details-btn {
     display: block;
     margin-top: 10px;
+    text-align: center;
     padding: 10px;
-    background: #0069d9;
-    color: white;
+    background: #f2f2f2;                   /* light grey, matches products.css */
+    font-weight: 600;
+    color: var(--text-primary);
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: var(--radius-md);
+    transition: var(--transition);
 }
 
 .view-details-btn:hover {
-    background: #0053b3;
+    background: #e2e2e2;                   /* matches products.css */
+    color: var(--text-primary);
 }
 
 /* MOBILE */
 @media (max-width: 600px) {
     .product-card img {
-        height: 150px;
+        height: 160px;
+    }
+
+    .add-to-cart-btn,
+    .view-details-btn {
+        padding: 8px;
+        font-size: 13px;
     }
 }
 
-#toast {
-    visibility: hidden;
-    opacity: 0;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #0a74da;
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 6px;
-    font-weight: bold;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    transition: opacity 0.4s ease;
-    z-index: 999999;
-}
-
-#toast.show {
-    visibility: visible;
-    opacity: 1;
-}
+/* #toast is handled globally in global.css — do NOT override here */
 
 /* =========================================
-   ENQUIRY ONLY — SEARCH RESULTS PAGE
+   ENQUIRY ONLY — matches products.css
 ========================================= */
 
-/* Wrapper spacing */
 .product-card .enquiry-only {
-    margin-top: 10px;
+    margin-top: auto;
 }
 
-/* Enquire Now button */
 .product-card .enquire-btn {
     display: block;
     width: 100%;
-    padding: 10px;
-    background: #0f172a;          /* professional dark */
-    color: #ffffff;
+    padding: 11px 14px;
+    background: var(--gray-900);
+    color: var(--text-white);
     text-align: center;
-    font-size: 14px;
     font-weight: 600;
-    border-radius: 6px;
+    font-size: 15px;
+    border-radius: var(--radius-md);
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: var(--transition);
 }
 
-/* Hover */
 .product-card .enquire-btn:hover {
-    background: #1e293b;
+    background: var(--gray-700);
     transform: translateY(-1px);
 }
 
-/* Optional label above enquiry */
 .product-card .enquiry-only::before {
     content: "Price on Request";
     display: block;
     font-size: 12px;
     font-weight: 600;
-    color: #6b7280;
+    color: var(--text-secondary);
     margin-bottom: 6px;
     text-align: center;
 }
 
-
 /* =========================
-   SEARCH PAGINATION
+   PAGINATION — matches products.css
 ========================= */
 
 .pagination {
+    margin-top: 30px;
     display: flex;
-    justify-content: center;   /* CENTER align */
+    justify-content: center;
     align-items: center;
-    gap: 10px;                 /* space between page numbers */
-    margin: 30px 0 10px;
+    gap: 10px;
 }
 
 .pagination a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     min-width: 38px;
     height: 38px;
-
     padding: 0 12px;
-    border-radius: 8px;
-
+    border-radius: var(--radius-md);
     font-size: 14px;
     font-weight: 600;
-
-    color: #0f172a;
-    background: #f1f5f9;
+    background: var(--primary);
+    color: var(--text-white);
     text-decoration: none;
-
-    transition: all 0.2s ease;
+    transition: var(--transition);
 }
 
 .pagination a:hover {
-    background: #2563eb;
-    color: #ffffff;
+    background: var(--primary-dark);
 }
 
 .pagination a.active {
-    background: #2563eb;
-    color: #ffffff;
+    background: var(--primary-dark);
     cursor: default;
 }

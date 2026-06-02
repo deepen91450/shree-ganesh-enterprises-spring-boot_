@@ -5,15 +5,19 @@
     <title>Search Results</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- ✅ CSRF META TAGS (IMPORTANT) -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <!-- GLOBAL + COMPONENT CSS -->
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/navbar.css">
-
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
-
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
     <!-- SEARCH RESULT PAGE CSS -->
     <link rel="stylesheet" href="/css/search-results.css">
 </head>
@@ -41,52 +45,37 @@
     <div class="product-grid">
         <div class="product-card" th:each="p : ${products}">
 
-            <!-- IMAGE -->
             <img th:src="${p.imagePath}" alt="Product">
-
-            <!-- TITLE -->
             <h3 th:text="${p.name}"></h3>
-
-            <!-- SHORT DESCRIPTION -->
             <p th:text="${#strings.abbreviate(p.description, 80)}"></p>
 
-            <!-- ================= PRICED PRODUCT ================= -->
+            <!-- PRICED PRODUCT -->
             <div th:if="${p.priceVisible}">
-
                 <p class="price">
                     ₹ <span th:text="${p.price}"></span>
                 </p>
 
-                <!-- QTY -->
                 <div class="qty-box">
                     <button type="button" class="qty-btn minus">-</button>
                     <input type="number" class="qty-input" value="1" min="1">
                     <button type="button" class="qty-btn plus">+</button>
                 </div>
 
-                <!-- ADD TO CART -->
                 <button type="button"
                         class="add-to-cart-btn"
                         th:attr="data-product-id=${p.id}">
                     Add to Cart
                 </button>
-
             </div>
 
-            <!-- ================= ENQUIRY ONLY PRODUCT ================= -->
+            <!-- ENQUIRY PRODUCT -->
             <div th:if="${!p.priceVisible}" class="enquiry-only">
-
                 <a class="enquire-btn"
-                   th:href="@{/contact(
-                        productId=${p.id},
-                        productName=${p.name}
-                   )}">
+                   th:href="@{/contact(productId=${p.id}, productName=${p.name})}">
                     Enquire Now
                 </a>
-
             </div>
 
-            <!-- VIEW DETAILS -->
             <a class="view-details-btn"
                th:href="@{'/product/' + ${p.id}}">
                 View Details →
@@ -95,7 +84,7 @@
         </div>
     </div>
 
-    <!-- ✅ PAGINATION (NEW - SAFE ADDITION) -->
+    <!-- PAGINATION -->
     <div class="pagination" th:if="${totalPages > 1}">
         <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
            th:href="@{/search(q=${keyword}, page=${i})}"
@@ -109,84 +98,10 @@
 <!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- JS FOR QTY + ADD TO CART -->
-<script>
-
-    // Toast
-    function showToast(msg) {
-        const t = document.getElementById("toast");
-        t.innerText = msg;
-        t.classList.add("show");
-        setTimeout(() => t.classList.remove("show"), 2000);
-    }
-
-    // Update cart count
-    function updateCartCount() {
-        const desk = document.getElementById("cart-count");
-        const mob = document.getElementById("cart-count-mobile");
-        const mobMenu = document.getElementById("cart-count-mobile-menu");
-
-        fetch("/cart/count")
-            .then(res => res.json())
-            .then(data => {
-                if (desk) desk.innerText = data.count;
-                if (mob) mob.innerText = data.count;
-                if (mobMenu) mobMenu.innerText = data.count;
-            })
-            .catch(err => console.error("Cart count error", err));
-    }
-
-    // Qty +/-
-    document.querySelectorAll(".plus").forEach(btn => {
-        btn.addEventListener("click", () => {
-            let input = btn.parentElement.querySelector(".qty-input");
-            input.value = parseInt(input.value) + 1;
-        });
-    });
-
-    document.querySelectorAll(".minus").forEach(btn => {
-        btn.addEventListener("click", () => {
-            let input = btn.parentElement.querySelector(".qty-input");
-            if (parseInt(input.value) > 1) {
-                input.value = parseInt(input.value) - 1;
-            }
-        });
-    });
-
-    // Add-to-Cart AJAX
-    document.querySelectorAll(".add-to-cart-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const productId = btn.getAttribute("data-product-id");
-            const qty = btn.closest(".product-card").querySelector(".qty-input").value;
-
-            fetch(window.location.origin + "/cart/ajax/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-Requested-With": "XMLHttpRequest"
-                },
-                body: "id=" + productId + "&qty=" + qty
-            })
-            .then(res => res.json())
-            .then(data => {
-
-                if (data.error === "not_logged_in") {
-                    window.location.href = data.redirect;
-                    return;
-                }
-
-                showToast("Added to cart!");
-                updateCartCount();
-            })
-            .catch(err => console.error("Add cart error", err));
-        });
-    });
-
-    updateCartCount();
-
-</script>
-
+<!-- All cart, qty, toast, and CSRF logic is handled by script.js -->
 <script src="/js/script.js"></script>
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 
 </body>
 </html>

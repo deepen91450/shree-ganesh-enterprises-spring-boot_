@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/css/admin-add-category.css">
+<link rel="stylesheet" href="/css/admin/admin-add-category.css">
 
 <div class="category-container" xmlns:th="http://www.thymeleaf.org">
 
@@ -9,30 +9,39 @@
           enctype="multipart/form-data"
           class="category-form">
 
-        <label>Category Name</label>
-        <input type="text" name="name"
-               th:value="${category.name}" required>
+        <div class="field">
+            <label>Category Name</label>
+            <input type="text" name="name"
+                   th:value="${category.name}" required>
+        </div>
 
-        <label>Current Image</label>
-        <img th:if="${category.imagePath != null}"
-             th:src="${category.imagePath}"
-             class="category-image">
+        <div class="field">
+            <label>Current Image</label>
+            <img th:if="${category.imagePath != null}"
+                 th:src="${category.imagePath}"
+                 class="category-image"
+                 alt="Category image">
+        </div>
 
-        <label>Upload New Image (Optional)</label>
-        <input type="file" name="image">
+        <div class="field">
+            <label>Upload New Image (Optional)</label>
+            <input type="file" name="image">
+        </div>
 
-        <label>Parent Category</label>
-        <select name="parentId">
-            <option value="">None (Root Category)</option>
-            <option th:each="c : ${categories}"
-                    th:if="${c.id != category.id}"
-                    th:value="${c.id}"
-                    th:selected="${category.parent != null and c.id == category.parent.id}"
-                    th:text="${c.name}">
-            </option>
-        </select>
+        <div class="field">
+            <label>Parent Category</label>
+            <select name="parentId">
+                <option value="">None (Root Category)</option>
+                <option th:each="c : ${categories}"
+                        th:if="${c.id != category.id}"
+                        th:value="${c.id}"
+                        th:selected="${category.parent != null and c.id == category.parent.id}"
+                        th:text="${c.name}">
+                </option>
+            </select>
+        </div>
 
-        <button type="submit">Update Category</button>
+        <button type="submit"><span data-lucide="save"></span>Update Category</button>
     </form>
 
 </div>

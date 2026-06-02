@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+
 @Controller
 @RequestMapping("/admin/enquiries")
 public class AdminCustomerEnquiryController {
@@ -22,9 +26,21 @@ public class AdminCustomerEnquiryController {
 
     // ✅ LIST CUSTOMER ENQUIRIES
     @GetMapping("/customers")
-    public String listCustomerEnquiries(Model model) {
+    public String listCustomerEnquiries(
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
 
-        model.addAttribute("enquiries", enquiryRepository.findAll());
+        int pageSize = 10;
+
+        Page<Enquiry> enquiryPage =
+                enquiryRepository.findAllByOrderByCreatedAtDesc(
+                        PageRequest.of(page, pageSize)
+                );
+
+        model.addAttribute("enquiries", enquiryPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", enquiryPage.getTotalPages());
+
         model.addAttribute("content", "admin/enquiries/customers");
 
         return "admin/layout";

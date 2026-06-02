@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- ✅ CSRF META TAGS (REQUIRED FOR AJAX) -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <!-- Include global styles -->
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/components.css">
     <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
 
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/navbar.css">
@@ -19,7 +26,6 @@
 </head>
 
 <body class="categories-page">
-
 
 <!-- HEADER -->
 <div th:replace="~{fragments/header :: header}"></div>
@@ -66,9 +72,17 @@
 
 </section>
 
-
 <!-- FOOTER -->
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- ONLY GLOBAL SCRIPT -->
+<script src="/js/script.js"></script>
+
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
+
+<!-- ✅ ADD THIS -->
+<div id="toast">Added to Cart!</div>
 
 </body>
 </html>

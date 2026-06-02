@@ -11,6 +11,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <!-- In <head>, last CSS -->
+    <link rel="stylesheet" href="/css/animations.css">
 
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/profile.css">
@@ -64,6 +66,7 @@ if (mobMenu) mobMenu.innerText = data.count;
 })
 .catch(err => console.error("Cart count error", err));
 } </script>
-
+<!-- Before </body> -->
+<script src="/js/animations.js"></script>
 </body>
 </html>

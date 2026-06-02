@@ -1,28 +1,45 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<body>
-
-<div th:fragment="enquiry-form" class="enquiry-wrapper">
+<div th:fragment="enquiry-form" class="enquiry-wrapper" xmlns:th="http://www.w3.org/1999/xhtml">
 
     <!-- Success Message -->
     <div th:if="${successMsg}" class="success-msg">
         <p th:text="${successMsg}"></p>
     </div>
 
-    <form action="/submit-enquiry" method="post" class="enquiry-form">
+    <form th:action="@{/submit-enquiry}" method="post" class="enquiry-form">
 
+        <!-- ✅ CSRF TOKEN -->
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}" />
+
+        <!-- Name -->
         <input type="text" name="name" placeholder="Your Name" required>
+
+        <!-- Email -->
         <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="phone" placeholder="Phone Number"  pattern="[6-9][0-9]{9}"
-               title="Enter a valid 10-digit Indian mobile number" required>
+
+        <!-- Phone -->
+        <input type="text" name="phone" placeholder="Phone Number"
+               pattern="[6-9][0-9]{9}"
+               title="Enter a valid 10-digit Indian mobile number"
+               required>
+
+        <!-- Company -->
         <input type="text" name="company" placeholder="Company Name" required>
 
+        <!-- Message -->
         <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
 
+        <!-- ✅ TURNSTILE CAPTCHA -->
+        <div class="cf-turnstile"
+             data-sitekey="0x4AAAAAADFVpmOXjiDe2vcT" data-size="flexible">
+        </div>
+
+        <!-- Submit -->
         <button type="submit">Send Enquiry</button>
+
     </form>
 
 </div>
 
-</body>
-</html>
+

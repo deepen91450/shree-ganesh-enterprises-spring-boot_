@@ -27,19 +27,29 @@ public class AdminUserService {
 
     // 🔒 Block user
     public void blockUser(Long id) {
+
         User user = getUser(id);
-        if (user != null) {
-            user.setEnabled(false);
-            userRepository.save(user);
+
+        if (user == null) {
+            throw new RuntimeException("User not found");
         }
+
+        user.setEnabled(false);
+
+        userRepository.saveAndFlush(user);
     }
 
     // 🔓 Unblock user
     public void unblockUser(Long id) {
+
         User user = getUser(id);
-        if (user != null) {
-            user.setEnabled(true);
-            userRepository.save(user);
+
+        if (user == null) {
+            throw new RuntimeException("User not found");
         }
+
+        user.setEnabled(true);
+
+        userRepository.saveAndFlush(user);
     }
 }

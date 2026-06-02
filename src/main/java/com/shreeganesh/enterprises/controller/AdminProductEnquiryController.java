@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 @Controller
 @RequestMapping("/admin/enquiries")
 public class AdminProductEnquiryController {
@@ -24,15 +27,21 @@ public class AdminProductEnquiryController {
 
     // ✅ LIST PRODUCT ENQUIRIES
     @GetMapping("/products")
-    public String listProductEnquiries(Model model) {
+    public String listProductEnquiries(
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
 
-        List<ProductEnquiry> enquiries = productEnquiryRepository
-                .findAll()
-                .stream()
-                .sorted((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()))
-                .toList();
+        int pageSize = 10;
 
-        model.addAttribute("requests", enquiries);
+        Page<ProductEnquiry> enquiryPage =
+                productEnquiryRepository.findAllByOrderByCreatedAtDesc(
+                        PageRequest.of(page, pageSize)
+                );
+
+        model.addAttribute("requests", enquiryPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", enquiryPage.getTotalPages());
+
         model.addAttribute("content", "admin/enquiries/products");
 
         return "admin/layout";

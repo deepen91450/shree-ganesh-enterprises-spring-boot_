@@ -24,14 +24,14 @@ public class AdminUserController {
     }
 
     // ================= BLOCK USER =================
-    @GetMapping("/block/{id}")
+    @PostMapping("/block/{id}")
     public String block(@PathVariable Long id) {
         adminUserService.blockUser(id);
         return "redirect:/admin/users";
     }
 
     // ================= UNBLOCK USER =================
-    @GetMapping("/unblock/{id}")
+    @PostMapping("/unblock/{id}")
     public String unblock(@PathVariable Long id) {
         adminUserService.unblockUser(id);
         return "redirect:/admin/users";

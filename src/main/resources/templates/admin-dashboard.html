@@ -108,11 +108,12 @@
                 </a>
 
                 <!-- DELETE BUTTON -->
-                <a th:href="@{'/admin/delete/' + ${product.id}}"
-                   onclick="return confirm('Are you sure you want to delete this product?');"
-                   class="btn-danger">
-                    Delete
-                </a>
+                <form th:action="@{/admin/delete/{id}(id=${product.id})}"
+                      method="post"
+                      style="display:inline"
+                      onsubmit="return confirm('Are you sure you want to delete this product?');">
+                    <button type="submit" class="btn-danger">Delete</button>
+                </form>
             </td>
         </tr>
     </table>

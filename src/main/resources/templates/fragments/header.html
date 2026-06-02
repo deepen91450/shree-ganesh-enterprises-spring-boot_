@@ -5,21 +5,21 @@
     <!-- TOP ROW -->
     <div class="header-top">
 
-        <!-- Logo -->
+        <!-- ── BRAND LOGO + GMAIL-GRADIENT NAME ── -->
         <div class="header-logo">
             <a th:href="@{/}">
                 <img th:src="${siteSettings != null && siteSettings.logoPath != null
                               ? siteSettings.logoPath
                               : '/images/logo.png'}"
                      alt="Logo">
+                <span th:text="${siteSettings != null && siteSettings.siteTitle != null
+                                ? siteSettings.siteTitle
+                                : 'Shree Ganesh Enterprises'}">
+                </span>
             </a>
-            <span th:text="${siteSettings != null && siteSettings.siteTitle != null
-                            ? siteSettings.siteTitle
-                            : 'Shree Ganesh Enterprises'}">
-            </span>
         </div>
 
-        <!-- Desktop Search -->
+        <!-- ── DESKTOP SEARCH ── -->
         <div class="header-search desktop-only">
             <form th:action="@{/search}" method="get" class="search-box">
                 <input type="text" name="q" placeholder="Search products..." required>
@@ -27,7 +27,7 @@
             </form>
         </div>
 
-        <!-- Desktop Icons -->
+        <!-- ── DESKTOP ICONS ── -->
         <div class="header-icons desktop-only">
 
             <a th:href="@{/cart/view}" sec:authorize="hasRole('USER')" class="cart-desktop">
@@ -36,12 +36,11 @@
                 <span id="cart-count" class="cart-count">0</span>
             </a>
 
-
             <a th:href="@{/my-enquiries}" sec:authorize="hasRole('USER')">My Enquiries</a>
             <a th:href="@{/user/profile}" sec:authorize="hasRole('USER')">My Profile</a>
 
             <!-- Logout -->
-            <form th:action="@{/logout}" method="post" sec:authorize="hasRole('USER')">
+            <form th:action="@{/logout}" method="post" sec:authorize="hasRole('USER')" style="margin:0">
                 <button type="submit" class="logout-btn">Logout</button>
             </form>
 
@@ -52,12 +51,13 @@
                     <a th:href="@{/signup}" class="btn-signup">Sign Up</a>
                 </div>
             </span>
+
         </div>
 
-        <!-- Mobile Menu Button -->
+        <!-- ── MOBILE MENU BUTTON ── -->
         <div class="mobile-menu-btn mobile-only" onclick="toggleMenu()">☰</div>
 
-        <!-- Mobile Cart -->
+        <!-- ── MOBILE CART ICON ── -->
         <div class="header-icons-mobile mobile-only">
             <a th:href="@{/cart/view}" sec:authorize="hasRole('USER')" class="cart-mobile">
                 <img src="/Images/cart-mobile.png" alt="Cart">
@@ -65,13 +65,12 @@
             </a>
         </div>
 
-
     </div>
 
-    <!-- NAVBAR INCLUDED HERE -->
+    <!-- ── NAVBAR ── -->
     <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-    <!-- MOBILE SEARCH -->
+    <!-- ── MOBILE SEARCH ── -->
     <div class="mobile-search mobile-only">
         <form th:action="@{/search}" method="get" class="search-box">
             <input type="text" name="q" placeholder="Search products..." required>
@@ -79,53 +78,33 @@
         </form>
     </div>
 
-    <!-- MOBILE SLIDE NAV -->
+    <!-- ── MOBILE SLIDE NAV PANEL ── -->
     <div class="mobile-only">
         <div class="mobile-nav-panel" id="mobileNav">
 
-            <a th:href="@{/}">Home</a>
-            <a th:href="@{/products}">Products</a>
-            <a th:href="@{/about}">About</a>
-            <a th:href="@{/contact}">Contact</a>
+            <a th:href="@{/}">🏠 Home</a>
+            <a th:href="@{/products}">📦 Products</a>
+            <a th:href="@{/about}">ℹ️ About</a>
+            <a th:href="@{/contact}">📞 Contact</a>
 
             <hr>
 
             <a th:href="@{/cart/view}" sec:authorize="hasRole('USER')">
-                🛒Cart <span id="cart-count-mobile-menu">0</span>
+                🛒 Cart <span id="cart-count-mobile-menu">0</span>
             </a>
+            <a th:href="@{/my-enquiries}" sec:authorize="hasRole('USER')">📋 My Enquiries</a>
+            <a th:href="@{/user/profile}" sec:authorize="hasRole('USER')">👤 My Profile</a>
 
-            <a th:href="@{/my-enquiries}" sec:authorize="hasRole('USER')">My Enquiries</a>
-            <a th:href="@{/user/profile}" sec:authorize="hasRole('USER')">My Profile</a>
-
-            <form th:action="@{/logout}" sec:authorize="hasRole('USER')" method="post">
-                <button type="submit" class="logout-btn">Logout</button>
+            <form th:action="@{/logout}" sec:authorize="hasRole('USER')" method="post" style="margin:0">
+                <button type="submit" class="logout-btn" style="margin-top:8px">Logout</button>
             </form>
 
-            <!-- Guest -->
             <span sec:authorize="isAnonymous()">
-                <a th:href="@{/login}">Login</a>
-                <a th:href="@{/signup}">Sign Up</a>
+                <a th:href="@{/login}">🔑 Login</a>
+                <a th:href="@{/signup}">✨ Sign Up</a>
             </span>
 
         </div>
     </div>
 
 </header>
-
-<script>
-    // Update cart count from backend
-    function updateCartCount() {
-        const desk = document.getElementById("cart-count");
-        const mob = document.getElementById("cart-count-mobile");
-        const mobMenu = document.getElementById("cart-count-mobile-menu");
-
-        fetch("/cart/count")
-            .then(res => res.json())
-            .then(data => {
-                if (desk) desk.innerText = data.count;
-                if (mob) mob.innerText = data.count;
-                if (mobMenu) mobMenu.innerText = data.count;
-            })
-            .catch(err => console.error("Cart count error", err));
-    }
-</script>

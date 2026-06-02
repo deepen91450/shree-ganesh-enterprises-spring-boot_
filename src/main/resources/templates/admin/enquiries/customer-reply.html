@@ -1,19 +1,22 @@
-<form th:action="@{/admin/enquiries/customers/reply/{id}(id=${enquiry.id})}"
-      method="post"  xmlns:th="http://www.thymeleaf.org">
-
-    <h3>Reply to Enquiry</h3>
+<div class="admin-card" xmlns:th="http://www.thymeleaf.org">
+    <h2>Reply to Enquiry</h2>
 
     <p>
         <strong>User Message:</strong><br>
         <span th:text="${enquiry.message}"></span>
     </p>
 
-    <textarea name="replyMessage"
-              rows="6"
-              placeholder="Type reply here..."
-              required></textarea>
+    <form th:action="@{/admin/enquiries/customers/reply/{id}(id=${enquiry.id})}"
+          method="post">
 
-    <br><br>
+        <div class="field">
+            <label>Reply Message</label>
+            <textarea name="replyMessage"
+                      rows="6"
+                      placeholder="Type reply here..."
+                      required></textarea>
+        </div>
 
-    <button type="submit">Send Reply</button>
-</form>
+        <button type="submit"><span data-lucide="send"></span>Send Reply</button>
+    </form>
+</div>

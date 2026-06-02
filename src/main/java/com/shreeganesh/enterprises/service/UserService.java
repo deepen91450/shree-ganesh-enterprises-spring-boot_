@@ -29,8 +29,14 @@ public class UserService {
     }
 
     public User signup(User u) {
+        // ✅ Check for existing email
+        if (userRepository.findByEmail(u.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("EMAIL_EXISTS");
+        }
         u.setPassword(passwordEncoder.encode(u.getPassword()));
         u.setProvider("LOCAL");
+        u.setRole("USER");
+        u.setEnabled(true);
         return userRepository.save(u);
     }
 
@@ -96,5 +102,10 @@ public class UserService {
             user.setAddress(updated.getAddress());
             userRepository.save(user);
         });
+    }
+
+    // ===================== SAVE USER =====================
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

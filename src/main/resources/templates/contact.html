@@ -42,6 +42,9 @@
         <!-- Enquiry Form -->
         <div class="contact-form-wrapper">
             <h3>Send Us an Enquiry</h3>
+            <p th:if="${param.rateLimited}" class="error-msg">
+                Too many enquiries submitted. Please wait a minute and try again.
+            </p>
             <div th:replace="~{fragments/enquiry-form :: enquiry-form}"></div>
         </div>
 
@@ -149,6 +152,6 @@
 </script>
 
 <script src="/js/script.js"></script>
-
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>

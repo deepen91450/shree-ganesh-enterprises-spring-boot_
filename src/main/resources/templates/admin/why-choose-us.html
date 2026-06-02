@@ -34,47 +34,51 @@
             </div>
 
             <button class="btn-primary" type="submit">
-                Add Item
+                <span data-lucide="plus"></span>Add Item
             </button>
         </form>
     </div>
 
     <!-- ================= LIST ================= -->
-    <div class="admin-card" style="margin-top:20px;">
+    <div class="admin-card why-items-card">
         <h3>Existing Items</h3>
 
-        <table class="admin-table">
-            <thead>
-            <tr>
-                <th>Icon</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-            </thead>
+        <div class="table-shell">
+            <table class="admin-table">
+                <thead>
+                <tr>
+                    <th>Icon</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
 
-            <tbody>
-            <tr th:each="item : ${items}">
-                <td>
-                    <img th:src="${item.iconPath}"
-                         alt="icon"
-                         style="width:32px;height:32px;object-fit:contain;">
-                </td>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td>
+                        <img th:src="${item.iconPath}"
+                             alt="icon"
+                             class="why-icon">
+                    </td>
 
-                <td th:text="${item.title}"></td>
+                    <td th:text="${item.title}"></td>
 
-                <td th:text="${item.description}"></td>
+                    <td th:text="${item.description}"></td>
 
-                <td>
-                    <a th:href="@{'/admin/why-choose-us/delete/' + ${item.id}}"
-                       class="btn-danger"
-                       onclick="return confirm('Delete this item?')">
-                        Delete
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <td>
+                        <form th:action="@{/admin/why-choose-us/delete/{id}(id=${item.id})}"
+                              method="post"
+                              onsubmit="return confirm('Delete this item?')">
+                            <button class="btn-danger" type="submit">
+                                <span data-lucide="trash-2"></span>Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>

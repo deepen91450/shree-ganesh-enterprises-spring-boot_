@@ -1,40 +1,46 @@
-<div th:fragment="content" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="content" xmlns:th="http://www.thymeleaf.org">
 
     <h1 class="page-title">Categories</h1>
 
     <!-- ADD CATEGORY BUTTON -->
     <div class="category-actions">
-        <a href="/admin/categories/add" class="btn">+ Add Category</a>
+        <a href="/admin/categories/add" class="btn"><span data-lucide="plus"></span>Add Category</a>
     </div>
 
     <!-- CATEGORY TABLE -->
-    <table class="cat-table">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Parent</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
+    <div class="table-shell">
+        <table class="cat-table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Parent</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
 
-        <tbody>
-        <tr th:each="c : ${categories}">
-            <td th:text="${c.name}"></td>
-            <td th:text="${c.parent != null ? c.parent.name : 'ROOT'}"></td>
-            <td class="actions">
-                <a class="edit-btn"
-                   th:href="@{'/admin/categories/edit/' + ${c.id}}">
-                    Edit
-                </a>
+            <tbody>
+            <tr th:each="c : ${categories}">
+                <td th:text="${c.name}"></td>
+                <td th:text="${c.parent != null ? c.parent.name : 'ROOT'}"></td>
+                <td>
+                    <div class="actions">
+                        <a class="edit-btn"
+                           th:href="@{'/admin/categories/edit/' + ${c.id}}">
+                            <span data-lucide="pencil"></span>Edit
+                        </a>
 
-                <a class="delete-btn"
-                   th:href="@{'/admin/categories/delete/' + ${c.id}}"
-                   onclick="return confirm('Delete this category?')">
-                    Delete
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                        <form th:action="@{/admin/categories/delete/{id}(id=${c.id})}"
+                              method="post"
+                              onsubmit="return confirm('Delete this category?')">
+                            <button class="delete-btn" type="submit">
+                                <span data-lucide="trash-2"></span>Delete
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>

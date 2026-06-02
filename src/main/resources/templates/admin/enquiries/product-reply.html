@@ -9,14 +9,17 @@
     <form th:action="@{/admin/enquiries/products/reply/{id}(id=${enquiry.id})}"
           method="post">
 
-        <textarea name="replyMessage"
-                  rows="6"
-                  placeholder="Type reply..."
-                  required
-                  class="admin-textarea"></textarea>
+        <div class="field">
+            <label>Reply Message</label>
+            <textarea name="replyMessage"
+                      rows="6"
+                      placeholder="Type reply..."
+                      required
+                      class="admin-textarea"></textarea>
+        </div>
 
         <button type="submit" class="btn-primary">
-            Send Reply
+            <span data-lucide="send"></span>Send Reply
         </button>
     </form>
 </div>

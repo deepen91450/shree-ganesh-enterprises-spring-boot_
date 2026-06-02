@@ -10,41 +10,58 @@
           class="edit-form">
 
         <!-- CATEGORY -->
-        <label class="edit-label">Select Category</label>
-        <select name="category.id" class="edit-input dropdown">
-            <th:block th:each="cat : ${categories}">
-                <option th:value="${cat.id}"
-                        th:selected="${cat.id == product.category.id}"
-                        th:text="${cat.name}">
-                </option>
-            </th:block>
-        </select>
+        <div class="field">
+            <label class="edit-label">Select Category</label>
+            <select name="category.id" class="edit-input dropdown">
+                <th:block th:each="cat : ${categories}">
+                    <option th:value="${cat.id}"
+                            th:selected="${cat.id == product.category.id}"
+                            th:text="${cat.name}">
+                    </option>
+                </th:block>
+            </select>
+        </div>
 
         <!-- NAME -->
-        <label class="edit-label">Product Name</label>
-        <input type="text"
-               name="name"
-               class="edit-input"
-               th:value="${product.name}"
-               required>
+        <div class="field">
+            <label class="edit-label">Product Name</label>
+            <input type="text"
+                   name="name"
+                   class="edit-input"
+                   th:value="${product.name}"
+                   required>
+        </div>
 
         <!-- SHORT DESCRIPTION -->
-        <label class="edit-label">Short Description</label>
-        <textarea name="description"
-                  class="edit-input edit-textarea"
-                  required
-                  th:text="${product.description}"></textarea>
+        <div class="field">
+            <label class="edit-label">Short Description</label>
+            <textarea name="description"
+                      class="edit-input edit-textarea"
+                      required
+                      th:text="${product.description}"></textarea>
+        </div>
 
         <!-- PRICE -->
-        <label class="edit-label">Price</label>
-        <input type="number"
-               step="0.01"
-               name="price"
-               class="edit-input"
-               th:value="${product.price}">
+        <div class="field">
+            <label class="edit-label">Price</label>
+            <input type="number"
+                   step="0.01"
+                   name="price"
+                   class="edit-input"
+                   th:value="${product.price}">
+        </div>
 
-        <!-- ✅ PRICE VISIBILITY (FIXED) -->
+        <div class="field">
+            <label class="edit-label">Max Order Quantity</label>
+            <input type="number"
+                   name="maxOrderQty"
+                   class="edit-input"
+                   min="1"
+                   th:value="${product.maxOrderQty}"
+                   placeholder="Default 200 if not set">
+        </div>
 
+        <!-- PRICE VISIBILITY -->
         <div class="edit-checkbox">
             <label>
                 <input type="checkbox"
@@ -55,32 +72,37 @@
             </label>
         </div>
 
-
         <!-- CURRENT IMAGE -->
-        <label class="edit-label">Current Image</label>
-        <img th:src="${product.imagePath}"
-             alt="Product Image"
-             class="current-image">
+        <div class="field">
+            <label class="edit-label">Current Image</label>
+            <img th:src="${product.imagePath}"
+                 alt="Product Image"
+                 class="current-image">
+        </div>
 
         <!-- NEW IMAGE -->
-        <label class="edit-label">Change Image</label>
-        <input type="file"
-               name="image"
-               class="edit-input file">
+        <div class="field">
+            <label class="edit-label">Change Image</label>
+            <input type="file"
+                   name="image"
+                   class="edit-input file">
+        </div>
 
         <!-- LONG DESCRIPTION -->
-        <label class="edit-label">Product Full Details</label>
-        <textarea id="longDescription"
-                  name="longDescription"
-                  th:text="${product.longDescription}"></textarea>
+        <div class="field">
+            <label class="edit-label">Product Full Details</label>
+            <textarea id="longDescription"
+                      name="longDescription"
+                      th:text="${product.longDescription}"></textarea>
+        </div>
 
         <button type="submit" class="update-btn">
-            Update Product
+            <span data-lucide="save"></span>Update Product
         </button>
     </form>
 
     <div class="edit-back">
-        <a href="/admin/products">← Back to Products</a>
+        <a href="/admin/products" class="back-btn"><span data-lucide="arrow-left"></span>Back to Products</a>
     </div>
 
 </div>
