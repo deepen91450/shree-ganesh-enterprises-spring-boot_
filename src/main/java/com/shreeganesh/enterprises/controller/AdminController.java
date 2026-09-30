@@ -87,6 +87,13 @@ public class AdminController {
         return "admin/layout";
     }
 
+    // ================= AI ASSISTANT PAGE =================
+    @GetMapping("/ai")
+    public String aiAssistant(Model model) {
+        model.addAttribute("content", "admin/ai-assistant");
+        return "admin/layout";
+    }
+
     // 🔔 MARK ALL NOTIFICATIONS AS READ
     @PostMapping("/mark-read")
     public String markNotificationsAsRead() {
