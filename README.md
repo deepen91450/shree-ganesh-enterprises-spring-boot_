@@ -385,7 +385,7 @@ Add your screenshots to the `screenshots/` directory in the repository.
 
 ### 🤖 AI Assistant
 
-Add a screenshot of the administrative AI assistant here when the corresponding image is available.
+<img width="1366" height="768" alt="Screenshot (907)" src="https://github.com/user-attachments/assets/dd4782a6-7f57-4982-b5a0-79bedca7e074" />
 
 ---
 
