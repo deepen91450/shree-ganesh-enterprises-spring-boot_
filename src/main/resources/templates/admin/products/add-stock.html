@@ -1,0 +1,23 @@
+<div class="form-container" xmlns:th="http://www.thymeleaf.org">
+
+    <h2>Add Stock</h2>
+
+    <form th:action="@{/admin/add-stock}" method="post">
+
+        <input type="hidden" name="productId" th:value="${product.id}">
+
+        <p><b th:text="${product.name}"></b></p>
+
+        <div class="field">
+            <label>Quantity to Add</label>
+            <input type="number" name="quantity" required min="1">
+        </div>
+
+        <div class="quick-actions">
+            <button type="submit"><span data-lucide="plus"></span>Add Stock</button>
+            <a href="/admin/products" class="btn secondary">Cancel</a>
+        </div>
+
+    </form>
+
+</div>

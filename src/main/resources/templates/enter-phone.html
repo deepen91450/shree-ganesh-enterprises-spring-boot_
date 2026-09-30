@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Complete Profile</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Existing CSS -->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/footer.css">
+
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/layout.css">
+
+    <!-- NEW CSS -->
+    <link rel="stylesheet" href="/css/enter-phone.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <div class="phone-box">
+
+        <h2>Complete Your Profile</h2>
+        <p class="subtitle">Please enter your phone number to continue</p>
+
+        <form action="/save-phone" method="post">
+
+            <input type="text"
+                   name="phone"
+                   placeholder="Enter Phone Number"
+                   pattern="[6-9][0-9]{9}"
+                   title="Enter a valid 10-digit mobile number"
+                   required />
+
+            <button type="submit">Continue</button>
+
+        </form>
+
+        <p class="error">
+            <span th:text="${error}"></span>
+        </p>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

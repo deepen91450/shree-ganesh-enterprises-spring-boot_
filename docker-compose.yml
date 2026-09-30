@@ -1,0 +1,38 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  app:
+    build: .
+    container_name: shreeganesh-app
+    ports:
+      - "2330:2330"
+    env_file:
+      - .env
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    environment:
+          APP_UPLOAD_DIR: /app/uploads
+
+    volumes:
+      - F:/enterprises/uploads:/app/uploads
+    restart: on-failure
+
+volumes:
+  mysql-data:

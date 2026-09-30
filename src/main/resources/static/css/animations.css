@@ -1,0 +1,208 @@
+/* =====================================================
+   ANIMATIONS.CSS — Shree Ganesh Enterprises
+   Gmail-palette particles + scroll reveal + cursor glow
+   Link this AFTER global.css on every page
+===================================================== */
+
+/* ── SCROLL REVEAL ── */
+.reveal,
+.category-card,
+.why-card,
+.mvv-card,
+.contact-card,
+.product-card,
+.stat-item {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.visible,
+.category-card.visible,
+.why-card.visible,
+.mvv-card.visible,
+.contact-card.visible,
+.product-card.visible,
+.stat-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── NAVBAR SCROLL STATES ── */
+header {
+    transition: transform 0.32s ease, padding 0.28s ease, box-shadow 0.28s ease;
+}
+
+.header-compact .header-top {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+
+.header-hidden {
+    transform: translateY(-100%) !important;
+}
+
+/* ── BUTTON RIPPLE ── */
+.ripple-fx {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.38);
+    transform: scale(0);
+    animation: ripple-anim 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-anim {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* ── GLOW CURSOR (desktop only) ── */
+#cursor-glow {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(66, 133, 244, 0.45) 0%,
+        rgba(234, 67, 53, 0.15) 50%,
+        transparent 72%);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: width 0.22s ease, height 0.22s ease, opacity 0.3s ease;
+    z-index: 9999;
+    opacity: 0;
+    mix-blend-mode: screen;
+}
+
+#cursor-glow.cursor-hover {
+    width: 54px;
+    height: 54px;
+    background: radial-gradient(circle,
+        rgba(251, 188, 5, 0.5) 0%,
+        rgba(52, 168, 83, 0.2) 55%,
+        transparent 72%);
+}
+
+/* ── HERO INTRO ANIMATION ── */
+.hero-intro-animate {
+    opacity: 0;
+    animation: heroSlideUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes heroSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── PARTICLE CANVAS (auto-injected by JS) ── */
+.gmail-particle-canvas {
+    border-radius: inherit;
+}
+
+/* ── HERO SECTION — particle-ready ── */
+.hero-section,
+.about-hero,
+.contact-header,
+.category-page-hero,
+.category-banner {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Keep hero text above particles */
+.hero-content,
+.about-hero-content,
+.contact-header > *:not(canvas) {
+    position: relative;
+    z-index: 3;
+}
+
+/* ── FOOTER — particle-ready ── */
+footer.footer {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Keep all footer content above particles */
+footer.footer > *:not(canvas) {
+    position: relative;
+    z-index: 1;
+}
+
+/* ── ACTIVE NAV LINK ── */
+.header-nav .nav-link.active {
+    color: #2563eb;
+}
+
+.header-nav .nav-link.active::after {
+    width: 100%;
+}
+
+/* ── SMOOTH IMAGE FADE-IN (applied by JS, CSS fallback) ── */
+img {
+    transition: opacity 0.5s ease;
+}
+
+/* ── SECTION ENTRY ANIMATIONS (for non-JS fallback) ── */
+@media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .category-card,
+    .why-card,
+    .product-card,
+    .hero-intro-animate {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    #cursor-glow {
+        display: none !important;
+    }
+}
+
+/* ── FOOTER PARTICLE OVERLAY FADE (bottom edge blend) ── */
+footer.footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(11, 11, 11, 0.12) 0%,
+        transparent 30%,
+        transparent 70%,
+        rgba(11, 11, 11, 0.18) 100%
+    );
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ── HERO PARTICLE OVERLAY (darken image slightly less at top) ── */
+.hero-section::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.12) 0%,
+        rgba(0, 0, 0, 0.04) 60%,
+        rgba(0, 0, 0, 0.22) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* So slider dots appear above the overlay */
+#sliderDots {
+    z-index: 4;
+    position: relative;
+}
