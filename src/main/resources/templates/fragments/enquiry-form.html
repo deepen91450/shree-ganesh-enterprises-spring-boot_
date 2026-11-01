@@ -7,10 +7,7 @@
 
     <form th:action="@{/submit-enquiry}" method="post" class="enquiry-form">
 
-        <!-- ✅ CSRF TOKEN -->
-        <input type="hidden"
-               th:name="${_csrf.parameterName}"
-               th:value="${_csrf.token}" />
+
 
         <!-- Name -->
         <input type="text" name="name" placeholder="Your Name" required>

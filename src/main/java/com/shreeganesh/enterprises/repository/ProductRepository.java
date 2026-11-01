@@ -27,7 +27,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> search(@Param("q") String q);
 
 
-
+    @Query("""
+    SELECT p FROM Product p
+    WHERE p.stockQuantity > 0
+      AND p.stockQuantity <= :threshold
+    ORDER BY p.stockQuantity ASC
+    """)
+    List<Product> findLowStockProducts(
+            @Param("threshold") int threshold,
+            Pageable pageable
+    );
 
     long countByStatus(ProductStatus status);
 

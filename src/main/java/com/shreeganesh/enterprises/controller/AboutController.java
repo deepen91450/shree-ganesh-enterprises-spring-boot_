@@ -1,5 +1,8 @@
 package com.shreeganesh.enterprises.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.web.csrf.CsrfToken;
+
 import com.shreeganesh.enterprises.entity.AboutPage;
 import com.shreeganesh.enterprises.service.AboutPageService;
 import com.shreeganesh.enterprises.service.CategoryService;
@@ -19,14 +22,21 @@ public class AboutController {
     private CategoryService categoryService;
 
     @GetMapping("/about")
-    public String about(Model model) {
+    public String about(Model model, HttpServletRequest request) {
+
+        // Resolve CSRF token before Thymeleaf starts rendering the page
+        CsrfToken csrfToken =
+                (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+
+        if (csrfToken != null) {
+            csrfToken.getToken();
+        }
 
         AboutPage about = aboutPageService.getAboutPage();
 
         model.addAttribute("about", about);
         model.addAttribute("categories", categoryService.getRootCategories());
 
-        // ✅ FULL PAGE (no layout system)
         return "user/about";
     }
 }
