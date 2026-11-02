@@ -424,8 +424,8 @@ These items represent potential enhancements, not necessarily completed features
 
 Java Backend Developer | Spring Boot | REST APIs | MySQL | AI Integration
 
-* GitHub: [Your GitHub Profile](YOUR_GITHUB_PROFILE_URL)
-* LinkedIn: [Your LinkedIn Profile](YOUR_LINKEDIN_PROFILE_URL)
+* GitHub: [deepen91450](https://github.com/deepen91450)
+* LinkedIn: [Deepen Mandve](https://www.linkedin.com/in/deepenmandve/)
 
 ---
 
