@@ -386,6 +386,10 @@ Add your screenshots to the `screenshots/` directory in the repository.
 ### 🤖 AI Assistant
 
 <img width="1366" height="768" alt="Screenshot (907)" src="https://github.com/user-attachments/assets/dd4782a6-7f57-4982-b5a0-79bedca7e074" />
+<img width="1366" height="768" alt="Screenshot (920)" src="https://github.com/user-attachments/assets/c1ff0250-b272-4198-ba7b-3152bb386a69" />
+<img width="1366" height="768" alt="Screenshot (921)" src="https://github.com/user-attachments/assets/c39ba2f4-e031-4590-a140-93e267e895e9" />
+
+
 
 ---
 
